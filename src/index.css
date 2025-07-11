@@ -9,28 +9,30 @@
 
 @layer base {
   :root {
-    /* Core Brand Colors - Professional Finance Blue Palette */
+    /* Bank of Botswana Inspired Color Palette */
     --background: 0 0% 100%;
-    --foreground: 215 28% 17%;
+    --foreground: 220 13% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 28% 17%;
+    --card-foreground: 220 13% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 28% 17%;
+    --popover-foreground: 220 13% 20%;
 
-    --primary: 213 94% 68%;
+    /* Bank of Botswana Teal/Blue Palette */
+    --primary: 190 85% 35%;        /* Deep teal from BoB header */
     --primary-foreground: 0 0% 100%;
-    --primary-variant: 213 100% 72%;
+    --primary-variant: 190 70% 45%; /* Lighter teal variant */
 
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 215 28% 17%;
+    --secondary: 220 13% 91%;
+    --secondary-foreground: 220 13% 20%;
 
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 220 13% 91%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 47 96% 53%;
-    --accent-foreground: 215 28% 17%;
+    /* Bank of Botswana Gold/Orange Accent */
+    --accent: 35 85% 55%;          /* Gold from BoB design */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -41,23 +43,26 @@
     --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 213 94% 68%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 190 85% 35%;
 
     --radius: 0.75rem;
 
-    /* Financial Sector Specific Colors */
-    --bob-blue: 213 94% 68%;      /* Bank of Botswana */
-    --nbfira-green: 142 71% 45%;  /* NBFIRA */
-    --bse-orange: 22 96% 56%;     /* Botswana Stock Exchange */
-    --fia-purple: 262 73% 57%;    /* Financial Intelligence Agency */
-    --ministry-gold: 47 96% 53%;  /* Ministry of Finance */
+    /* Bank of Botswana Specific Colors */
+    --bob-blue: 190 85% 35%;       /* Bank of Botswana Teal */
+    --bob-gold: 35 85% 55%;        /* Bank of Botswana Gold */
+    --bob-dark: 220 13% 15%;       /* Dark sections background */
+    --nbfira-green: 142 71% 45%;   /* NBFIRA */
+    --bse-orange: 22 96% 56%;      /* Botswana Stock Exchange */
+    --fia-purple: 262 73% 57%;     /* Financial Intelligence Agency */
+    --ministry-gold: 35 85% 55%;   /* Ministry of Finance - Updated to match BoB */
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-variant)));
-    --gradient-header: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--primary-variant)) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 20% 98%) 100%);
+    /* Bank of Botswana Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(190 85% 35%), hsl(190 70% 45%));
+    --gradient-header: linear-gradient(90deg, hsl(190 85% 35%) 0%, hsl(190 70% 45%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 13% 98%) 100%);
+    --gradient-dark: linear-gradient(145deg, hsl(220 13% 15%) 0%, hsl(220 13% 18%) 100%);
     
     /* Shadows for Professional Depth */
     --shadow-soft: 0 1px 3px 0 hsl(215 28% 17% / 0.1), 0 1px 2px 0 hsl(215 28% 17% / 0.06);

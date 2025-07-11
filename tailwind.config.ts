@@ -71,8 +71,10 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Financial Sector Colors
+				// Bank of Botswana Financial Sector Colors
 				'bob-blue': 'hsl(var(--bob-blue))',
+				'bob-gold': 'hsl(var(--bob-gold))',
+				'bob-dark': 'hsl(var(--bob-dark))',
 				'nbfira-green': 'hsl(var(--nbfira-green))',
 				'bse-orange': 'hsl(var(--bse-orange))',
 				'fia-purple': 'hsl(var(--fia-purple))',
@@ -81,7 +83,8 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-header': 'var(--gradient-header)',
-				'gradient-card': 'var(--gradient-card)'
+				'gradient-card': 'var(--gradient-card)',
+				'gradient-dark': 'var(--gradient-dark)'
 			},
 			boxShadow: {
 				'soft': 'var(--shadow-soft)',
