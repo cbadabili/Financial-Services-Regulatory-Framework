@@ -18,9 +18,15 @@ import { Badge } from "@/components/ui/badge";
 
 const mainNavItems = [
   {
-    title: "Dashboard",
+    title: "Home",
     url: "/",
     icon: Home,
+    badge: null
+  },
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: BarChart3,
     badge: null
   },
   {
