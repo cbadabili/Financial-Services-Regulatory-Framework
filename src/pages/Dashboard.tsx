@@ -11,6 +11,7 @@ import {
 import { StatsCard } from "@/components/dashboard/StatsCard";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { ComplianceOverview } from "@/components/dashboard/ComplianceOverview";
+import { Badge } from "@/components/ui/badge";
 
 export default function Dashboard() {
   return (
@@ -89,12 +90,15 @@ export default function Dashboard() {
 
       {/* Regulatory Bodies Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-4 rounded-lg border border-bob-blue/20 bg-bob-blue/5">
+        <div className="p-4 rounded-lg border border-bob-blue/20 bg-bob-blue/5 hover:bg-bob-blue/10 transition-smooth cursor-pointer">
           <div className="flex items-center space-x-3">
             <Shield className="h-5 w-5 text-bob-blue" />
             <div>
               <p className="text-sm font-medium text-foreground">Bank of Botswana</p>
               <p className="text-xs text-muted-foreground">234 regulations</p>
+            </div>
+            <div className="ml-auto">
+              <Badge className="bg-bob-blue text-white">Active</Badge>
             </div>
           </div>
         </div>

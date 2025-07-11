@@ -1,7 +1,8 @@
-import { Bell, Search, User, Settings, Shield } from "lucide-react";
+import { Bell, Search, User, Settings, Shield, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function Header() {
+  const navigate = useNavigate();
   return (
     <header className="h-16 bg-gradient-header border-b border-border flex items-center justify-between px-6 shadow-medium">
       {/* Logo and Title */}
@@ -43,11 +45,16 @@ export function Header() {
       <div className="flex items-center space-x-4">
         {/* Notifications */}
         <div className="relative">
-          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-primary-foreground hover:bg-primary-foreground/10"
+            onClick={() => navigate('/alerts')}
+          >
             <Bell className="h-5 w-5" />
           </Button>
           <Badge variant="destructive" className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs">
-            3
+            5
           </Badge>
         </div>
 
@@ -64,9 +71,13 @@ export function Header() {
               <p className="text-xs text-muted-foreground">Compliance Officer, Standard Chartered Bank</p>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('/profile')}>
               <User className="mr-2 h-4 w-4" />
               Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('/alerts')}>
+              <Bell className="mr-2 h-4 w-4" />
+              Alerts & Notifications
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
@@ -74,6 +85,7 @@ export function Header() {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
+              <LogOut className="mr-2 h-4 w-4" />
               Sign Out
             </DropdownMenuItem>
           </DropdownMenuContent>

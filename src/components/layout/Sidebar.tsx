@@ -153,14 +153,20 @@ export function Sidebar() {
             Quick Actions
           </h2>
           <div className="space-y-1">
-            <button className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg text-foreground hover:bg-secondary transition-smooth">
+            <NavLink 
+              to="/documents"
+              className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg text-foreground hover:bg-secondary transition-smooth"
+            >
               <FileText className="mr-3 h-4 w-4" />
               Upload Document
-            </button>
-            <button className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg text-foreground hover:bg-secondary transition-smooth">
+            </NavLink>
+            <NavLink 
+              to="/analytics"
+              className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg text-foreground hover:bg-secondary transition-smooth"
+            >
               <Archive className="mr-3 h-4 w-4" />
               Export Reports
-            </button>
+            </NavLink>
           </div>
         </div>
       </nav>

@@ -9,6 +9,8 @@ import Documents from "./pages/Documents";
 import Search from "./pages/Search";
 import Compliance from "./pages/Compliance";
 import Analytics from "./pages/Analytics";
+import Alerts from "./pages/Alerts";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/search" element={<Search />} />
             <Route path="/compliance" element={<Compliance />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/alerts" element={<Alerts />} />
+            <Route path="/profile" element={<Profile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
