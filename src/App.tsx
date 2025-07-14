@@ -4,7 +4,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
+import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
+import Developer from "./pages/Developer";
+import Business from "./pages/Business";
+import Hackathons from "./pages/Hackathons";
+import Learnership from "./pages/Learnership";
+import Contacts from "./pages/Contacts";
 import Dashboard from "./pages/Dashboard";
 import Documents from "./pages/Documents";
 import Search from "./pages/Search";
@@ -22,20 +28,27 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/documents" element={<Documents />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/compliance" element={<Compliance />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/alerts" element={<Alerts />} />
-            <Route path="/profile" element={<Profile />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          {/* Public routes with PublicLayout */}
+          <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+          <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
+          <Route path="/business" element={<PublicLayout><Business /></PublicLayout>} />
+          <Route path="/hackathons" element={<PublicLayout><Hackathons /></PublicLayout>} />
+          <Route path="/learnership" element={<PublicLayout><Learnership /></PublicLayout>} />
+          <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
+          
+          {/* Admin/Portal routes with private Layout */}
+          <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+          <Route path="/documents" element={<Layout><Documents /></Layout>} />
+          <Route path="/search" element={<Layout><Search /></Layout>} />
+          <Route path="/compliance" element={<Layout><Compliance /></Layout>} />
+          <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
+          <Route path="/alerts" element={<Layout><Alerts /></Layout>} />
+          <Route path="/profile" element={<Layout><Profile /></Layout>} />
+          
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

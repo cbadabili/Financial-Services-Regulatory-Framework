@@ -21,10 +21,10 @@ export function Header() {
           <Shield className="h-8 w-8 text-primary-foreground" />
           <div>
             <h1 className="text-xl font-bold text-primary-foreground">
-              Botswana Financial Regulatory Portal
+              Financial Services Regulatory Frameworks Portal
             </h1>
             <p className="text-xs text-primary-foreground/80">
-              Unified Compliance & Regulatory Intelligence
+              Unified Platform for Regulatory Frameworks & Licensing
             </p>
           </div>
         </div>

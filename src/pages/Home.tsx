@@ -101,11 +101,11 @@ export default function Home() {
               <Shield className="h-16 w-16 text-bob-gold" />
             </div>
             <h1 className="text-5xl font-bold mb-6">
-              Botswana Financial Regulatory Portal
+              Financial Services Regulatory Frameworks Portal
             </h1>
             <p className="text-xl mb-8 text-white/90">
-              Your unified gateway to regulatory compliance across all financial authorities in Botswana. 
-              Stay informed, remain compliant, and drive excellence in financial services.
+              Unified platform for accessing regulatory frameworks, policies, and licensing requirements 
+              across Botswana's financial authorities. Build innovative solutions for regulatory compliance.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
