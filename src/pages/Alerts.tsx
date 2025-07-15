@@ -109,11 +109,11 @@ export default function Alerts() {
           </p>
         </div>
         <div className="flex space-x-3">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => window.alert('Opening alert settings...')}>
             <Settings className="h-4 w-4 mr-2" />
             Alert Settings
           </Button>
-          <Button>
+          <Button onClick={() => window.alert('Creating new alert...')}>
             <Plus className="h-4 w-4 mr-2" />
             Create Alert
           </Button>
@@ -240,12 +240,12 @@ export default function Alerts() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => window.alert(`Viewing details for: ${alert.title}`)}>
                       <Eye className="h-4 w-4 mr-2" />
                       View Details
                     </Button>
                     {alert.status !== "acknowledged" && (
-                      <Button size="sm">
+                      <Button size="sm" onClick={() => window.alert(`Acknowledging alert: ${alert.title}`)}>
                         <CheckCircle className="h-4 w-4 mr-2" />
                         Acknowledge
                       </Button>

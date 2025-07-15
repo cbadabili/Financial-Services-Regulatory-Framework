@@ -101,7 +101,7 @@ export default function Developer() {
                   {resource.badge}
                 </Badge>
                 <div className="flex justify-center">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={() => alert(`Accessing ${resource.title}...`)}>
                     Access
                   </Button>
                 </div>
@@ -149,7 +149,10 @@ export default function Developer() {
             </div>
             
             <div className="flex justify-center mt-8">
-              <Button className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold">
+              <Button 
+                className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold"
+                onClick={() => alert('Redirecting to GitHub repository...')}
+              >
                 <Github className="mr-2 h-5 w-5" />
                 Start Building
               </Button>

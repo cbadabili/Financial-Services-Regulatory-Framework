@@ -183,11 +183,11 @@ export default function Compliance() {
           </TabsList>
           
           <div className="flex items-center space-x-2">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => alert('Opening filter options...')}>
               <Filter className="h-4 w-4 mr-2" />
               Filter
             </Button>
-            <Button size="sm">
+            <Button size="sm" onClick={() => alert('Creating new compliance task...')}>
               <Plus className="h-4 w-4 mr-2" />
               New Task
             </Button>
@@ -222,7 +222,7 @@ export default function Compliance() {
                       <span>Assignee: {task.assignee}</span>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={() => alert(`Viewing details for: ${task.title}`)}>
                     View Details
                   </Button>
                 </div>
@@ -275,7 +275,7 @@ export default function Compliance() {
                       <span className="text-foreground">{template.downloads}</span>
                     </div>
                   </div>
-                  <Button className="w-full" size="sm">
+                  <Button className="w-full" size="sm" onClick={() => alert(`Downloading template: ${template.name}`)}>
                     <Download className="h-4 w-4 mr-2" />
                     Download Template
                   </Button>
@@ -296,7 +296,7 @@ export default function Compliance() {
                 <p className="text-muted-foreground mb-6">
                   Interactive compliance assessment tools and checklists will be available here to help you evaluate your regulatory compliance status.
                 </p>
-                <Button>
+                <Button onClick={() => alert('Starting compliance self-assessment...')}>
                   <Plus className="h-4 w-4 mr-2" />
                   Start Assessment
                 </Button>

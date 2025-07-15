@@ -193,7 +193,7 @@ export default function Search() {
                           )}
                         </div>
                         
-                        <Button variant="outline" size="sm" className="ml-4">
+                        <Button variant="outline" size="sm" className="ml-4" onClick={() => alert(`Opening ${result.title}`)}>
                           <BookOpen className="h-4 w-4 mr-2" />
                           Open
                         </Button>

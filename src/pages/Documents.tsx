@@ -204,11 +204,11 @@ export default function Documents() {
                 </div>
 
                 <div className="flex items-center space-x-2 ml-4">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={() => alert(`Viewing ${document.title}`)}>
                     <Eye className="h-4 w-4 mr-2" />
                     View
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={() => alert(`Downloading ${document.title}`)}>
                     <Download className="h-4 w-4 mr-2" />
                     Download
                   </Button>

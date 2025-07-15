@@ -221,8 +221,8 @@ export default function Business() {
                 Start Compliance Check
               </Button>
               <Button 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-bob-dark"
+                variant="hero"
+                onClick={() => alert('Contacting compliance experts...')}
               >
                 Contact Experts
               </Button>

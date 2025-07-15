@@ -286,17 +286,17 @@ export default function Profile() {
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Security Settings</h3>
                   <div className="space-y-4">
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button variant="outline" className="w-full justify-start" onClick={() => alert('Opening password change dialog...')}>
                       <Lock className="h-4 w-4 mr-2" />
                       Change Password
                     </Button>
                     
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button variant="outline" className="w-full justify-start" onClick={() => alert('Setting up two-factor authentication...')}>
                       <Shield className="h-4 w-4 mr-2" />
                       Enable Two-Factor Authentication
                     </Button>
                     
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button variant="outline" className="w-full justify-start" onClick={() => alert('Viewing login activity...')}>
                       <Eye className="h-4 w-4 mr-2" />
                       View Login Activity
                     </Button>

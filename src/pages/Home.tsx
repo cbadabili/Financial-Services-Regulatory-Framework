@@ -119,8 +119,7 @@ export default function Home() {
               </Button>
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-bob-dark"
+                variant="hero"
                 onClick={() => navigate('/search')}
               >
                 <Search className="mr-2 h-5 w-5" />
@@ -128,8 +127,7 @@ export default function Home() {
               </Button>
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-bob-dark"
+                variant="hero"
                 onClick={() => navigate('/documents')}
               >
                 <FileText className="mr-2 h-5 w-5" />
@@ -263,7 +261,7 @@ export default function Home() {
                           <Badge variant="outline">
                             {regulator.documents} documents
                           </Badge>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" onClick={() => navigate('/documents')}>
                             <Eye className="h-4 w-4 mr-2" />
                             View
                           </Button>
@@ -370,8 +368,7 @@ export default function Home() {
             </Button>
             <Button 
               size="lg" 
-              variant="outline" 
-              className="border-white text-white hover:bg-white hover:text-bob-blue"
+              variant="hero"
               onClick={() => navigate('/alerts')}
             >
               Set Up Alerts

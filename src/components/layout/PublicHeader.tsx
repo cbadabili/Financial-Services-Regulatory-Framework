@@ -44,8 +44,7 @@ export function PublicHeader() {
           {/* Action Buttons */}
           <div className="flex items-center space-x-4">
             <Button 
-              variant="outline" 
-              className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+              variant="hero"
               onClick={() => navigate('/dashboard')}
             >
               Portal Login

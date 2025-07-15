@@ -77,7 +77,7 @@ export default function Analytics() {
             <TabsTrigger value="trends">Trends</TabsTrigger>
           </TabsList>
           
-          <Button>
+          <Button onClick={() => alert('Exporting analytics report...')}>
             <Download className="h-4 w-4 mr-2" />
             Export Report
           </Button>
