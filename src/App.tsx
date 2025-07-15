@@ -8,8 +8,6 @@ import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
 import Developer from "./pages/Developer";
 import Business from "./pages/Business";
-import Hackathons from "./pages/Hackathons";
-import Learnership from "./pages/Learnership";
 import Contacts from "./pages/Contacts";
 import Dashboard from "./pages/Dashboard";
 import Documents from "./pages/Documents";
@@ -18,6 +16,7 @@ import Compliance from "./pages/Compliance";
 import Analytics from "./pages/Analytics";
 import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
+import ComplianceWizard from "./pages/ComplianceWizard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,8 +32,6 @@ const App = () => (
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
           <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
           <Route path="/business" element={<PublicLayout><Business /></PublicLayout>} />
-          <Route path="/hackathons" element={<PublicLayout><Hackathons /></PublicLayout>} />
-          <Route path="/learnership" element={<PublicLayout><Learnership /></PublicLayout>} />
           <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
           
           {/* Admin/Portal routes with private Layout */}
@@ -42,6 +39,7 @@ const App = () => (
           <Route path="/documents" element={<Layout><Documents /></Layout>} />
           <Route path="/search" element={<Layout><Search /></Layout>} />
           <Route path="/compliance" element={<Layout><Compliance /></Layout>} />
+          <Route path="/compliance-wizard" element={<Layout><ComplianceWizard /></Layout>} />
           <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
           <Route path="/alerts" element={<Layout><Alerts /></Layout>} />
           <Route path="/profile" element={<Layout><Profile /></Layout>} />

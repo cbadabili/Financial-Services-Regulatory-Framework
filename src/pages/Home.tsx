@@ -10,7 +10,8 @@ import {
   BarChart3,
   Eye,
   Download,
-  AlertTriangle
+  AlertTriangle,
+  Zap
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -111,6 +112,15 @@ export default function Home() {
               <Button 
                 size="lg" 
                 className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold shadow-gold"
+                onClick={() => navigate('/compliance-wizard')}
+              >
+                <Zap className="mr-2 h-5 w-5" />
+                AI Compliance Wizard
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-bob-dark"
                 onClick={() => navigate('/search')}
               >
                 <Search className="mr-2 h-5 w-5" />

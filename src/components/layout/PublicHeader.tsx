@@ -11,8 +11,6 @@ export function PublicHeader() {
     { title: "Home", url: "/" },
     { title: "Developer", url: "/developer" },
     { title: "Business", url: "/business" },
-    { title: "Hackathons", url: "/hackathons" },
-    { title: "Learnership", url: "/learnership" },
     { title: "Contacts", url: "/contacts" }
   ];
 
@@ -51,12 +49,6 @@ export function PublicHeader() {
               onClick={() => navigate('/dashboard')}
             >
               Portal Login
-            </Button>
-            <Button 
-              className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold"
-              onClick={() => navigate('/hackathons')}
-            >
-              Join Hackathon
             </Button>
           </div>
         </div>

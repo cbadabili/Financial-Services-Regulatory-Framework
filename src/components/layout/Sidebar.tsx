@@ -10,7 +10,8 @@ import {
   TrendingUp,
   Users,
   AlertTriangle,
-  Archive
+  Archive,
+  Zap
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -46,6 +47,12 @@ const mainNavItems = [
     url: "/compliance",
     icon: CheckSquare,
     badge: "12"
+  },
+  {
+    title: "Compliance Wizard",
+    url: "/compliance-wizard",
+    icon: Zap,
+    badge: "AI"
   },
   {
     title: "Analytics & Reports",
