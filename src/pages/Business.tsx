@@ -21,30 +21,30 @@ export default function Business() {
   const services = [
     {
       icon: CheckCircle,
-      title: "Licensing Guidance",
-      description: "Step-by-step guidance for obtaining financial services licenses",
-      link: "/compliance",
+      title: "7-Phase FinTech Roadmap",
+      description: "Complete strategic roadmap from concept to public listing",
+      link: "/fintech-roadmap",
       color: "bob-blue"
     },
     {
       icon: FileText,
-      title: "Compliance Checklists",
-      description: "Customized compliance requirements based on your business type",
-      link: "/compliance",
+      title: "Compliance Journey",
+      description: "AI-powered personalized compliance guidance and checklists",
+      link: "/compliance-wizard",
       color: "bob-gold"
     },
     {
       icon: Shield,
-      title: "Risk Assessment",
-      description: "Regulatory risk assessment tools and frameworks",
-      link: "/analytics",
+      title: "Regulatory Framework",
+      description: "Comprehensive regulatory requirements and compliance tools",
+      link: "/compliance",
       color: "nbfira-green"
     },
     {
       icon: PieChart,
-      title: "Reporting Tools",
-      description: "Automated regulatory reporting and submission tools",
-      link: "/analytics",
+      title: "Knowledge Center",
+      description: "Complete regulatory knowledge base and documentation",
+      link: "/knowledge",
       color: "fia-purple"
     }
   ];

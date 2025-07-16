@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import Documents from "./pages/Documents";
 import Search from "./pages/Search";
 import Compliance from "./pages/Compliance";
+import FinTechRoadmap from "./pages/FinTechRoadmap";
 import Analytics from "./pages/Analytics";
 import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/business" element={<PublicLayout><Business /></PublicLayout>} />
           <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
           <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
+          <Route path="/fintech-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
           
           {/* Admin/Portal routes with private Layout */}
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />

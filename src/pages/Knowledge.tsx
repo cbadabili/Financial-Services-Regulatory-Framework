@@ -123,6 +123,13 @@ export default function Knowledge() {
 
   const featuredResources = [
     {
+      title: "7-Phase FinTech Roadmap for Botswana",
+      description: "Complete strategic guide from concept to public listing",
+      type: "Strategic Guide",
+      pages: 85,
+      regulator: "Multi-agency"
+    },
+    {
       title: "Starting a Financial Services Business in Botswana",
       description: "Complete guide to establishing financial services operations",
       type: "Guide",
@@ -144,11 +151,18 @@ export default function Knowledge() {
       regulator: "BoB"
     },
     {
-      title: "Insurance Industry Guidelines",
-      description: "Comprehensive guidelines for insurance operations",
-      type: "Guidelines",
-      pages: 56,
-      regulator: "NBFIRA"
+      title: "Beneficial Ownership Declaration Guide",
+      description: "Complete guide to FIA beneficial ownership requirements",
+      type: "Compliance Guide",
+      pages: 24,
+      regulator: "FIA & CIPA"
+    },
+    {
+      title: "BSE Listing Requirements for FinTech",
+      description: "Pathway to public markets and capital raising",
+      type: "Listing Guide",
+      pages: 38,
+      regulator: "BSE/NBFIRA"
     }
   ];
 
@@ -266,6 +280,27 @@ export default function Knowledge() {
           </div>
         </section>
 
+        {/* Call to Action for Roadmap */}
+        <section className="mb-16">
+          <Card className="bg-gradient-dark text-white">
+            <CardContent className="p-8 text-center">
+              <h2 className="text-3xl font-bold mb-4">Need Strategic Guidance?</h2>
+              <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
+                Explore our comprehensive 7-phase FinTech roadmap designed specifically for Botswana's regulatory environment. 
+                From concept to public listing, get the strategic direction you need.
+              </p>
+              <Button 
+                size="lg"
+                className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold"
+                onClick={() => window.location.href = '/fintech-roadmap'}
+              >
+                <Star className="h-5 w-5 mr-2" />
+                View Complete Roadmap
+              </Button>
+            </CardContent>
+          </Card>
+        </section>
+
         {/* Featured Resources */}
         <section>
           <div className="flex items-center justify-between mb-8">
@@ -276,7 +311,7 @@ export default function Knowledge() {
             </Button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredResources.map((resource, index) => (
               <Card key={index} className="hover:shadow-medium transition-all">
                 <CardContent className="p-6">
@@ -285,21 +320,26 @@ export default function Knowledge() {
                       <h3 className="text-lg font-semibold text-foreground mb-2">{resource.title}</h3>
                       <p className="text-muted-foreground text-sm mb-3">{resource.description}</p>
                       
-                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap gap-2 text-sm text-muted-foreground mb-4">
                         <Badge variant="outline">{resource.type}</Badge>
-                        <span>{resource.pages} pages</span>
-                        <span>{resource.regulator}</span>
+                        <Badge variant="secondary">{resource.pages} pages</Badge>
+                        <Badge variant="outline">{resource.regulator}</Badge>
                       </div>
                     </div>
-                    <BookOpen className="h-8 w-8 text-muted-foreground flex-shrink-0 ml-4" />
                   </div>
 
                   <Separator className="my-4" />
 
                   <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="sm" className="flex-1" onClick={() => window.open('#', '_blank')}>
+                    <Button variant="outline" size="sm" className="flex-1" onClick={() => {
+                      if (resource.title.includes("7-Phase")) {
+                        window.location.href = '/fintech-roadmap';
+                      } else {
+                        window.open('#', '_blank');
+                      }
+                    }}>
                       <FileText className="h-3 w-3 mr-1" />
-                      View Online
+                      View
                     </Button>
                     <Button size="sm" className="flex-1" onClick={() => {
                       const link = document.createElement('a');

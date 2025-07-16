@@ -117,9 +117,93 @@ export default function ComplianceWizard() {
     "International"
   ];
 
-  // AI Analysis Function
+  // AI Analysis Function - Enhanced for 7-Phase FinTech Roadmap
   const analyzeComplianceRoute = (): ComplianceRoute => {
     const { businessType, services: selectedServices, capitalAmount } = companyProfile;
+    
+    // Comprehensive FinTech Route covering all 7 phases
+    if (businessType === "Fintech Company" || businessType === "Payment Service Provider") {
+      return {
+        routeName: "Complete FinTech Journey - 7 Phase Roadmap",
+        description: "Comprehensive end-to-end guidance through all seven phases of FinTech establishment in Botswana, from concept to potential public listing",
+        complexity: "High",
+        totalSteps: 7,
+        estimatedDuration: "18-36 months",
+        totalEstimatedCost: "BWP 750,000 - BWP 3,500,000",
+        steps: [
+          {
+            id: "phase-1",
+            title: "Phase 1: Concept, Strategy, and Pre-Formation",
+            description: "Build robust business case with market research, service definition, business planning, and regulatory scoping. Determine primary regulator (BoB vs NBFIRA) based on service offering.",
+            priority: "High",
+            estimatedTime: "8-12 weeks",
+            estimatedCost: "BWP 75,000",
+            requiredDocuments: ["Detailed Business Plan", "Financial Models & Projections", "Preliminary Risk Assessment", "Market Research Report", "Service Definition Document"],
+            regulatoryAuthority: "Pre-regulatory (Research Phase)"
+          },
+          {
+            id: "phase-2",
+            title: "Phase 2: Corporate and Legal Foundation",
+            description: "Company registration with CIPA, beneficial ownership declaration (FIA compliance), and intellectual property protection. Essential legal entity establishment.",
+            priority: "High",
+            estimatedTime: "4-6 weeks",
+            estimatedCost: "BWP 25,000",
+            requiredDocuments: ["Company Name Reservation", "Company Constitution", "Directors & Shareholders Details", "Beneficial Ownership Declaration", "Trademark Application"],
+            regulatoryAuthority: "CIPA & FIA"
+          },
+          {
+            id: "phase-3",
+            title: "Phase 3: Tax and Financial Setup",
+            description: "Register with BURS for CIT and VAT, open corporate bank account, explore tax incentives (IFSC, Special Economic Zones).",
+            priority: "High",
+            estimatedTime: "3-4 weeks",
+            estimatedCost: "BWP 15,000",
+            requiredDocuments: ["BURS 1 Form (CIT)", "VAT Registration", "Bank Account Opening Documents", "Tax Incentive Applications"],
+            regulatoryAuthority: "BURS"
+          },
+          {
+            id: "phase-4",
+            title: "Phase 4: Core Regulatory Licensing",
+            description: "Submit comprehensive license application to primary regulator (BoB for payments/banking, NBFIRA for VASPs). Includes fit and proper assessments, risk management framework, and AML/CFT program.",
+            priority: "High",
+            estimatedTime: "16-24 weeks",
+            estimatedCost: "BWP 300,000",
+            requiredDocuments: ["Complete License Application", "3-5 Year Financial Projections", "Key Personnel Documentation", "Risk Management Framework", "Technology System Architecture", "Draft AML/CFT Program"],
+            regulatoryAuthority: "BoB or NBFIRA"
+          },
+          {
+            id: "phase-5",
+            title: "Phase 5: Operational & Compliance Framework",
+            description: "Build systems for safe operation: AML/CFT compliance (FIA), consumer protection (CCA), and cybersecurity (BOCRA). Implement 'Compliance by Design' philosophy.",
+            priority: "High",
+            estimatedTime: "12-16 weeks",
+            estimatedCost: "BWP 200,000",
+            requiredDocuments: ["Compliance Officer Appointment", "Company-wide Risk Assessment", "CDD Procedures", "Consumer Protection Policies", "Cybersecurity Framework"],
+            regulatoryAuthority: "FIA, CCA, BOCRA"
+          },
+          {
+            id: "phase-6",
+            title: "Phase 6: Launch, Operations & Ongoing Reporting",
+            description: "Go-to-market execution with continuous compliance. Regular reporting to BoB/NBFIRA, FIA (STRs), BURS (tax returns), and CIPA (annual returns).",
+            priority: "Medium",
+            estimatedTime: "Ongoing",
+            estimatedCost: "BWP 100,000/year",
+            requiredDocuments: ["Marketing Materials", "Periodic Financial Reports", "Suspicious Transaction Reports", "Tax Returns", "Annual Company Returns"],
+            regulatoryAuthority: "BoB/NBFIRA, FIA, BURS, CIPA"
+          },
+          {
+            id: "phase-7",
+            title: "Phase 7: Scaling & Growth - Public Markets Path",
+            description: "IPO preparation for BSE listing. Choose between Venture Capital Board (BWP 2.5M capital) or Tshipidi SME Board (BWP 500K capital). Access mentorship programs and SME Fund.",
+            priority: "Low",
+            estimatedTime: "12-18 months",
+            estimatedCost: "BWP 500,000",
+            requiredDocuments: ["Listing Prospectus", "Financial Advisor Engagement", "NOMAD Appointment (TSME)", "Public Shareholding Documentation"],
+            regulatoryAuthority: "BSE (regulated by NBFIRA)"
+          }
+        ]
+      };
+    }
     
     // Banking License Route
     if (businessType === "Commercial Bank" || businessType === "Investment Bank") {
