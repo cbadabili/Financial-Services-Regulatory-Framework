@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
+import Knowledge from "./pages/Knowledge";
 import Developer from "./pages/Developer";
 import Business from "./pages/Business";
 import Contacts from "./pages/Contacts";
@@ -30,8 +31,9 @@ const App = () => (
         <Routes>
           {/* Public routes with PublicLayout */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-          <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
+          <Route path="/knowledge" element={<PublicLayout><Knowledge /></PublicLayout>} />
           <Route path="/business" element={<PublicLayout><Business /></PublicLayout>} />
+          <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
           <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
           
           {/* Admin/Portal routes with private Layout */}

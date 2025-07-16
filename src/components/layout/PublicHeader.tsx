@@ -9,8 +9,9 @@ export function PublicHeader() {
 
   const navItems = [
     { title: "Home", url: "/" },
-    { title: "Developer", url: "/developer" },
+    { title: "Knowledge", url: "/knowledge" },
     { title: "Business", url: "/business" },
+    { title: "Developer", url: "/developer" },
     { title: "Contacts", url: "/contacts" }
   ];
 

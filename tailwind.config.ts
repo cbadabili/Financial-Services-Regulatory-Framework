@@ -78,7 +78,12 @@ export default {
 				'nbfira-green': 'hsl(var(--nbfira-green))',
 				'bse-orange': 'hsl(var(--bse-orange))',
 				'fia-purple': 'hsl(var(--fia-purple))',
-				'ministry-gold': 'hsl(var(--ministry-gold))'
+				'ministry-gold': 'hsl(var(--ministry-gold))',
+				'cipa-orange': 'hsl(var(--cipa-orange))',
+				'bocra-teal': 'hsl(var(--bocra-teal))',
+				'burs-red': 'hsl(var(--burs-red))',
+				'cca-indigo': 'hsl(var(--cca-indigo))',
+				'ppadb-amber': 'hsl(var(--ppadb-amber))'
 			},
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',

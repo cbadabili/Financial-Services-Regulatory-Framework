@@ -57,6 +57,11 @@
     --bse-orange: 22 96% 56%;      /* Botswana Stock Exchange */
     --fia-purple: 262 73% 57%;     /* Financial Intelligence Agency */
     --ministry-gold: 35 85% 55%;   /* Ministry of Finance - Updated to match BoB */
+    --cipa-orange: 30 100% 55%;    /* CIPA Orange */
+    --bocra-teal: 180 100% 35%;    /* BOCRA Teal */
+    --burs-red: 0 85% 55%;         /* BURS Red */
+    --cca-indigo: 235 73% 57%;     /* Competition Authority Indigo */
+    --ppadb-amber: 45 100% 55%;    /* PPADB Amber */
 
     /* Bank of Botswana Enhanced Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(190 85% 35%), hsl(190 70% 45%));

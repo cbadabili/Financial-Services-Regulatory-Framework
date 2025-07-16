@@ -49,7 +49,7 @@ const mainNavItems = [
     badge: "12"
   },
   {
-    title: "Compliance Wizard",
+    title: "Compliance Journey",
     url: "/compliance-wizard",
     icon: Zap,
     badge: "AI"

@@ -156,6 +156,16 @@ export default function Documents() {
             <Button variant="outline" size="icon">
               <Filter className="h-4 w-4" />
             </Button>
+            <Button onClick={() => {
+              const input = window.document.createElement('input');
+              input.type = 'file';
+              input.accept = '.pdf,.doc,.docx';
+              input.multiple = true;
+              input.onchange = () => alert('Upload functionality activated - files would be processed here');
+              input.click();
+            }}>
+              Upload Documents
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -204,11 +214,17 @@ export default function Documents() {
                 </div>
 
                 <div className="flex items-center space-x-2 ml-4">
-                  <Button variant="outline" size="sm" onClick={() => alert(`Viewing ${document.title}`)}>
+                  <Button variant="outline" size="sm" onClick={() => window.open('#', '_blank')}>
                     <Eye className="h-4 w-4 mr-2" />
                     View
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => alert(`Downloading ${document.title}`)}>
+                  <Button variant="outline" size="sm" onClick={(e) => {
+                    e.preventDefault();
+                    const link = window.document.createElement('a');
+                    link.href = '#';
+                    link.download = `${document.title}.pdf`;
+                    link.click();
+                  }}>
                     <Download className="h-4 w-4 mr-2" />
                     Download
                   </Button>
