@@ -69,7 +69,7 @@ export default function Search() {
           Regulatory Search
         </h1>
         <p className="text-muted-foreground">
-          AI-powered semantic search across all regulatory documents and compliance frameworks.
+          Advanced semantic search across all regulatory documents and compliance frameworks.
         </p>
       </div>
 
@@ -91,8 +91,8 @@ export default function Search() {
                 </div>
               </div>
               <Button onClick={handleSearch} size="lg" className="px-8">
-                <Sparkles className="h-5 w-5 mr-2" />
-                AI Search
+                <SearchIcon className="h-5 w-5 mr-2" />
+                Search
               </Button>
             </div>
 
@@ -123,7 +123,7 @@ export default function Search() {
             <div className="flex items-center justify-between mb-4">
               <TabsList>
                 <TabsTrigger value="all">All Results</TabsTrigger>
-                <TabsTrigger value="ai">AI Answers</TabsTrigger>
+                <TabsTrigger value="ai">Smart Answers</TabsTrigger>
                 <TabsTrigger value="documents">Documents</TabsTrigger>
                 <TabsTrigger value="regulations">Regulations</TabsTrigger>
               </TabsList>
@@ -144,9 +144,9 @@ export default function Search() {
                               {result.title}
                             </h3>
                             <Badge variant={result.type === "AI Answer" ? "default" : "secondary"}>
-                              {result.type}
+                              {result.type === "AI Answer" ? "Smart Answer" : result.type}
                             </Badge>
-                            {result.type === "AI Answer" && (
+                           {result.type === "AI Answer" && (
                               <Badge variant="outline" className="text-xs">
                                 {result.confidence}% confidence
                               </Badge>

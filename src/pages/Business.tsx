@@ -29,7 +29,7 @@ export default function Business() {
     {
       icon: FileText,
       title: "Compliance Journey",
-      description: "AI-powered personalized compliance guidance and checklists",
+      description: "Personalized compliance guidance and automated checklists",
       link: "/compliance-wizard",
       color: "bob-gold"
     },

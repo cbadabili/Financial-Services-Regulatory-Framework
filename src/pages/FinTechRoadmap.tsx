@@ -409,7 +409,7 @@ export default function FinTechRoadmap() {
             <CardContent className="p-8 text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to Start Your FinTech Journey?</h2>
               <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
-                Get personalized guidance through our AI-powered Compliance Journey wizard. 
+                Get personalized guidance through our intelligent Compliance Journey wizard. 
                 Map your specific path through all seven phases based on your business model.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

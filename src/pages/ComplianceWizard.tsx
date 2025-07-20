@@ -476,7 +476,7 @@ export default function ComplianceWizard() {
             <div className="flex items-center justify-center mb-4">
               <CheckCircle className="h-12 w-12 text-green-500 mr-3" />
               <h1 className="text-3xl font-bold text-foreground">
-                AI Analysis Complete
+                Analysis Complete
               </h1>
             </div>
             <p className="text-lg text-muted-foreground">
@@ -489,7 +489,7 @@ export default function ComplianceWizard() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-2xl flex items-center">
-                  <Brain className="h-8 w-8 text-bob-blue mr-3" />
+                  <Target className="h-8 w-8 text-bob-blue mr-3" />
                   {route.routeName}
                 </CardTitle>
                 <Badge variant="outline" className={getComplexityColor(route.complexity)}>
@@ -616,13 +616,13 @@ export default function ComplianceWizard() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <Zap className="h-12 w-12 text-bob-gold mr-3" />
+            <Zap className="h-16 w-16 text-bob-blue animate-pulse" />
             <h1 className="text-3xl font-bold text-foreground">
               Compliance Journey
             </h1>
-          </div>
+          <h2 className="text-2xl font-bold text-foreground mb-2">Processing Your Business Profile</h2>
           <p className="text-lg text-muted-foreground">
-            Get personalized compliance guidance based on your business profile
+            Our system is processing your information to generate the optimal compliance route...
           </p>
         </div>
 
@@ -871,11 +871,11 @@ export default function ComplianceWizard() {
 
               <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg">
                 <div className="flex items-center mb-2">
-                  <Brain className="h-5 w-5 text-bob-blue mr-2" />
-                  <h4 className="font-medium text-foreground">AI Analysis Preview</h4>
+                  <Target className="h-5 w-5 text-bob-blue mr-2" />
+                  <h4 className="font-medium text-foreground">Analysis Preview</h4>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Based on your profile, our AI will generate a customized compliance roadmap with:
+                  Based on your profile, our system will generate a customized compliance roadmap with:
                 </p>
                 <ul className="text-sm text-muted-foreground mt-2 space-y-1">
                   <li>• Step-by-step regulatory requirements</li>
@@ -895,7 +895,7 @@ export default function ComplianceWizard() {
                   onClick={handleAnalysis}
                   className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark"
                 >
-                  <Brain className="h-4 w-4 mr-2" />
+                  <Target className="h-4 w-4 mr-2" />
                   Generate Compliance Route
                 </Button>
               </div>

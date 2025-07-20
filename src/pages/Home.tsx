@@ -114,8 +114,8 @@ export default function Home() {
                 className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold shadow-gold"
                 onClick={() => navigate('/compliance-wizard')}
               >
-                <Zap className="mr-2 h-5 w-5" />
-                AI Compliance Wizard
+                <CheckCircle className="mr-2 h-5 w-5" />
+                Compliance Journey
               </Button>
               <Button 
                 size="lg" 
