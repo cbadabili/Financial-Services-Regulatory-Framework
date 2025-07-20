@@ -10,7 +10,7 @@ import {
   ArrowRight,
   ArrowLeft,
   Download,
-  Brain,
+  Target,
   Zap,
   Banknote
 } from "lucide-react";
@@ -117,7 +117,7 @@ export default function ComplianceWizard() {
     "International"
   ];
 
-  // AI Analysis Function - Enhanced for 7-Phase FinTech Roadmap
+  // Analysis Function - Enhanced for 7-Phase FinTech Roadmap
   const analyzeComplianceRoute = (): ComplianceRoute => {
     const { businessType, services: selectedServices, capitalAmount } = companyProfile;
     
@@ -422,7 +422,7 @@ export default function ComplianceWizard() {
 
   const handleAnalysis = () => {
     setIsAnalyzing(true);
-    // Simulate AI analysis delay
+    // Simulate analysis delay
     setTimeout(() => {
       setIsAnalyzing(false);
       setShowResults(true);
@@ -616,13 +616,13 @@ export default function ComplianceWizard() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <Zap className="h-16 w-16 text-bob-blue animate-pulse" />
-            <h1 className="text-3xl font-bold text-foreground">
-              Compliance Journey
-            </h1>
-          <h2 className="text-2xl font-bold text-foreground mb-2">Processing Your Business Profile</h2>
+            <Zap className="h-16 w-16 text-bob-blue" />
+          </div>
+          <h1 className="text-3xl font-bold text-foreground mb-4">
+            Compliance Journey
+          </h1>
           <p className="text-lg text-muted-foreground">
-            Our system is processing your information to generate the optimal compliance route...
+            Get personalized compliance guidance tailored to your business needs and regulatory requirements
           </p>
         </div>
 
@@ -642,11 +642,11 @@ export default function ComplianceWizard() {
           <Card className="text-center py-12">
             <CardContent>
               <div className="flex items-center justify-center mb-4">
-                <Brain className="h-16 w-16 text-bob-blue animate-pulse" />
+                <Target className="h-16 w-16 text-bob-blue animate-pulse" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-2">Analyzing Your Business Profile</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-2">Processing Your Business Profile</h2>
               <p className="text-muted-foreground mb-6">
-                Our AI is processing your information to generate the optimal compliance route...
+                Our system is processing your information to generate the optimal compliance route...
               </p>
               <div className="max-w-md mx-auto">
                 <Progress value={66} className="h-2" />
