@@ -3,14 +3,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
-import Knowledge from "./pages/Knowledge";
 import Developer from "./pages/Developer";
 import Business from "./pages/Business";
 import Contacts from "./pages/Contacts";
@@ -39,7 +38,8 @@ const App = () => (
         <Routes>
           {/* Public routes with PublicLayout */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-          <Route path="/knowledge" element={<PublicLayout><Knowledge /></PublicLayout>} />
+          {/* Redirect /knowledge to /documents for backward compatibility */}
+          <Route path="/knowledge" element={<Navigate to="/documents" replace />} />
           <Route path="/business" element={<PublicLayout><Business /></PublicLayout>} />
           <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
           <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
