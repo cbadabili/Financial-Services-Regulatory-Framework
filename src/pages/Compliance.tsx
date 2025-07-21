@@ -229,9 +229,9 @@ export default function Compliance() {
                   <Button variant="outline" size="sm" onClick={() => alert(`Viewing details for: ${task.title}`)}>
                     View Details
                   </Button>
-                  {hasPermission('manage_compliance') && (
                 </div>
 
+                {hasPermission('manage_compliance') && (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Progress</span>
