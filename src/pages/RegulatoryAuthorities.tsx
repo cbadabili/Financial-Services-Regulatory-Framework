@@ -97,7 +97,7 @@ export default function RegulatoryAuthorities() {
       keyRequirements: [
         {
           title: "Banking License",
-          description: "Applicants must meet minimum capital requirements of BWP 5 million for commercial banks, demonstrate financial soundness, and have qualified management."
+          description: "Applicants must meet minimum capital requirements of P 5 million for commercial banks, demonstrate financial soundness, and have qualified management."
         },
         {
           title: "Electronic Payment Services (EPS)",
@@ -105,7 +105,7 @@ export default function RegulatoryAuthorities() {
         },
         {
           title: "Bureau de Change",
-          description: "Operators must maintain minimum capital of BWP 300,000, implement AML/CFT measures, and submit regular reports on foreign exchange transactions."
+          description: "Operators must maintain minimum capital of P 300,000, implement AML/CFT measures, and submit regular reports on foreign exchange transactions."
         }
       ],
       keyActs: [
@@ -161,19 +161,19 @@ export default function RegulatoryAuthorities() {
       keyRequirements: [
         {
           title: "Insurance License",
-          description: "Insurers must maintain minimum capital of BWP 2 million for general insurance and BWP 5 million for life insurance, with adequate reinsurance arrangements."
+          description: "Insurers must maintain minimum capital of P 2 million for general insurance and P 5 million for life insurance, with adequate reinsurance arrangements."
         },
         {
           title: "Micro-lending License",
-          description: "Micro-lenders must have minimum capital of BWP 20,000, submit audited financial statements, and comply with interest rate caps and disclosure requirements."
+          description: "Micro-lenders must have minimum capital of P 20,000, submit audited financial statements, and comply with interest rate caps and disclosure requirements."
         },
         {
           title: "VASP License",
-          description: "Virtual Asset Service Providers must have minimum capital of BWP 250,000, implement robust AML/CFT measures, and maintain secure technology systems."
+          description: "Virtual Asset Service Providers must have minimum capital of P 250,000, implement robust AML/CFT measures, and maintain secure technology systems."
         },
         {
           title: "Asset Management License",
-          description: "Asset managers must maintain minimum capital of BWP 250,000, employ qualified investment professionals, and implement proper risk management systems."
+          description: "Asset managers must maintain minimum capital of P 250,000, employ qualified investment professionals, and implement proper risk management systems."
         }
       ],
       keyActs: [
@@ -434,7 +434,7 @@ export default function RegulatoryAuthorities() {
         },
         {
           title: "Value Added Tax (VAT)",
-          description: "Businesses with annual taxable supplies exceeding BWP 1,000,000 must register for VAT, which is charged at a standard rate of 14%."
+          description: "Businesses with annual taxable supplies exceeding P 1,000,000 must register for VAT, which is charged at a standard rate of 14%."
         },
         {
           title: "Transfer Pricing",
@@ -566,15 +566,15 @@ export default function RegulatoryAuthorities() {
       keyRequirements: [
         {
           title: "Main Board Listing",
-          description: "Companies must have a minimum capitalization of BWP 5 million, a 3-year profit history, and at least 20% of shares in public hands."
+          description: "Companies must have a minimum capitalization of P 5 million, a 3-year profit history, and at least 20% of shares in public hands."
         },
         {
           title: "Venture Capital Board",
-          description: "Growth-stage companies need BWP 2.5 million in subscribed capital but no profit history is required."
+          description: "Growth-stage companies need P 2.5 million in subscribed capital but no profit history is required."
         },
         {
           title: "Tshipidi SME Board",
-          description: "Smaller enterprises require BWP 500,000 in subscribed capital and must appoint a Nominated Adviser (NOMAD)."
+          description: "Smaller enterprises require P 500,000 in subscribed capital and must appoint a Nominated Adviser (NOMAD)."
         },
         {
           title: "Continuing Obligations",

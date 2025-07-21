@@ -11,6 +11,7 @@ import {
   Eye,
   Download,
   AlertTriangle,
+  Banknote,
   Zap,
   Filter,
   Clock,
@@ -132,13 +133,65 @@ export default function Home() {
       icon: AlertTriangle,
       color: "fia-purple",
       recentUpdate: "Enhanced due diligence requirements"
+    },
+    {
+      name: "Companies & IP Authority (CIPA)",
+      description: "Company registrations and intellectual property protection",
+      documents: 112,
+      icon: FileText,
+      color: "cipa-cyan",
+      recentUpdate: "New online filing system launched"
+    },
+    {
+      name: "Botswana Unified Revenue Service (BURS)",
+      description: "Tax administration and revenue collection",
+      documents: 145,
+      icon: Banknote,
+      color: "burs-red",
+      recentUpdate: "Updated VAT reporting framework"
+    },
+    {
+      name: "Competition & Consumer Authority (CCA)",
+      description: "Consumer protection and fair-competition enforcement",
+      documents: 54,
+      icon: Users,
+      color: "cca-yellow",
+      recentUpdate: "Digital services consumer standards issued"
+    },
+    {
+      name: "Botswana Communications Regulatory Authority (BOCRA)",
+      description: "ICT & cybersecurity standards for digital finance",
+      documents: 78,
+      icon: Zap,
+      color: "bocra-indigo",
+      recentUpdate: "Cybersecurity framework updated"
+    },
+    {
+      name: "Ministry of Finance & Economic Development",
+      description: "Fiscal policy and financial sector strategy",
+      documents: 23,
+      icon: TrendingDown,
+      color: "mofed-gold",
+      recentUpdate: "Financial sector strategic plan 2025 draft"
     }
   ];
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-hero text-white py-20 overflow-hidden">
+      {/* BoB-navy background with very subtle gold seal pattern */}
+      <section className="relative bg-[#0b2144] text-white py-20 overflow-hidden">
+        {/* repeating gold emblem – very light opacity for “subtle” effect */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='100' cy='100' r='90' stroke='%23d4af37' stroke-width='4' fill='none'/%3E%3C/svg%3E\")",
+            backgroundRepeat: "repeat",
+            backgroundSize: "220px 220px",
+          }}
+        />
+        {/* dark overlay to keep text legible */}
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">

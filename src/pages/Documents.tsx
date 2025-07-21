@@ -145,7 +145,7 @@ const documents = [
       
       #### 3.2 Cash Transaction Reporting
       
-      All cash transactions exceeding BWP 10,000 must be reported to the FIA within 3 working days.
+      All cash transactions exceeding P 10,000 must be reported to the FIA within 3 working days.
       
       ### 4. RECORD KEEPING
       
@@ -653,7 +653,7 @@ const documents = [
       
       a) Standard company registration fees apply
       
-      b) Additional FinTech assessment fee: BWP 5,000
+      b) Additional FinTech assessment fee: P 5,000
       
       c) Processing time: 10 working days from complete submission
       
@@ -718,7 +718,7 @@ const documents = [
       
       2. **Provisional Tax**: Quarterly provisional tax payments are required based on estimated annual taxable income.
       
-      3. **Special Returns**: Financial institutions with annual turnover exceeding BWP 50 million must submit enhanced financial statements with detailed breakdowns of income streams.
+      3. **Special Returns**: Financial institutions with annual turnover exceeding P 50 million must submit enhanced financial statements with detailed breakdowns of income streams.
       
       #### B. Deduction Considerations
       
@@ -778,7 +778,7 @@ const documents = [
       
       2. Apply arm's length principles to all intra-group transactions
       
-      3. Submit annual transfer pricing declarations for transactions exceeding BWP 5 million
+      3. Submit annual transfer pricing declarations for transactions exceeding P 5 million
       
       #### B. Exchange of Information
       
@@ -1138,7 +1138,7 @@ const documents = [
       
       1. Annual penetration testing by independent providers
       2. Quarterly vulnerability assessments
-      3. Regular red team exercises for institutions with assets exceeding BWP 1 billion
+      3. Regular red team exercises for institutions with assets exceeding P 1 billion
       4. Code security reviews for in-house applications
       5. Security testing before system deployment
       
@@ -1168,9 +1168,9 @@ const documents = [
       
       ### SECTION XII: IMPLEMENTATION TIMELINE
       
-      1. Large institutions (assets > BWP 10 billion): 6 months
-      2. Medium institutions (assets BWP 1-10 billion): 12 months
-      3. Small institutions (assets < BWP 1 billion): 18 months
+      1. Large institutions (assets > P 10 billion): 6 months
+      2. Medium institutions (assets P 1-10 billion): 12 months
+      3. Small institutions (assets < P 1 billion): 18 months
       
       ### CONTACT INFORMATION
       
@@ -1207,46 +1207,92 @@ const getRegulatorColor = (regulator: string) => {
   return "primary";
 };
 
-// Simple and reliable "download" that packages the document as plain text
+// Enhanced download function with better reliability and error handling
 const handleDownload = (document: typeof documents[0]) => {
-  try {
-    const content = [
-      `Title: ${document.title}`,
-      `Regulator: ${document.regulator}`,
-      `Category: ${document.category}`,
-      `Type: ${document.type}`,
-      `Date: ${document.date}`,
-      `Status: ${document.status}`,
-      "".padEnd(40, "-"), // divider line
-      (document.fullContent || document.content)
-    ].join("\n\n");
+  // timeout helper so user isn't left waiting forever
+  const withTimeout = <T,>(promise: Promise<T>, ms = 7000) =>
+    Promise.race([
+      promise,
+      new Promise<T>((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), ms)
+      ),
+    ]);
 
-    // Create a Blob with plain-text content but give it a .pdf extension
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const run = async () => {
+    // Decide file extension & mime type
+    const inferredExt =
+      document.title.toLowerCase().endsWith(".pdf")
+        ? "pdf"
+        : document.title.toLowerCase().endsWith(".md")
+        ? "md"
+        : "txt";
+    const mimeMap: Record<string, string> = {
+      pdf: "application/pdf",
+      md: "text/markdown;charset=utf-8",
+      txt: "text/plain;charset=utf-8",
+    };
+
+    // Compose content – for PDF we still export txt fallback
+    const fileContent =
+      inferredExt === "pdf"
+        ? [
+            "This is a placeholder text export generated from the portal.",
+            "",
+            document.fullContent || document.content,
+          ].join("\n\n")
+        : [
+            `# ${document.title}`,
+            `## ${document.regulator}`,
+            `Date: ${document.date}`,
+            `Category: ${document.category}`,
+            `Type: ${document.type}`,
+            `Status: ${document.status}`,
+            `Tags: ${document.tags.join(", ")}`,
+            "\n" + "-".repeat(80) + "\n",
+            document.fullContent || document.content,
+          ].join("\n\n");
+
+    let blob: Blob;
+    try {
+      blob = new Blob([fileContent], { type: mimeMap[inferredExt] });
+    } catch (err) {
+      console.error("Blob creation failed:", err);
+      throw new Error("Unable to create document blob");
+    }
+
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`;
+    a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, "_")}.${inferredExt}`;
 
     document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
+    try {
+      a.click();
+    } catch (err) {
+      console.error("Link click failed:", err);
+      throw new Error("Browser prevented automatic download");
+    } finally {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-    }, 100);
+    }
+  };
 
-    toast({
-      title: "Download started",
-      description: `${document.title} is being downloaded.`,
+  withTimeout(run())
+    .then(() =>
+      toast({
+        title: "Download started",
+        description: `${document.title} is downloading...`,
+      })
+    )
+    .catch((err: unknown) => {
+      console.error("Download error:", err);
+      toast({
+        title: "Download failed",
+        description:
+          err instanceof Error ? err.message : "Unexpected error occurred",
+        variant: "destructive",
+      });
     });
-  } catch (error) {
-    console.error("Download error:", error);
-    toast({
-      title: "Download failed",
-      description: "There was an error generating the document. Please try again.",
-      variant: "destructive"
-    });
-  }
 };
 
 export default function Documents() {

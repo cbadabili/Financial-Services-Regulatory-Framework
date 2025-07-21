@@ -16,7 +16,7 @@ const allSearchResults = [
     id: 1,
     title: "What are the capital adequacy requirements for commercial banks?",
     type: "AI Answer",
-    content: "Commercial banks in Botswana must maintain a minimum capital adequacy ratio of 15% as per the Banking Act. This includes Tier 1 capital of at least 10% and total capital of 15%...",
+    content: "Commercial banks in Botswana must maintain a minimum capital adequacy ratio of 15% as per the Banking Act. This includes Tier 1 capital of at least 10% and total capital of 15%. Systemically important banks require an additional 2% buffer above the minimum requirement.",
     sources: ["Banking Act 2021", "BoB Prudential Guidelines"],
     confidence: 95,
     regulator: "Bank of Botswana (BoB)"
@@ -25,7 +25,7 @@ const allSearchResults = [
     id: 2,
     title: "Banking Act Amendment 2025 - Section 4.2 Capital Requirements",
     type: "Document",
-    content: "The minimum capital adequacy ratio for commercial banks shall be fifteen percent (15%) of risk-weighted assets, of which at least ten percent (10%) shall be Tier 1 capital...",
+    content: "The minimum capital adequacy ratio for commercial banks shall be fifteen percent (15%) of risk-weighted assets, of which at least ten percent (10%) shall be Tier 1 capital. Systemically important banks, as designated by the Bank of Botswana, shall maintain an additional capital buffer of two percent (2%) above the minimum requirement.",
     date: "2025-01-10",
     regulator: "Bank of Botswana (BoB)",
     category: "Banking Regulation"
@@ -92,6 +92,61 @@ const allSearchResults = [
     date: "2024-07-30",
     regulator: "Botswana Stock Exchange (BSE)",
     category: "Capital Markets"
+  },
+  // New entries for banking regulations and capital requirements
+  {
+    id: 10,
+    title: "What is Tier 1 Capital and how is it calculated?",
+    type: "AI Answer",
+    content: "Tier 1 Capital represents the core capital of a bank, consisting primarily of common stock, disclosed reserves, and retained earnings. In Botswana, banks must maintain Tier 1 capital of at least 10% of risk-weighted assets. Tier 1 capital excludes subordinated debt, undisclosed reserves, and hybrid instruments. The calculation involves dividing core equity capital by total risk-weighted assets.",
+    sources: ["BoB Capital Framework 2023", "Banking Act 2021"],
+    confidence: 92,
+    regulator: "Bank of Botswana (BoB)"
+  },
+  {
+    id: 11,
+    title: "Basel III Implementation Guidelines for Botswana Banks",
+    type: "Document",
+    content: "This document outlines the phased implementation of Basel III standards in Botswana's banking sector. Key requirements include maintaining a minimum Common Equity Tier 1 (CET1) ratio of 7.5%, Tier 1 capital ratio of 10%, and total capital ratio of 15%. The implementation timeline spans from 2023 to 2026, with full compliance required by January 1, 2026.",
+    date: "2023-11-15",
+    regulator: "Bank of Botswana (BoB)",
+    category: "Banking Regulation"
+  },
+  {
+    id: 12,
+    title: "Risk-Weighted Assets Calculation Methodology",
+    type: "Document",
+    content: "This guideline provides the standardized approach for calculating risk-weighted assets (RWA) for Botswana banks. Assets are assigned risk weights based on credit quality, with government bonds at 0%, AAA-rated corporate loans at 20%, residential mortgages at 35%, and unsecured retail loans at 75%. Off-balance sheet items are converted using credit conversion factors before risk-weighting.",
+    date: "2024-03-22",
+    regulator: "Bank of Botswana (BoB)",
+    category: "Banking Regulation"
+  },
+  {
+    id: 13,
+    title: "Prudential Requirements for Commercial Banks",
+    type: "Document",
+    content: "The prudential framework establishes minimum standards for bank safety and soundness, including capital adequacy, liquidity requirements, large exposure limits, and related party transaction restrictions. Banks must maintain a liquidity coverage ratio (LCR) of at least 100% and a net stable funding ratio (NSFR) of at least 100% in addition to capital requirements.",
+    date: "2024-02-18",
+    regulator: "Bank of Botswana (BoB)",
+    category: "Banking Regulation"
+  },
+  {
+    id: 14,
+    title: "Stress Testing Requirements for Banking Institutions",
+    type: "Document",
+    content: "Banks must conduct annual stress tests under various economic scenarios including severe recession, currency depreciation, and liquidity crises. These tests must evaluate the impact on capital adequacy, particularly CET1 and Tier 1 capital ratios. Results must be submitted to the Bank of Botswana by March 31 each year and integrated into capital planning processes.",
+    date: "2024-09-12",
+    regulator: "Bank of Botswana (BoB)",
+    category: "Stress Testing"
+  },
+  {
+    id: 15,
+    title: "What are the key differences between Basel II and Basel III implementation?",
+    type: "AI Answer",
+    content: "Basel III introduces several key enhancements over Basel II in Botswana's regulatory framework: 1) Higher quality capital with emphasis on Common Equity Tier 1 (CET1), 2) Introduction of capital conservation and countercyclical buffers, 3) Leverage ratio requirements independent of risk weighting, 4) Liquidity standards including LCR and NSFR, and 5) Enhanced risk coverage particularly for counterparty credit risk. Basel III implementation in Botswana is phased over 2023-2026.",
+    sources: ["Basel III Implementation Guidelines", "BoB Regulatory Framework 2023"],
+    confidence: 94,
+    regulator: "Bank of Botswana (BoB)"
   }
 ];
 
@@ -152,15 +207,37 @@ export default function Search() {
     
     let filtered = [...allSearchResults];
     
-    // Filter by search query
+    // Filter by search query with improved matching
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(result => 
-        result.title.toLowerCase().includes(query) || 
-        result.content.toLowerCase().includes(query) ||
-        (result.category && result.category.toLowerCase().includes(query)) ||
-        (result.regulator && result.regulator.toLowerCase().includes(query))
-      );
+      const queryTerms = query.split(/\s+/).filter(term => term.length > 2);
+      
+      filtered = filtered.filter(result => {
+        // Direct match in title or content
+        if (result.title.toLowerCase().includes(query) || 
+            result.content.toLowerCase().includes(query)) {
+          return true;
+        }
+        
+        // Check category and regulator
+        if ((result.category && result.category.toLowerCase().includes(query)) || 
+            (result.regulator && result.regulator.toLowerCase().includes(query))) {
+          return true;
+        }
+        
+        // Check for individual term matches (improved partial matching)
+        if (queryTerms.length > 0) {
+          return queryTerms.some(term => 
+            result.title.toLowerCase().includes(term) || 
+            result.content.toLowerCase().includes(term) ||
+            (result.sources && result.sources.some(source => 
+              source.toLowerCase().includes(term)
+            ))
+          );
+        }
+        
+        return false;
+      });
     }
     
     // Filter by selected regulator
@@ -297,16 +374,38 @@ export default function Search() {
     setSelectedResult(null);
   };
 
-  // Handle clicking on a related topic
+  // Handle clicking on a related topic - Fixed to actually perform search
   const handleTopicClick = (topic: string) => {
     setSearchQuery(topic);
-    setTimeout(() => handleSearch(), 0);
+    // Use setTimeout to ensure the state is updated before filtering
+    setTimeout(() => {
+      filterResults();
+      
+      // Update URL parameters
+      const params = new URLSearchParams();
+      params.set('q', topic);
+      if (selectedRegulator !== 'all') {
+        params.set('category', selectedRegulator);
+      }
+      setSearchParams(params);
+    }, 10);
   };
 
   // Handle clicking on a recent search
   const handleRecentSearchClick = (search: string) => {
     setSearchQuery(search);
-    setTimeout(() => handleSearch(), 0);
+    // Use setTimeout to ensure the state is updated before filtering
+    setTimeout(() => {
+      filterResults();
+      
+      // Update URL parameters
+      const params = new URLSearchParams();
+      params.set('q', search);
+      if (selectedRegulator !== 'all') {
+        params.set('category', selectedRegulator);
+      }
+      setSearchParams(params);
+    }, 10);
   };
 
   // Count active filters
@@ -341,7 +440,7 @@ export default function Search() {
     
     // Trigger search if parameters are present
     if (queryParam || categoryParam) {
-      setTimeout(filterResults, 0);
+      setTimeout(filterResults, 10);
     }
   }, [searchParams]);
 
@@ -457,7 +556,7 @@ export default function Search() {
           setFilters(f);
           setShowFilters(false);
           // Apply filters after setting them
-          setTimeout(() => filterResults(), 0);
+          setTimeout(() => filterResults(), 10);
         }}
         initialFilters={filters || undefined}
       />
@@ -483,7 +582,7 @@ export default function Search() {
           <Tabs value={activeTab} onValueChange={(tab) => {
             setActiveTab(tab);
             // Re-filter results when tab changes
-            setTimeout(() => filterResults(), 0);
+            setTimeout(() => filterResults(), 10);
           }}>
             <div className="flex items-center justify-between mb-4">
               <TabsList>

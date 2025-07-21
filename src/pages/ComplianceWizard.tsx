@@ -133,7 +133,7 @@ export default function ComplianceWizard() {
         complexity: "High",
         totalSteps: 7,
         estimatedDuration: "18-36 months",
-        totalEstimatedCost: "BWP 750,000 - BWP 3,500,000",
+        totalEstimatedCost: "P 750,000 - P 3,500,000",
         steps: [
           {
             id: "phase-1",
@@ -141,7 +141,7 @@ export default function ComplianceWizard() {
             description: "Build robust business case with market research, service definition, business planning, and regulatory scoping. Determine primary regulator (BoB vs NBFIRA) based on service offering.",
             priority: "High",
             estimatedTime: "8-12 weeks",
-            estimatedCost: "BWP 75,000",
+            estimatedCost: "P 75,000",
             requiredDocuments: ["Detailed Business Plan", "Financial Models & Projections", "Preliminary Risk Assessment", "Market Research Report", "Service Definition Document"],
             regulatoryAuthority: "Pre-regulatory (Research Phase)"
           },
@@ -151,7 +151,7 @@ export default function ComplianceWizard() {
             description: "Company registration with CIPA, beneficial ownership declaration (FIA compliance), and intellectual property protection. Essential legal entity establishment.",
             priority: "High",
             estimatedTime: "4-6 weeks",
-            estimatedCost: "BWP 25,000",
+            estimatedCost: "P 25,000",
             requiredDocuments: ["Company Name Reservation", "Company Constitution", "Directors & Shareholders Details", "Beneficial Ownership Declaration", "Trademark Application"],
             regulatoryAuthority: "CIPA & FIA"
           },
@@ -161,7 +161,7 @@ export default function ComplianceWizard() {
             description: "Register with BURS for CIT and VAT, open corporate bank account, explore tax incentives (IFSC, Special Economic Zones).",
             priority: "High",
             estimatedTime: "3-4 weeks",
-            estimatedCost: "BWP 15,000",
+            estimatedCost: "P 15,000",
             requiredDocuments: ["BURS 1 Form (CIT)", "VAT Registration", "Bank Account Opening Documents", "Tax Incentive Applications"],
             regulatoryAuthority: "BURS"
           },
@@ -171,7 +171,7 @@ export default function ComplianceWizard() {
             description: "Submit comprehensive license application to primary regulator (BoB for payments/banking, NBFIRA for VASPs). Includes fit and proper assessments, risk management framework, and AML/CFT program.",
             priority: "High",
             estimatedTime: "16-24 weeks",
-            estimatedCost: "BWP 300,000",
+            estimatedCost: "P 300,000",
             requiredDocuments: ["Complete License Application", "3-5 Year Financial Projections", "Key Personnel Documentation", "Risk Management Framework", "Technology System Architecture", "Draft AML/CFT Program"],
             regulatoryAuthority: "BoB or NBFIRA"
           },
@@ -181,7 +181,7 @@ export default function ComplianceWizard() {
             description: "Build systems for safe operation: AML/CFT compliance (FIA), consumer protection (CCA), and cybersecurity (BOCRA). Implement 'Compliance by Design' philosophy.",
             priority: "High",
             estimatedTime: "12-16 weeks",
-            estimatedCost: "BWP 200,000",
+            estimatedCost: "P 200,000",
             requiredDocuments: ["Compliance Officer Appointment", "Company-wide Risk Assessment", "CDD Procedures", "Consumer Protection Policies", "Cybersecurity Framework"],
             regulatoryAuthority: "FIA, CCA, BOCRA"
           },
@@ -191,17 +191,17 @@ export default function ComplianceWizard() {
             description: "Go-to-market execution with continuous compliance. Regular reporting to BoB/NBFIRA, FIA (STRs), BURS (tax returns), and CIPA (annual returns).",
             priority: "Medium",
             estimatedTime: "Ongoing",
-            estimatedCost: "BWP 100,000/year",
+            estimatedCost: "P 100,000/year",
             requiredDocuments: ["Marketing Materials", "Periodic Financial Reports", "Suspicious Transaction Reports", "Tax Returns", "Annual Company Returns"],
             regulatoryAuthority: "BoB/NBFIRA, FIA, BURS, CIPA"
           },
           {
             id: "phase-7",
             title: "Phase 7: Scaling & Growth - Public Markets Path",
-            description: "IPO preparation for BSE listing. Choose between Venture Capital Board (BWP 2.5M capital) or Tshipidi SME Board (BWP 500K capital). Access mentorship programs and SME Fund.",
+            description: "IPO preparation for BSE listing. Choose between Venture Capital Board (P 2.5M capital) or Tshipidi SME Board (P 500K capital). Access mentorship programs and SME Fund.",
             priority: "Low",
             estimatedTime: "12-18 months",
-            estimatedCost: "BWP 500,000",
+            estimatedCost: "P 500,000",
             requiredDocuments: ["Listing Prospectus", "Financial Advisor Engagement", "NOMAD Appointment (TSME)", "Public Shareholding Documentation"],
             regulatoryAuthority: "BSE (regulated by NBFIRA)"
           }
@@ -217,7 +217,7 @@ export default function ComplianceWizard() {
         complexity: "High",
         totalSteps: 6,
         estimatedDuration: "12-18 months",
-        totalEstimatedCost: "BWP 500,000 - BWP 2,000,000",
+        totalEstimatedCost: "P 500,000 - P 2,000,000",
         steps: [
           {
             id: "bank-1",
@@ -225,7 +225,7 @@ export default function ComplianceWizard() {
             description: "Schedule consultation with Bank of Botswana licensing department",
             priority: "High",
             estimatedTime: "2-4 weeks",
-            estimatedCost: "BWP 10,000",
+            estimatedCost: "P 10,000",
             requiredDocuments: ["Business Plan", "Market Analysis", "Feasibility Study"],
             regulatoryAuthority: "Bank of Botswana"
           },
@@ -235,7 +235,7 @@ export default function ComplianceWizard() {
             description: "Demonstrate minimum capital requirements and source of funds",
             priority: "High",
             estimatedTime: "4-6 weeks",
-            estimatedCost: "BWP 50,000",
+            estimatedCost: "P 50,000",
             requiredDocuments: ["Audited Financial Statements", "Capital Verification Letter", "Source of Funds Declaration"],
             regulatoryAuthority: "Bank of Botswana"
           },
@@ -245,7 +245,7 @@ export default function ComplianceWizard() {
             description: "Submit key personnel for regulatory approval",
             priority: "High",
             estimatedTime: "6-8 weeks",
-            estimatedCost: "BWP 75,000",
+            estimatedCost: "P 75,000",
             requiredDocuments: ["CV and Qualifications", "Character References", "Criminal Background Checks"],
             regulatoryAuthority: "Bank of Botswana"
           },
@@ -255,7 +255,7 @@ export default function ComplianceWizard() {
             description: "Establish operational systems, policies, and procedures",
             priority: "Medium",
             estimatedTime: "8-12 weeks",
-            estimatedCost: "BWP 200,000",
+            estimatedCost: "P 200,000",
             requiredDocuments: ["IT Systems Documentation", "Policy Manuals", "Risk Management Framework"],
             regulatoryAuthority: "Bank of Botswana"
           },
@@ -265,7 +265,7 @@ export default function ComplianceWizard() {
             description: "Implement AML/CFT and regulatory compliance systems",
             priority: "High",
             estimatedTime: "6-10 weeks",
-            estimatedCost: "BWP 150,000",
+            estimatedCost: "P 150,000",
             requiredDocuments: ["AML/CFT Manual", "Compliance Monitoring Systems", "Staff Training Records"],
             regulatoryAuthority: "Bank of Botswana & FIA"
           },
@@ -275,7 +275,7 @@ export default function ComplianceWizard() {
             description: "Submit final application and undergo regulatory inspection",
             priority: "High",
             estimatedTime: "8-12 weeks",
-            estimatedCost: "BWP 100,000",
+            estimatedCost: "P 100,000",
             requiredDocuments: ["Complete License Application", "Inspection Readiness Report"],
             regulatoryAuthority: "Bank of Botswana"
           }
@@ -291,7 +291,7 @@ export default function ComplianceWizard() {
         complexity: "High",
         totalSteps: 4,
         estimatedDuration: "8-12 months",
-        totalEstimatedCost: "BWP 200,000 - BWP 800,000",
+        totalEstimatedCost: "P 200,000 - P 800,000",
         steps: [
           {
             id: "ins-1",
@@ -299,7 +299,7 @@ export default function ComplianceWizard() {
             description: "Initial consultation with NBFIRA licensing team",
             priority: "High",
             estimatedTime: "2-3 weeks",
-            estimatedCost: "BWP 5,000",
+            estimatedCost: "P 5,000",
             requiredDocuments: ["Preliminary Business Plan", "Company Registration Certificate"],
             regulatoryAuthority: "NBFIRA"
           },
@@ -309,7 +309,7 @@ export default function ComplianceWizard() {
             description: "Meet minimum capital and solvency margin requirements",
             priority: "High",
             estimatedTime: "6-8 weeks",
-            estimatedCost: "BWP 100,000",
+            estimatedCost: "P 100,000",
             requiredDocuments: ["Capital Adequacy Report", "Actuarial Valuation", "Audited Financials"],
             regulatoryAuthority: "NBFIRA"
           },
@@ -319,7 +319,7 @@ export default function ComplianceWizard() {
             description: "Develop insurance products and underwriting guidelines",
             priority: "Medium",
             estimatedTime: "8-10 weeks",
-            estimatedCost: "BWP 80,000",
+            estimatedCost: "P 80,000",
             requiredDocuments: ["Product Documentation", "Underwriting Manual", "Reinsurance Agreements"],
             regulatoryAuthority: "NBFIRA"
           },
@@ -329,7 +329,7 @@ export default function ComplianceWizard() {
             description: "Submit complete license application with all supporting documents",
             priority: "High",
             estimatedTime: "10-16 weeks",
-            estimatedCost: "BWP 50,000",
+            estimatedCost: "P 50,000",
             requiredDocuments: ["Complete Application Form", "All Supporting Documents"],
             regulatoryAuthority: "NBFIRA"
           }
@@ -345,7 +345,7 @@ export default function ComplianceWizard() {
         complexity: "Medium",
         totalSteps: 3,
         estimatedDuration: "4-6 months",
-        totalEstimatedCost: "BWP 50,000 - BWP 200,000",
+        totalEstimatedCost: "P 50,000 - P 200,000",
         steps: [
           {
             id: "mfi-1",
@@ -353,7 +353,7 @@ export default function ComplianceWizard() {
             description: "Register as a microfinance institution with NBFIRA",
             priority: "High",
             estimatedTime: "4-6 weeks",
-            estimatedCost: "BWP 25,000",
+            estimatedCost: "P 25,000",
             requiredDocuments: ["Registration Application", "Business Plan", "Financial Projections"],
             regulatoryAuthority: "NBFIRA"
           },
@@ -363,7 +363,7 @@ export default function ComplianceWizard() {
             description: "Establish operational procedures and compliance framework",
             priority: "Medium",
             estimatedTime: "6-8 weeks",
-            estimatedCost: "BWP 75,000",
+            estimatedCost: "P 75,000",
             requiredDocuments: ["Operations Manual", "Credit Policy", "Risk Management Framework"],
             regulatoryAuthority: "NBFIRA"
           },
@@ -373,7 +373,7 @@ export default function ComplianceWizard() {
             description: "Final review and license issuance",
             priority: "High",
             estimatedTime: "4-8 weeks",
-            estimatedCost: "BWP 15,000",
+            estimatedCost: "P 15,000",
             requiredDocuments: ["Compliance Certificate", "Operational Readiness Report"],
             regulatoryAuthority: "NBFIRA"
           }
@@ -388,7 +388,7 @@ export default function ComplianceWizard() {
       complexity: "Medium",
       totalSteps: 3,
       estimatedDuration: "6-9 months",
-      totalEstimatedCost: "BWP 100,000 - BWP 400,000",
+      totalEstimatedCost: "P 100,000 - P 400,000",
       steps: [
         {
           id: "psp-1",
@@ -396,7 +396,7 @@ export default function ComplianceWizard() {
           description: "Initial consultation for payment service licensing requirements",
           priority: "High",
           estimatedTime: "3-4 weeks",
-          estimatedCost: "BWP 15,000",
+          estimatedCost: "P 15,000",
           requiredDocuments: ["Service Description", "Technical Architecture", "Business Model"],
           regulatoryAuthority: "Bank of Botswana"
         },
@@ -406,7 +406,7 @@ export default function ComplianceWizard() {
           description: "Implement required technical standards and security measures",
           priority: "High",
           estimatedTime: "8-12 weeks",
-          estimatedCost: "BWP 200,000",
+          estimatedCost: "P 200,000",
           requiredDocuments: ["Security Assessment Report", "Technical Specifications", "PCI DSS Compliance"],
           regulatoryAuthority: "Bank of Botswana"
         },
@@ -416,7 +416,7 @@ export default function ComplianceWizard() {
           description: "Submit application and complete regulatory testing procedures",
           priority: "Medium",
           estimatedTime: "8-10 weeks",
-          estimatedCost: "BWP 50,000",
+          estimatedCost: "P 50,000",
           requiredDocuments: ["Complete Application", "Testing Results", "Operational Manual"],
           regulatoryAuthority: "Bank of Botswana"
         }
@@ -685,17 +685,38 @@ export default function ComplianceWizard() {
           </Button>
         </div>
 
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <Zap className="h-16 w-16 text-bob-blue" />
+        {/* ----------------------------------------------------------
+         * Hero Section – Bank of Botswana theme
+         * --------------------------------------------------------*/}
+        <section className="relative overflow-hidden rounded-lg mb-10">
+          {/* Navy-blue background */}
+          <div className="bg-[#0b2144]  py-14 px-6 sm:px-12 text-center text-white relative">
+            {/* subtle repeating gold emblem pattern (5 % opacity) */}
+            <div
+              className="absolute inset-0 opacity-5 pointer-events-none"
+              style={{
+                backgroundImage:
+                  'url("data:image/svg+xml,%3Csvg width=\'160\' height=\'160\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'80\' cy=\'80\' r=\'70\' stroke=\'%23d4af37\' stroke-width=\'3\' fill=\'none\'/%3E%3C/svg%3E")',
+                backgroundRepeat: "repeat",
+                backgroundSize: "180px 180px",
+              }}
+            />
+            {/* dark overlay for better contrast */}
+            <div className="absolute inset-0 bg-black/30"></div>
+
+            {/* Content */}
+            <div className="relative z-10 flex flex-col items-center">
+              <Zap className="h-16 w-16 text-[#d4af37] mb-4" />
+              <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+                Compliance Journey
+              </h1>
+              <p className="max-w-2xl text-white/90 text-lg">
+                Get personalised compliance guidance tailored to your business needs&nbsp;and
+                regulatory requirements
+              </p>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            Compliance Journey
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Get personalized compliance guidance tailored to your business needs and regulatory requirements
-          </p>
-        </div>
+        </section>
 
         {/* Progress Bar */}
         <div className="mb-8">
@@ -775,11 +796,11 @@ export default function ComplianceWizard() {
                       <SelectValue placeholder="Select capital range" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="under-1m">Under BWP 1 Million</SelectItem>
-                      <SelectItem value="1m-5m">BWP 1 - BWP 5 Million</SelectItem>
-                      <SelectItem value="5m-25m">BWP 5 - BWP 25 Million</SelectItem>
-                      <SelectItem value="25m-100m">BWP 25 - BWP 100 Million</SelectItem>
-                      <SelectItem value="over-100m">Over BWP 100 Million</SelectItem>
+                      <SelectItem value="under-1m">Under P 1 Million</SelectItem>
+                      <SelectItem value="1m-5m">P 1 - P 5 Million</SelectItem>
+                      <SelectItem value="5m-25m">P 5 - P 25 Million</SelectItem>
+                      <SelectItem value="25m-100m">P 25 - P 100 Million</SelectItem>
+                      <SelectItem value="over-100m">Over P 100 Million</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

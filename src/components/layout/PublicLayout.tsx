@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { 
   Home, 
-  Search, 
   FileText, 
   Info, 
   Users, 
@@ -42,7 +41,6 @@ export function PublicLayout({ children }: PublicLayoutProps) {
   const { user, isAuthenticated, logout } = useAuth();
 
   const navigationItems = [
-    { name: "Search", url: "/search", icon: <Search className="h-5 w-5" /> },
     { name: "Knowledge Center", url: "/documents", icon: <BookOpen className="h-5 w-5" /> },
     { name: "Compliance Roadmap", url: "/compliance-roadmap", icon: <Route className="h-5 w-5" /> },
     { name: "Business", url: "/business", icon: <BarChart3 className="h-5 w-5" /> },
@@ -61,8 +59,9 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         <div className="container flex h-16 items-center justify-between py-4">
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center gap-2">
-              <div className="rounded-md bg-primary p-1">
-                <Shield className="h-6 w-6 text-yellow-500" />
+              {/* BoB navy-blue background with gold shield */}
+              <div className="rounded-md bg-[#0b2144] p-1">
+                <Shield className="h-6 w-6 text-[#d4af37]" />
               </div>
               <span className="hidden font-bold sm:inline-block">
                 Financial Services Regulatory Framework
@@ -104,7 +103,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   <div className="cursor-pointer">
                     <Avatar className="h-9 w-9">
                       <AvatarImage src={user?.avatarUrl ?? ""} />
-                      <AvatarFallback>
+                      {/*  BoB navy-blue background & gold initials  */}
+                      <AvatarFallback className="font-semibold bg-[#0b2144] text-[#d4af37]">
                         {user?.name
                           .split(" ")
                           .map((n) => n[0])

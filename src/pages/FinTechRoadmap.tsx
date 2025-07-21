@@ -1,19 +1,34 @@
 import { 
   Lightbulb, 
   Building2, 
-  DollarSign, 
   Shield, 
   Settings, 
   Rocket, 
   TrendingUp,
   CheckCircle,
   Clock,
-  ArrowRight
+  ArrowRight,
+  Upload,
+  Download,
+  Banknote,
+  FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 interface RoadmapPhase {
   id: number;
@@ -25,10 +40,17 @@ interface RoadmapPhase {
   duration: string;
   cost: string;
   keyActivities: string[];
+  templates?: string[];
 }
 
 export default function FinTechRoadmap() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const { isAuthenticated, hasPermission } = useAuth();
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [currentPhaseId, setCurrentPhaseId] = useState<number | null>(null);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadDescription, setUploadDescription] = useState("");
 
   const phases: RoadmapPhase[] = [
     {
@@ -45,6 +67,12 @@ export default function FinTechRoadmap() {
         "Service Definition: Precisely articulate financial service/product",
         "Business & Financial Planning: Comprehensive business plan with financial forecasts",
         "Regulatory Scoping: Determine primary regulator (BoB vs NBFIRA)"
+      ],
+      templates: [
+        "Business_Plan_Template.docx",
+        "Market_Research_Framework.xlsx",
+        "Financial_Projections_Template.xlsx",
+        "Regulatory_Scoping_Checklist.pdf"
       ]
     },
     {
@@ -60,6 +88,12 @@ export default function FinTechRoadmap() {
         "Company Registration: Formally register as legal entity",
         "Intellectual Property Protection: Secure brand and logo",
         "Beneficial Ownership Declaration: Mandatory FIA compliance"
+      ],
+      templates: [
+        "CIPA_Registration_Forms.pdf",
+        "Beneficial_Ownership_Declaration.docx",
+        "IP_Protection_Guide.pdf",
+        "Company_Constitution_Template.docx"
       ]
     },
     {
@@ -67,7 +101,7 @@ export default function FinTechRoadmap() {
       title: "Tax and Financial Setup",
       subtitle: "Financial Infrastructure",
       description: "Establish financial and tax footing with proper registrations.",
-      icon: DollarSign,
+      icon: Banknote,
       color: "yellow",
       duration: "3-4 weeks",
       cost: "BWP 10,000 - BWP 25,000",
@@ -75,6 +109,12 @@ export default function FinTechRoadmap() {
         "Open corporate bank account",
         "Register for all applicable taxes",
         "Set up financial systems"
+      ],
+      templates: [
+        "BURS_Tax_Registration_Forms.pdf",
+        "VAT_Registration_Guide.pdf",
+        "Bank_Account_Requirements.pdf",
+        "Financial_Systems_Setup_Checklist.xlsx"
       ]
     },
     {
@@ -90,6 +130,12 @@ export default function FinTechRoadmap() {
         "Prepare comprehensive license application",
         "Submit to appropriate primary regulator",
         "Undergo fit and proper assessments"
+      ],
+      templates: [
+        "BoB_License_Application_Forms.pdf",
+        "NBFIRA_License_Application_Forms.pdf",
+        "Fit_and_Proper_Assessment_Guide.pdf",
+        "Risk_Management_Framework_Template.docx"
       ]
     },
     {
@@ -105,6 +151,12 @@ export default function FinTechRoadmap() {
         "Develop robust AML/CFT compliance program",
         "Establish consumer protection policies",
         "Implement data protection and cybersecurity measures"
+      ],
+      templates: [
+        "AML_CFT_Program_Template.docx",
+        "Consumer_Protection_Policy.docx",
+        "Data_Protection_Framework.docx",
+        "Cybersecurity_Standards_Checklist.xlsx"
       ]
     },
     {
@@ -120,6 +172,12 @@ export default function FinTechRoadmap() {
         "Launch service to public",
         "Execute marketing and customer acquisition",
         "Fulfill periodic reporting obligations"
+      ],
+      templates: [
+        "Regulatory_Reporting_Calendar.xlsx",
+        "Suspicious_Transaction_Report_Template.docx",
+        "Quarterly_Compliance_Report_Template.docx",
+        "Incident_Response_Plan.docx"
       ]
     },
     {
@@ -135,6 +193,12 @@ export default function FinTechRoadmap() {
         "Evaluate IPO feasibility",
         "Prepare for public listing requirements",
         "Access growth capital"
+      ],
+      templates: [
+        "BSE_Listing_Requirements.pdf",
+        "IPO_Prospectus_Template.docx",
+        "Due_Diligence_Checklist.xlsx",
+        "Investor_Presentation_Template.pptx"
       ]
     }
   ];
@@ -142,6 +206,91 @@ export default function FinTechRoadmap() {
   const getPhaseIcon = (phase: RoadmapPhase) => {
     const IconComponent = phase.icon;
     return <IconComponent className={`h-6 w-6 text-${phase.color}`} />;
+  };
+
+  const handleUploadClick = (phaseId: number) => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to upload documents",
+        variant: "destructive"
+      });
+      navigate('/login');
+      return;
+    }
+
+    setCurrentPhaseId(phaseId);
+    setShowUploadModal(true);
+  };
+
+  const handleDownloadTemplates = (phase: RoadmapPhase) => {
+    if (!phase.templates || phase.templates.length === 0) {
+      toast({
+        title: "No templates available",
+        description: "Templates for this phase are not available yet",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      // For demo purposes, we'll create a text file with template names
+      const content = [
+        `Templates for Phase ${phase.id}: ${phase.title}`,
+        "-------------------------------------------",
+        "",
+        ...phase.templates.map((template, index) => `${index + 1}. ${template}`)
+      ].join("\n");
+
+      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Phase_${phase.id}_Templates.txt`;
+
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+
+      toast({
+        title: "Templates download started",
+        description: `Templates for Phase ${phase.id} are being downloaded.`,
+      });
+    } catch (error) {
+      console.error("Download error:", error);
+      toast({
+        title: "Download failed",
+        description: "There was an error generating the templates. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleSaveUpload = () => {
+    if (!uploadFile) {
+      toast({
+        title: "No file selected",
+        description: "Please select a file to upload",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Simulate successful upload
+    setTimeout(() => {
+      toast({
+        title: "Document uploaded successfully",
+        description: `${uploadFile.name} has been uploaded for Phase ${currentPhaseId}.`,
+      });
+      
+      // Reset form & close modal
+      setUploadFile(null);
+      setUploadDescription("");
+      setShowUploadModal(false);
+    }, 1500);
   };
 
   return (
@@ -191,8 +340,8 @@ export default function FinTechRoadmap() {
             
             <Card className="text-center">
               <CardContent className="p-6">
-                <DollarSign className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-foreground mb-2">BWP 800K-4M</h3>
+                <Banknote className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-foreground mb-2">P 800K-4M</h3>
                 <p className="text-muted-foreground">Total Investment</p>
               </CardContent>
             </Card>
@@ -200,7 +349,7 @@ export default function FinTechRoadmap() {
             <Card className="text-center">
               <CardContent className="p-6">
                 <Building2 className="h-12 w-12 text-purple-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-foreground mb-2">8+</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-2">9+</h3>
                 <p className="text-muted-foreground">Regulatory Bodies</p>
               </CardContent>
             </Card>
@@ -249,13 +398,21 @@ export default function FinTechRoadmap() {
                     </ul>
                   </div>
                   
-                  <div className="flex justify-end">
+                  {/* Buttons: Download on the left, Upload on the right for consistency */}
+                  <div className="flex justify-end space-x-3">
                     <Button
                       variant="outline"
-                      onClick={() => navigate('/regulatory-authorities')}
+                      onClick={() => handleDownloadTemplates(phase)}
                     >
-                      View Related Authorities
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <Download className="mr-2 h-4 w-4" />
+                      Download Templates
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleUploadClick(phase.id)}
+                    >
+                      <Upload className="mr-2 h-4 w-4" />
+                      Upload Documents
                     </Button>
                   </div>
                 </CardContent>
@@ -295,6 +452,48 @@ export default function FinTechRoadmap() {
           </Card>
         </section>
       </div>
+
+      {/* Upload Document Modal */}
+      <Dialog open={showUploadModal} onOpenChange={setShowUploadModal}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Upload Phase {currentPhaseId} Document</DialogTitle>
+            <DialogDescription>
+              Upload required documentation for this compliance phase.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Select Document</p>
+              <Input
+                type="file"
+                accept=".pdf,.doc,.docx,.ppt,.pptx,.xlsx"
+                onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Description (optional)</p>
+              <Input
+                placeholder="Brief description of the document"
+                value={uploadDescription}
+                onChange={(e) => setUploadDescription(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowUploadModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveUpload}>
+              <Upload className="mr-2 h-4 w-4" />
+              Upload
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

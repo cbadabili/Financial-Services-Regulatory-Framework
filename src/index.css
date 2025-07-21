@@ -19,10 +19,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 13% 20%;
 
-    /* Bank of Botswana Teal/Blue Palette */
-    --primary: 190 85% 35%;        /* Deep teal from BoB header */
+    /* Bank of Botswana Navy-Blue Palette */
+    --primary: 217 72% 16%;        /* BoB Navy Blue  #0b2144 */
     --primary-foreground: 0 0% 100%;
-    --primary-variant: 190 70% 45%; /* Lighter teal variant */
+    --primary-variant: 217 60% 26%; /* Lighter navy variant */
 
     --secondary: 220 13% 91%;
     --secondary-foreground: 220 13% 20%;
@@ -45,14 +45,15 @@
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 190 85% 35%;
+    --ring: 217 72% 16%;
 
     --radius: 0.75rem;
 
     /* Bank of Botswana Specific Colors */
-    --bob-blue: 190 85% 35%;       /* Bank of Botswana Teal */
-    --bob-gold: 35 85% 55%;        /* Bank of Botswana Gold */
-    --bob-dark: 220 13% 15%;       /* Dark sections background */
+    /* Updated Bank of Botswana brand colours */
+    --bob-blue: 217 72% 16%;       /* BoB Navy Blue  #0b2144 */
+    --bob-gold: 46 65% 52%;        /* BoB Gold       #d4af37 */
+    --bob-dark: 213 70% 7%;        /* Extra-dark Navy #05101d */
     --nbfira-green: 142 71% 45%;   /* NBFIRA */
     --bse-orange: 22 96% 56%;      /* Botswana Stock Exchange */
     --fia-purple: 262 73% 57%;     /* Financial Intelligence Agency */
@@ -64,18 +65,31 @@
     --ppadb-amber: 45 100% 55%;    /* PPADB Amber */
 
     /* Bank of Botswana Enhanced Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(190 85% 35%), hsl(190 70% 45%));
-    --gradient-header: linear-gradient(90deg, hsl(190 85% 35%) 0%, hsl(190 70% 45%) 100%);
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(217 72% 16%) 0%,
+      hsl(217 60% 26%) 100%
+    );
+    --gradient-header: linear-gradient(
+      90deg,
+      hsl(217 72% 16%) 0%,
+      hsl(217 60% 26%) 100%
+    );
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 13% 98%) 100%);
     --gradient-dark: linear-gradient(145deg, hsl(220 13% 15%) 0%, hsl(220 13% 18%) 100%);
     --gradient-gold: linear-gradient(135deg, hsl(35 85% 55%), hsl(35 90% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 13% 15%) 0%, hsl(190 85% 35%) 50%, hsl(35 85% 55%) 100%);
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(220 13% 15%) 0%,
+      hsl(217 72% 16%) 50%,
+      hsl(46 65% 52%) 100%
+    );
     
     /* Professional Shadows with BoB Colors */
     --shadow-soft: 0 1px 3px 0 hsl(220 13% 15% / 0.1), 0 1px 2px 0 hsl(220 13% 15% / 0.06);
     --shadow-medium: 0 4px 6px -1px hsl(220 13% 15% / 0.1), 0 2px 4px -1px hsl(220 13% 15% / 0.06);
     --shadow-large: 0 10px 15px -3px hsl(220 13% 15% / 0.1), 0 4px 6px -2px hsl(220 13% 15% / 0.05);
-    --shadow-primary: 0 4px 14px 0 hsl(190 85% 35% / 0.25);
+    --shadow-primary: 0 4px 14px 0 hsl(217 72% 16% / 0.25);
     --shadow-gold: 0 4px 14px 0 hsl(35 85% 55% / 0.25);
 
     /* Animations */
@@ -109,9 +123,9 @@
     --popover: 220 13% 18%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 190 85% 35%;         /* BoB Teal */
+    --primary: 217 72% 16%;         /* BoB Navy Blue */
     --primary-foreground: 0 0% 100%;
-    --primary-variant: 190 70% 45%;
+    --primary-variant: 217 60% 26%;
 
     --secondary: 220 13% 25%;
     --secondary-foreground: 0 0% 95%;
@@ -133,12 +147,12 @@
 
     --border: 220 13% 25%;
     --input: 220 13% 25%;
-    --ring: 190 85% 35%;
+    --ring: 217 72% 16%;
 
     /* Bank of Botswana Colors - Dark Mode */
-    --bob-blue: 190 85% 35%;
-    --bob-gold: 35 85% 55%;
-    --bob-dark: 220 13% 12%;        /* Even darker for sections */
+    --bob-blue: 217 72% 16%;
+    --bob-gold: 46 65% 52%;
+    --bob-dark: 213 70% 7%;         /* Even darker for sections */
     --nbfira-green: 142 71% 45%;
     --bse-orange: 22 96% 56%;
     --fia-purple: 262 73% 57%;
