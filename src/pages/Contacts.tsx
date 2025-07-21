@@ -15,6 +15,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Contacts() {
   const regulatoryBodies = [
@@ -95,6 +97,69 @@ export default function Contacts() {
     }
   ];
 
+  /* ------------------------------------------------------------------
+   * Contact-form state & handlers
+   * ----------------------------------------------------------------*/
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    organization: "",
+    subject: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const { toast } = useToast();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    }
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.firstName.trim()) newErrors.firstName = "Required";
+    if (!formData.lastName.trim()) newErrors.lastName = "Required";
+    if (!formData.email.trim()) {
+      newErrors.email = "Required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Invalid email";
+    }
+    if (!formData.subject.trim()) newErrors.subject = "Required";
+    if (!formData.message.trim()) newErrors.message = "Required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    // In real app we would POST; demo just toast success
+    toast({
+      title: "Message sent successfully",
+      description: "We will get back to you within 24 hours.",
+    });
+
+    // Clear form
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      organization: "",
+      subject: "",
+      message: "",
+    });
+    setErrors({});
+  };
+
   return (
     <div className="container mx-auto px-6 py-8">
       {/* Header */}
@@ -118,49 +183,90 @@ export default function Contacts() {
             <CardTitle className="text-2xl text-center">Send Us a Message</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" placeholder="Enter your first name" />
+                  <Input
+                    id="firstName"
+                    name="firstName"
+                    placeholder="Enter your first name"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className={errors.firstName ? "border-destructive" : ""}
+                  />
+                  {errors.firstName && <p className="text-destructive text-xs">{errors.firstName}</p>}
                 </div>
                 <div>
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" placeholder="Enter your last name" />
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Enter your last name"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className={errors.lastName ? "border-destructive" : ""}
+                  />
+                  {errors.lastName && <p className="text-destructive text-xs">{errors.lastName}</p>}
                 </div>
               </div>
               
               <div>
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="Enter your email address" />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={errors.email ? "border-destructive" : ""}
+                />
+                {errors.email && <p className="text-destructive text-xs">{errors.email}</p>}
               </div>
               
               <div>
                 <Label htmlFor="organization">Organization</Label>
-                <Input id="organization" placeholder="Enter your organization name" />
+                <Input
+                  id="organization"
+                  name="organization"
+                  placeholder="Enter your organization name"
+                  value={formData.organization}
+                  onChange={handleChange}
+                />
               </div>
               
               <div>
                 <Label htmlFor="subject">Subject</Label>
-                <Input id="subject" placeholder="What is this regarding?" />
+                <Input
+                  id="subject"
+                  name="subject"
+                  placeholder="What is this regarding?"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className={errors.subject ? "border-destructive" : ""}
+                />
+                {errors.subject && <p className="text-destructive text-xs">{errors.subject}</p>}
               </div>
               
               <div>
                 <Label htmlFor="message">Message</Label>
                 <Textarea 
                   id="message" 
+                  name="message"
                   placeholder="Please describe your inquiry in detail..."
                   rows={5}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className={errors.message ? "border-destructive" : ""}
                 />
+                {errors.message && <p className="text-destructive text-xs">{errors.message}</p>}
               </div>
               
               <Button type="submit" className="w-full bg-bob-blue hover:bg-bob-blue/90">
                 <MessageSquare className="mr-2 h-5 w-5" />
                 Send Message
               </Button>
-              onClick={() => {
-                alert('Message sent successfully! We will get back to you within 24 hours.');
-              }}
             </form>
           </CardContent>
         </Card>

@@ -1,16 +1,164 @@
-import { PublicHeader } from "./PublicHeader";
+import { ReactNode, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { 
+  Home, 
+  Search, 
+  FileText, 
+  Info, 
+  Users, 
+  Code, 
+  Shield,
+  Menu, 
+  X, 
+  LogIn,
+  BookOpen,
+  BarChart3,
+  Route
+} from "lucide-react";
 
 interface PublicLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export function PublicLayout({ children }: PublicLayoutProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const navigationItems = [
+    { name: "Home", url: "/", icon: <Home className="h-5 w-5" /> },
+    { name: "Search", url: "/search", icon: <Search className="h-5 w-5" /> },
+    { name: "Documents", url: "/documents", icon: <FileText className="h-5 w-5" /> },
+    { name: "Compliance Roadmap", url: "/compliance-roadmap", icon: <Route className="h-5 w-5" /> },
+    { name: "Knowledge Base", url: "/knowledge", icon: <BookOpen className="h-5 w-5" /> },
+    { name: "Business", url: "/business", icon: <BarChart3 className="h-5 w-5" /> },
+    { name: "Developer", url: "/developer", icon: <Code className="h-5 w-5" /> },
+    { name: "Contacts", url: "/contacts", icon: <Users className="h-5 w-5" /> },
+  ];
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <PublicHeader />
-      <main className="min-h-[calc(100vh-8rem)]">
+    <div className="flex min-h-screen flex-col">
+      {/* Header */}
+      <header className="sticky top-0 z-40 border-b bg-background">
+        <div className="container flex h-16 items-center justify-between py-4">
+          <div className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="rounded-md bg-primary p-1">
+                <Shield className="h-6 w-6 text-yellow-500" />
+              </div>
+              <span className="hidden font-bold sm:inline-block">
+                Financial Services Regulatory Framework
+              </span>
+              <span className="font-bold sm:hidden">FSRF</span>
+            </Link>
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.url}
+                className={cn(
+                  "flex items-center text-sm font-medium transition-colors hover:text-primary",
+                  location.pathname === item.url
+                    ? "text-primary"
+                    : "text-muted-foreground"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <Button onClick={() => navigate('/login')} className="hidden sm:flex">
+              <LogIn className="mr-2 h-4 w-4" />
+              Sign In
+            </Button>
+            
+            {/* Mobile menu button */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="md:hidden"
+              onClick={toggleMobileMenu}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t">
+            <div className="container py-2 space-y-1">
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.url}
+                  className={cn(
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                    location.pathname === item.url
+                      ? "bg-secondary text-secondary-foreground"
+                      : "hover:bg-secondary/50"
+                  )}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.icon}
+                  {item.name}
+                </Link>
+              ))}
+              <Button 
+                onClick={() => {
+                  navigate('/login');
+                  setMobileMenuOpen(false);
+                }} 
+                className="w-full mt-2"
+              >
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign In
+              </Button>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1">
         {children}
       </main>
+
+      {/* Footer */}
+      <footer className="border-t py-6 md:py-0">
+        <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} Financial Services Regulatory Framework. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <Link to="/privacy" className="underline underline-offset-4 hover:text-foreground">
+              Privacy
+            </Link>
+            <Link to="/terms" className="underline underline-offset-4 hover:text-foreground">
+              Terms
+            </Link>
+            <Link to="/contacts" className="underline underline-offset-4 hover:text-foreground">
+              Contact
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
