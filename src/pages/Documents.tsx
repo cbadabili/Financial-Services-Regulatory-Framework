@@ -12,7 +12,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 
 const documents = [
@@ -157,15 +164,25 @@ const getRegulatorColor = (regulator: string) => {
 };
 
 export default function Documents() {
+  /* ------------------------------------------------------------------ */
+  /* Local state so new uploads appear instantly                         */
+  /* ------------------------------------------------------------------ */
+  const [docs, setDocs] = useState<typeof documents>(documents);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRegulator, setSelectedRegulator] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewDocument, setViewDocument] = useState<typeof documents[0] | null>(null);
   const [showDocumentModal, setShowDocumentModal] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  /* Form fields for new document */
+  const [newTitle, setNewTitle] = useState("");
+  const [newRegulator, setNewRegulator] = useState("Bank of Botswana (BoB)");
+  const [newCategory, setNewCategory] = useState("Banking Regulation");
+  const [newFile, setNewFile] = useState<File | null>(null);
   const { hasPermission, isAuthenticated } = useAuth();
 
   // Filter documents based on search and filters
-  const filteredDocuments = documents.filter(doc => {
+  const filteredDocuments = docs.filter((doc) => {
     const matchesSearch = searchTerm === "" || 
       doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       doc.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -251,25 +268,37 @@ ${pdf.length - 42}
   };
 
   const handleUpload = () => {
-    const input = window.document.createElement('input');
-    input.type = 'file';
-    input.accept = '.pdf,.doc,.docx,.xlsx,.ppt,.pptx';
-    input.multiple = true;
-    
-    input.onchange = (e) => {
-      const files = (e.target as HTMLInputElement).files;
-      if (files && files.length > 0) {
-        // Process files (in a real app, this would upload to a server)
-        const fileNames = Array.from(files).map(file => file.name).join(', ');
-        
-        toast({
-          title: "Files uploaded successfully",
-          description: `Uploaded ${files.length} file(s): ${fileNames}`,
-        });
-      }
+    setShowUploadModal(true);
+  };
+
+  const handleSaveNewDoc = () => {
+    if (!newTitle || !newFile) {
+      toast({ title: "Missing fields", description: "Please provide title and file." });
+      return;
+    }
+    const newDoc = {
+      id: Date.now(),
+      title: newTitle,
+      type: newFile.type || "Document",
+      regulator: newRegulator,
+      date: new Date().toISOString().slice(0, 10),
+      status: "Active",
+      category: newCategory,
+      tags: [],
+      size: `${(newFile.size / 1024 / 1024).toFixed(1)} MB`,
+      views: 0,
+      content: "Uploaded document – preview not yet generated.",
     };
-    
-    input.click();
+    setDocs([newDoc, ...docs]);
+
+    // reset form & close
+    setNewTitle("");
+    setNewCategory("Banking Regulation");
+    setNewRegulator("Bank of Botswana (BoB)");
+    setNewFile(null);
+    setShowUploadModal(false);
+
+    toast({ title: "Document uploaded", description: `${newTitle} added to library` });
   };
 
   const handleView = (document: typeof documents[0]) => {
@@ -423,6 +452,81 @@ ${pdf.length - 42}
           </Card>
         )}
       </div>
+
+      {/* -------- Upload Modal -------- */}
+      <Dialog open={showUploadModal} onOpenChange={setShowUploadModal}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Upload New Document</DialogTitle>
+            <DialogDescription>
+              Provide basic metadata then choose a file to add it to the library.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-2">
+            <Input
+              placeholder="Document title"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+            />
+
+            <Select value={newRegulator} onValueChange={setNewRegulator}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select regulator" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Bank of Botswana (BoB)">BoB</SelectItem>
+                <SelectItem value="Non-Bank Financial Institutions Regulatory Authority (NBFIRA)">
+                  NBFIRA
+                </SelectItem>
+                <SelectItem value="Botswana Stock Exchange (BSE)">BSE</SelectItem>
+                <SelectItem value="Financial Intelligence Agency (FIA)">FIA</SelectItem>
+                <SelectItem value="Companies and Intellectual Property Authority (CIPA)">
+                  CIPA
+                </SelectItem>
+                <SelectItem value="Botswana Unified Revenue Service (BURS)">
+                  BURS
+                </SelectItem>
+                <SelectItem value="Competition and Consumer Authority (CCA)">
+                  CCA
+                </SelectItem>
+                <SelectItem value="Botswana Communications Regulatory Authority (BOCRA)">
+                  BOCRA
+                </SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={newCategory} onValueChange={setNewCategory}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Banking Regulation">Banking Regulation</SelectItem>
+                <SelectItem value="Anti-Money Laundering">Anti-Money Laundering</SelectItem>
+                <SelectItem value="Risk Management">Risk Management</SelectItem>
+                <SelectItem value="ESG Compliance">ESG Compliance</SelectItem>
+                <SelectItem value="Business Registration">Business Registration</SelectItem>
+                <SelectItem value="Tax Compliance">Tax Compliance</SelectItem>
+                <SelectItem value="Consumer Protection">Consumer Protection</SelectItem>
+                <SelectItem value="Cybersecurity">Cybersecurity</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Input
+              type="file"
+              accept=".pdf,.doc,.docx,.ppt,.pptx,.xlsx"
+              onChange={(e) => setNewFile(e.target.files?.[0] || null)}
+            />
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowUploadModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveNewDoc}>Save &amp; Upload</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Document View Modal */}
       <Dialog open={showDocumentModal} onOpenChange={setShowDocumentModal}>
