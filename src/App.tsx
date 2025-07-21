@@ -19,6 +19,7 @@ import Documents from "./pages/Documents";
 import Search from "./pages/Search";
 import Compliance from "./pages/Compliance";
 import FinTechRoadmap from "./pages/FinTechRoadmap";
+import RegulatoryAuthorities from "./pages/RegulatoryAuthorities";
 import Analytics from "./pages/Analytics";
 import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
@@ -44,6 +45,11 @@ const App = () => (
           <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
           {/* Rebranded roadmap route */}
           <Route path="/compliance-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
+          {/* Route alias for easier access to the roadmap */}
+          <Route path="/fintech-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
+          {/* Regulatory authorities directory */}
+          <Route path="/regulatory-authorities" element={<PublicLayout><RegulatoryAuthorities /></PublicLayout>} />
+          
           <Route path="/login" element={<Login />} />
           {/* Registration route */}
           <Route path="/register" element={<Register />} />
