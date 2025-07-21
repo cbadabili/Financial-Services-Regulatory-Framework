@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { Search, Filter, Download, Eye, Calendar, Tag } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -98,6 +99,7 @@ export default function Documents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRegulator, setSelectedRegulator] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const { hasPermission } = useAuth();
 
   return (
     <div className="p-6 space-y-6">
@@ -156,6 +158,7 @@ export default function Documents() {
             <Button variant="outline" size="icon">
               <Filter className="h-4 w-4" />
             </Button>
+            {hasPermission('write_reports') && (
             <Button onClick={() => {
               const input = window.document.createElement('input');
               input.type = 'file';
@@ -166,6 +169,7 @@ export default function Documents() {
             }}>
               Upload Documents
             </Button>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -218,6 +222,7 @@ export default function Documents() {
                     <Eye className="h-4 w-4 mr-2" />
                     View
                   </Button>
+                  {hasPermission('read_documents') && (
                   <Button variant="outline" size="sm" onClick={(e) => {
                     e.preventDefault();
                     const link = window.document.createElement('a');
@@ -228,6 +233,7 @@ export default function Documents() {
                     <Download className="h-4 w-4 mr-2" />
                     Download
                   </Button>
+                  )}
                 </div>
               </div>
             </CardContent>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { CheckCircle, Clock, AlertTriangle, Plus, Filter, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -109,6 +110,7 @@ const getStatusColor = (status: string) => {
 
 export default function Compliance() {
   const [activeTab, setActiveTab] = useState("tasks");
+  const { hasPermission } = useAuth();
 
   return (
     <div className="p-6 space-y-6">
@@ -187,10 +189,12 @@ export default function Compliance() {
               <Filter className="h-4 w-4 mr-2" />
               Filter
             </Button>
+            {hasPermission('manage_compliance') && (
             <Button size="sm" onClick={() => alert('Creating new compliance task...')}>
               <Plus className="h-4 w-4 mr-2" />
               New Task
             </Button>
+            )}
           </div>
         </div>
 
@@ -225,6 +229,7 @@ export default function Compliance() {
                   <Button variant="outline" size="sm" onClick={() => alert(`Viewing details for: ${task.title}`)}>
                     View Details
                   </Button>
+                  {hasPermission('manage_compliance') && (
                 </div>
 
                 <div className="space-y-3">
@@ -245,6 +250,7 @@ export default function Compliance() {
                     ))}
                   </div>
                 </div>
+                )}
               </CardContent>
             </Card>
           ))}
@@ -275,10 +281,12 @@ export default function Compliance() {
                       <span className="text-foreground">{template.downloads}</span>
                     </div>
                   </div>
+                  {hasPermission('read_documents') && (
                   <Button className="w-full" size="sm" onClick={() => alert(`Downloading template: ${template.name}`)}>
                     <Download className="h-4 w-4 mr-2" />
                     Download Template
                   </Button>
+                  )}
                 </CardContent>
               </Card>
             ))}

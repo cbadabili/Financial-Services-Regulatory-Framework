@@ -46,7 +46,7 @@ export function PublicHeader() {
           <div className="flex items-center space-x-4">
             <Button 
               variant="hero"
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/login')}
             >
               Portal Login
             </Button>

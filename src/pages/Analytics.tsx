@@ -1,9 +1,12 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { BarChart3, TrendingUp, FileText, Calendar, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Analytics() {
+  const { hasPermission } = useAuth();
+
   return (
     <div className="p-6 space-y-6">
       {/* Page Header */}
@@ -77,10 +80,12 @@ export default function Analytics() {
             <TabsTrigger value="trends">Trends</TabsTrigger>
           </TabsList>
           
+          {hasPermission('write_reports') && (
           <Button onClick={() => alert('Exporting analytics report...')}>
             <Download className="h-4 w-4 mr-2" />
             Export Report
           </Button>
+          )}
         </div>
 
         <TabsContent value="overview" className="space-y-6">

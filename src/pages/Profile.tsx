@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   User, 
   Building, 
@@ -33,14 +34,15 @@ import {
 
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
-    name: "John Modise",
-    email: "john.modise@standardcharteredbw.com",
+    name: user?.name || "",
+    email: user?.email || "",
     phone: "+267 75 123 456",
-    position: "Senior Compliance Officer",
-    organization: "Standard Chartered Bank Botswana",
+    position: user?.role || "",
+    organization: user?.organization || "",
     location: "Gaborone, Botswana",
-    department: "Risk & Compliance"
+    department: user?.department || ""
   });
 
   const [notifications, setNotifications] = useState({

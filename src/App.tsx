@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/contexts/AuthContext";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Knowledge from "./pages/Knowledge";
 import Developer from "./pages/Developer";
 import Business from "./pages/Business";
@@ -20,6 +22,7 @@ import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
 import ComplianceWizard from "./pages/ComplianceWizard";
 import NotFound from "./pages/NotFound";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +31,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <AuthProvider>
       <BrowserRouter>
         <Routes>
           {/* Public routes with PublicLayout */}
@@ -37,21 +41,23 @@ const App = () => (
           <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
           <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
           <Route path="/fintech-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
+          <Route path="/login" element={<Login />} />
           
           {/* Admin/Portal routes with private Layout */}
-          <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-          <Route path="/documents" element={<Layout><Documents /></Layout>} />
-          <Route path="/search" element={<Layout><Search /></Layout>} />
-          <Route path="/compliance" element={<Layout><Compliance /></Layout>} />
-          <Route path="/compliance-wizard" element={<Layout><ComplianceWizard /></Layout>} />
-          <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
-          <Route path="/alerts" element={<Layout><Alerts /></Layout>} />
-          <Route path="/profile" element={<Layout><Profile /></Layout>} />
+          <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
+          <Route path="/documents" element={<ProtectedRoute requiredPermission="read_documents"><Layout><Documents /></Layout></ProtectedRoute>} />
+          <Route path="/search" element={<ProtectedRoute requiredPermission="read_documents"><Layout><Search /></Layout></ProtectedRoute>} />
+          <Route path="/compliance" element={<ProtectedRoute requiredPermission="manage_compliance"><Layout><Compliance /></Layout></ProtectedRoute>} />
+          <Route path="/compliance-wizard" element={<ProtectedRoute><Layout><ComplianceWizard /></Layout></ProtectedRoute>} />
+          <Route path="/analytics" element={<ProtectedRoute requiredPermission="view_analytics"><Layout><Analytics /></Layout></ProtectedRoute>} />
+          <Route path="/alerts" element={<ProtectedRoute><Layout><Alerts /></Layout></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Layout><Profile /></Layout></ProtectedRoute>} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

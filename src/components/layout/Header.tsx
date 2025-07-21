@@ -1,4 +1,5 @@
 import { Bell, Search, User, Settings, Shield, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +14,7 @@ import {
 
 export function Header() {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   return (
     <header className="h-16 bg-gradient-header border-b border-border flex items-center justify-between px-6 shadow-medium">
       {/* Logo and Title */}
@@ -37,6 +39,11 @@ export function Header() {
           <Input 
             placeholder="Search regulations, policies, compliance requirements..."
             className="pl-10 bg-background/95 border-primary-foreground/20"
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                navigate('/search');
+              }
+            }}
           />
         </div>
       </div>
@@ -67,8 +74,8 @@ export function Header() {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
             <div className="px-2 py-2">
-              <p className="text-sm font-medium">John Modise</p>
-              <p className="text-xs text-muted-foreground">Compliance Officer, Standard Chartered Bank</p>
+              <p className="text-sm font-medium">{user?.name}</p>
+              <p className="text-xs text-muted-foreground">{user?.role}, {user?.organization}</p>
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => navigate('/profile')}>
@@ -84,7 +91,10 @@ export function Header() {
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {
+              logout();
+              navigate('/');
+            }}>
               <LogOut className="mr-2 h-4 w-4" />
               Sign Out
             </DropdownMenuItem>

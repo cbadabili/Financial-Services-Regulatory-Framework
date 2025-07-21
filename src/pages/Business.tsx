@@ -143,7 +143,7 @@ export default function Business() {
             <Card 
               key={index} 
               className="hover:shadow-large transition-all cursor-pointer group"
-              onClick={() => navigate(service.link)}
+              onClick={() => navigate('/login')}
             >
               <CardHeader className="text-center pb-4">
                 <div className="flex justify-center mb-4">
@@ -193,7 +193,7 @@ export default function Business() {
                   </div>
                 </div>
                 
-                <Button variant="outline" size="sm" onClick={() => navigate('/compliance')}>
+                <Button variant="outline" size="sm" onClick={() => navigate('/login')}>
                   <BookOpen className="mr-2 h-4 w-4" />
                   View Requirements
                 </Button>
@@ -216,7 +216,7 @@ export default function Business() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold"
-                onClick={() => navigate('/compliance')}
+                onClick={() => navigate('/login')}
               >
                 Start Compliance Check
               </Button>

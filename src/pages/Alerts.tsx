@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   Bell, 
   AlertTriangle, 
@@ -71,6 +72,7 @@ export default function Alerts() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
+  const { hasPermission } = useAuth();
 
   const getAlertIcon = (type: string) => {
     switch (type) {
@@ -113,10 +115,12 @@ export default function Alerts() {
             <Settings className="h-4 w-4 mr-2" />
             Alert Settings
           </Button>
+          {hasPermission('manage_compliance') && (
           <Button onClick={() => window.alert('Creating new alert...')}>
             <Plus className="h-4 w-4 mr-2" />
             Create Alert
           </Button>
+          )}
         </div>
       </div>
 
