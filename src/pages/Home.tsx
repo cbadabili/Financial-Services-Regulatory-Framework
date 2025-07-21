@@ -23,9 +23,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -154,7 +156,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold shadow-gold"
-                onClick={() => navigate('/login')}
+                onClick={() => navigate(isAuthenticated ? '/compliance-wizard' : '/login')}
               >
                 <CheckCircle className="mr-2 h-5 w-5" />
                 Compliance Journey
