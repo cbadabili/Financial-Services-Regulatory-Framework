@@ -1,7 +1,6 @@
 import { 
   Lightbulb, 
   Building2, 
-  DollarSign, 
   Shield, 
   Settings, 
   Rocket, 
@@ -11,6 +10,7 @@ import {
   ArrowRight,
   Upload,
   Download,
+  Banknote,
   FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -101,7 +101,7 @@ export default function FinTechRoadmap() {
       title: "Tax and Financial Setup",
       subtitle: "Financial Infrastructure",
       description: "Establish financial and tax footing with proper registrations.",
-      icon: DollarSign,
+      icon: Banknote,
       color: "yellow",
       duration: "3-4 weeks",
       cost: "BWP 10,000 - BWP 25,000",
@@ -340,8 +340,8 @@ export default function FinTechRoadmap() {
             
             <Card className="text-center">
               <CardContent className="p-6">
-                <DollarSign className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-foreground mb-2">BWP 800K-4M</h3>
+                <Banknote className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-foreground mb-2">P 800K-4M</h3>
                 <p className="text-muted-foreground">Total Investment</p>
               </CardContent>
             </Card>
@@ -398,20 +398,21 @@ export default function FinTechRoadmap() {
                     </ul>
                   </div>
                   
+                  {/* Buttons: Download on the left, Upload on the right for consistency */}
                   <div className="flex justify-end space-x-3">
-                    <Button
-                      variant="outline"
-                      onClick={() => handleUploadClick(phase.id)}
-                    >
-                      <Upload className="mr-2 h-4 w-4" />
-                      Upload Documents
-                    </Button>
                     <Button
                       variant="outline"
                       onClick={() => handleDownloadTemplates(phase)}
                     >
                       <Download className="mr-2 h-4 w-4" />
                       Download Templates
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleUploadClick(phase.id)}
+                    >
+                      <Upload className="mr-2 h-4 w-4" />
+                      Upload Documents
                     </Button>
                   </div>
                 </CardContent>

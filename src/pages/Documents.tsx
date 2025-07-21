@@ -145,7 +145,7 @@ const documents = [
       
       #### 3.2 Cash Transaction Reporting
       
-      All cash transactions exceeding BWP 10,000 must be reported to the FIA within 3 working days.
+      All cash transactions exceeding P 10,000 must be reported to the FIA within 3 working days.
       
       ### 4. RECORD KEEPING
       
@@ -653,7 +653,7 @@ const documents = [
       
       a) Standard company registration fees apply
       
-      b) Additional FinTech assessment fee: BWP 5,000
+      b) Additional FinTech assessment fee: P 5,000
       
       c) Processing time: 10 working days from complete submission
       
@@ -718,7 +718,7 @@ const documents = [
       
       2. **Provisional Tax**: Quarterly provisional tax payments are required based on estimated annual taxable income.
       
-      3. **Special Returns**: Financial institutions with annual turnover exceeding BWP 50 million must submit enhanced financial statements with detailed breakdowns of income streams.
+      3. **Special Returns**: Financial institutions with annual turnover exceeding P 50 million must submit enhanced financial statements with detailed breakdowns of income streams.
       
       #### B. Deduction Considerations
       
@@ -778,7 +778,7 @@ const documents = [
       
       2. Apply arm's length principles to all intra-group transactions
       
-      3. Submit annual transfer pricing declarations for transactions exceeding BWP 5 million
+      3. Submit annual transfer pricing declarations for transactions exceeding P 5 million
       
       #### B. Exchange of Information
       
@@ -1138,7 +1138,7 @@ const documents = [
       
       1. Annual penetration testing by independent providers
       2. Quarterly vulnerability assessments
-      3. Regular red team exercises for institutions with assets exceeding BWP 1 billion
+      3. Regular red team exercises for institutions with assets exceeding P 1 billion
       4. Code security reviews for in-house applications
       5. Security testing before system deployment
       
@@ -1168,9 +1168,9 @@ const documents = [
       
       ### SECTION XII: IMPLEMENTATION TIMELINE
       
-      1. Large institutions (assets > BWP 10 billion): 6 months
-      2. Medium institutions (assets BWP 1-10 billion): 12 months
-      3. Small institutions (assets < BWP 1 billion): 18 months
+      1. Large institutions (assets > P 10 billion): 6 months
+      2. Medium institutions (assets P 1-10 billion): 12 months
+      3. Small institutions (assets < P 1 billion): 18 months
       
       ### CONTACT INFORMATION
       
