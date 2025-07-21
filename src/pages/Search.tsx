@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Search as SearchIcon, Filter, BookOpen, Calendar, Tag, Sparkles, ArrowLeft, X } from "lucide-react";
+import { Search as SearchIcon, Filter, BookOpen, Calendar, Tag, Sparkles, ArrowLeft, X, ClipboardList } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
+import AdvancedSearchFilters, { FilterState } from "@/components/search/AdvancedSearchFilters";
+import ChecklistGenerator from "@/components/search/ChecklistGenerator";
 
 const searchResults = [
   {
@@ -58,11 +61,37 @@ export default function Search() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
+  const [showFilters, setShowFilters] = useState(false);
+  const [showChecklist, setShowChecklist] = useState(false);
+  const [filters, setFilters] = useState<FilterState | null>(null);
   const { hasPermission } = useAuth();
+  const { toast } = useToast();
 
   const handleSearch = () => {
     // Search functionality would be implemented here
     console.log("Searching for:", searchQuery);
+  };
+
+  // handle after checklist creation
+  const handleChecklistGenerated = () => {
+    toast({
+      title: "Checklist Generated",
+      description: "Your customised compliance checklist is ready for export.",
+    });
+  };
+
+  const getActiveFilterCount = () => {
+    if (!filters) return 0;
+    let count = 0;
+    if (filters.financialServices.length) count++;
+    if (filters.productTypes.length) count++;
+    if (filters.regulators.length) count++;
+    if (filters.documentTypes.length) count++;
+    if (filters.complianceStatus.length) count++;
+    if (filters.riskLevel[0] > 0) count++;
+    if (filters.dateRange.from || filters.dateRange.to) count++;
+    if (filters.keywords.length) count++;
+    return count;
   };
 
   return (
@@ -131,14 +160,51 @@ export default function Search() {
                   <Badge variant="outline" className="cursor-pointer">FIA</Badge>
                 </div>
               </div>
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Advanced
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowFilters(true)}
+                >
+                  <Filter className="h-4 w-4 mr-2" />
+                  Filters
+                  {getActiveFilterCount() > 0 && (
+                    <Badge variant="secondary" className="ml-2">
+                      {getActiveFilterCount()}
+                    </Badge>
+                  )}
+                </Button>
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={() => setShowChecklist(true)}
+                >
+                  <ClipboardList className="h-4 w-4 mr-2" />
+                  Generate Checklist
+                </Button>
+              </div>
             </div>
           </div>
         </CardContent>
       </Card>
+
+      {/* Advanced Filters Panel */}
+      <AdvancedSearchFilters
+        isOpen={showFilters}
+        onClose={() => setShowFilters(false)}
+        onApplyFilters={(f) => {
+          setFilters(f);
+          setShowFilters(false);
+        }}
+        initialFilters={filters || undefined}
+      />
+
+      {/* Checklist Generator Dialog */}
+      <ChecklistGenerator
+        isOpen={showChecklist}
+        onClose={() => setShowChecklist(false)}
+        onChecklistGenerated={handleChecklistGenerated}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Main Search Results */}
