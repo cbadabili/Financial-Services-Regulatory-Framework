@@ -179,7 +179,19 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-hero text-white py-20 overflow-hidden">
+      {/* BoB-navy background with very subtle gold seal pattern */}
+      <section className="relative bg-[#0b2144] text-white py-20 overflow-hidden">
+        {/* repeating gold emblem – very light opacity for “subtle” effect */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='100' cy='100' r='90' stroke='%23d4af37' stroke-width='4' fill='none'/%3E%3C/svg%3E\")",
+            backgroundRepeat: "repeat",
+            backgroundSize: "220px 220px",
+          }}
+        />
+        {/* dark overlay to keep text legible */}
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">

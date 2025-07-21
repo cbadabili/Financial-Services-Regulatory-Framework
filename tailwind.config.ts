@@ -83,7 +83,13 @@ export default {
 				'bocra-teal': 'hsl(var(--bocra-teal))',
 				'burs-red': 'hsl(var(--burs-red))',
 				'cca-indigo': 'hsl(var(--cca-indigo))',
-				'ppadb-amber': 'hsl(var(--ppadb-amber))'
+				'ppadb-amber': 'hsl(var(--ppadb-amber))',
+
+				/* --- Additional aliases referenced in UI components --- */
+				'cipa-cyan': 'hsl(var(--cipa-orange))',     // temporary alias
+				'cca-yellow': 'hsl(var(--cca-indigo))',     // temporary alias
+				'bocra-indigo': 'hsl(var(--bocra-teal))',   // temporary alias
+				'mofed-gold': 'hsl(var(--ministry-gold))'   // temporary alias
 			},
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',

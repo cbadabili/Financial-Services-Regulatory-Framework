@@ -50,9 +50,10 @@
     --radius: 0.75rem;
 
     /* Bank of Botswana Specific Colors */
-    --bob-blue: 190 85% 35%;       /* Bank of Botswana Teal */
-    --bob-gold: 35 85% 55%;        /* Bank of Botswana Gold */
-    --bob-dark: 220 13% 15%;       /* Dark sections background */
+    /* Updated Bank of Botswana brand colours */
+    --bob-blue: 217 72% 16%;       /* BoB Navy Blue  #0b2144 */
+    --bob-gold: 46 65% 52%;        /* BoB Gold       #d4af37 */
+    --bob-dark: 213 70% 7%;        /* Extra-dark Navy #05101d */
     --nbfira-green: 142 71% 45%;   /* NBFIRA */
     --bse-orange: 22 96% 56%;      /* Botswana Stock Exchange */
     --fia-purple: 262 73% 57%;     /* Financial Intelligence Agency */
@@ -136,9 +137,9 @@
     --ring: 190 85% 35%;
 
     /* Bank of Botswana Colors - Dark Mode */
-    --bob-blue: 190 85% 35%;
-    --bob-gold: 35 85% 55%;
-    --bob-dark: 220 13% 12%;        /* Even darker for sections */
+    --bob-blue: 217 72% 16%;
+    --bob-gold: 46 65% 52%;
+    --bob-dark: 213 70% 7%;         /* Even darker for sections */
     --nbfira-green: 142 71% 45%;
     --bse-orange: 22 96% 56%;
     --fia-purple: 262 73% 57%;
