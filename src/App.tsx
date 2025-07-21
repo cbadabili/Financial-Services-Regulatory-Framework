@@ -45,8 +45,23 @@ const App = () => (
           
           {/* Admin/Portal routes with private Layout */}
           <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
-          <Route path="/documents" element={<ProtectedRoute requiredPermission="read_documents"><Layout><Documents /></Layout></ProtectedRoute>} />
-          <Route path="/search" element={<ProtectedRoute requiredPermission="read_documents"><Layout><Search /></Layout></ProtectedRoute>} />
+          {/* Public information-browsing routes */}
+          <Route
+            path="/documents"
+            element={
+              <PublicLayout>
+                <Documents />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <PublicLayout>
+                <Search />
+              </PublicLayout>
+            }
+          />
           <Route path="/compliance" element={<ProtectedRoute requiredPermission="manage_compliance"><Layout><Compliance /></Layout></ProtectedRoute>} />
           <Route path="/compliance-wizard" element={<ProtectedRoute><Layout><ComplianceWizard /></Layout></ProtectedRoute>} />
           <Route path="/analytics" element={<ProtectedRoute requiredPermission="view_analytics"><Layout><Analytics /></Layout></ProtectedRoute>} />
