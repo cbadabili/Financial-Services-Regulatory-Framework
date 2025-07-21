@@ -12,7 +12,7 @@ import {
   Download,
   Target,
   Zap,
-  Banknote
+  Banknote,
   X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
