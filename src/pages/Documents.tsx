@@ -1207,40 +1207,54 @@ const getRegulatorColor = (regulator: string) => {
   return "primary";
 };
 
-// Simple and reliable "download" that packages the document as plain text
+// Enhanced download function with better reliability and error handling
 const handleDownload = (document: typeof documents[0]) => {
   try {
-    const content = [
-      `Title: ${document.title}`,
-      `Regulator: ${document.regulator}`,
+    // Create a well-formatted document with proper headers and content
+    const formattedContent = [
+      `# ${document.title}`,
+      `## ${document.regulator}`,
+      `Date: ${document.date}`,
       `Category: ${document.category}`,
       `Type: ${document.type}`,
-      `Date: ${document.date}`,
       `Status: ${document.status}`,
-      "".padEnd(40, "-"), // divider line
-      (document.fullContent || document.content)
-    ].join("\n\n");
+      `Tags: ${document.tags.join(', ')}`,
+      '\n' + '-'.repeat(80) + '\n',
+      document.fullContent || document.content
+    ].join('\n\n');
 
-    // Create a Blob with plain-text content but give it a .pdf extension
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    // Create a Blob with the formatted content
+    // Using text/plain for maximum compatibility
+    const blob = new Blob([formattedContent], { type: "text/plain;charset=utf-8" });
+    
+    // Create a URL for the blob
     const url = URL.createObjectURL(blob);
+    
+    // Create an anchor element and set its properties
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`;
-
+    a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, "_")}.txt`;
+    
+    // Append to the document, click, and remove
     document.body.appendChild(a);
     a.click();
+    
+    // Clean up
     setTimeout(() => {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }, 100);
 
+    // Show success message
     toast({
-      title: "Download started",
-      description: `${document.title} is being downloaded.`,
+      title: "Download successful",
+      description: `${document.title} has been downloaded.`,
     });
   } catch (error) {
+    // Log the error for debugging
     console.error("Download error:", error);
+    
+    // Show user-friendly error message
     toast({
       title: "Download failed",
       description: "There was an error generating the document. Please try again.",
