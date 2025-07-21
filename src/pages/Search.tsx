@@ -19,7 +19,7 @@ const searchResults = [
     content: "Commercial banks in Botswana must maintain a minimum capital adequacy ratio of 15% as per the Banking Act. This includes Tier 1 capital of at least 10% and total capital of 15%...",
     sources: ["Banking Act 2021", "BoB Prudential Guidelines"],
     confidence: 95,
-    regulator: "Bank of Botswana"
+    regulator: "Bank of Botswana (BoB)"
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const searchResults = [
     type: "Document",
     content: "The minimum capital adequacy ratio for commercial banks shall be fifteen percent (15%) of risk-weighted assets, of which at least ten percent (10%) shall be Tier 1 capital...",
     date: "2025-01-10",
-    regulator: "Bank of Botswana",
+    regulator: "Bank of Botswana (BoB)",
     category: "Banking Regulation"
   },
   {
@@ -36,8 +36,62 @@ const searchResults = [
     type: "Document", 
     content: "Financial institutions must implement enhanced due diligence measures for high-risk customers, including politically exposed persons (PEPs) and customers from high-risk jurisdictions...",
     date: "2024-12-15",
-    regulator: "Financial Intelligence Agency",
+    regulator: "Financial Intelligence Agency (FIA)",
     category: "Anti-Money Laundering"
+  },
+  {
+    id: 4,
+    title: "Virtual Assets Service Providers Licensing Requirements",
+    type: "Document",
+    content: "All Virtual Asset Service Providers (VASPs) must register with NBFIRA and comply with the Virtual Assets Act 2022. The minimum capital requirement is BWP 250,000 for standard VASP licenses...",
+    date: "2024-11-20",
+    regulator: "Non-Bank Financial Institutions Regulatory Authority (NBFIRA)",
+    category: "Cryptocurrency Regulation"
+  },
+  {
+    id: 5,
+    title: "Company Registration Process for Financial Institutions",
+    type: "Document",
+    content: "Financial institutions must register with CIPA and provide beneficial ownership declarations. The company constitution must clearly outline the financial services to be offered...",
+    date: "2024-10-05",
+    regulator: "Companies and Intellectual Property Authority (CIPA)",
+    category: "Business Registration"
+  },
+  {
+    id: 6,
+    title: "Tax Reporting Requirements for Financial Services",
+    type: "Document",
+    content: "Financial institutions must file quarterly VAT returns and annual Corporate Income Tax (CIT) returns. Special considerations apply for financial services with mixed taxable and exempt supplies...",
+    date: "2025-01-15",
+    regulator: "Botswana Unified Revenue Service (BURS)",
+    category: "Tax Compliance"
+  },
+  {
+    id: 7,
+    title: "Consumer Protection Guidelines for Digital Financial Services",
+    type: "Document",
+    content: "Financial service providers must ensure clear terms and conditions, transparent fee structures, and accessible complaint resolution mechanisms for all digital financial services...",
+    date: "2024-09-10",
+    regulator: "Competition and Consumer Authority (CCA)",
+    category: "Consumer Protection"
+  },
+  {
+    id: 8,
+    title: "Cybersecurity Standards for Financial Institutions",
+    type: "Document",
+    content: "All financial institutions offering digital services must implement the minimum cybersecurity standards outlined in the National Cybersecurity Framework, including regular penetration testing...",
+    date: "2024-08-22",
+    regulator: "Botswana Communications Regulatory Authority (BOCRA)",
+    category: "Cybersecurity"
+  },
+  {
+    id: 9,
+    title: "SME Board Listing Requirements",
+    type: "Document",
+    content: "FinTech companies seeking to list on the Tshipidi SME Board must demonstrate minimum capital of BWP 500,000 and engage with the Tshipidi Mentorship Program for at least 6 months...",
+    date: "2024-07-30",
+    regulator: "Botswana Stock Exchange (BSE)",
+    category: "Capital Markets"
   }
 ];
 
@@ -64,6 +118,8 @@ export default function Search() {
   const [showFilters, setShowFilters] = useState(false);
   const [showChecklist, setShowChecklist] = useState(false);
   const [filters, setFilters] = useState<FilterState | null>(null);
+  const [selectedResult, setSelectedResult] = useState<(typeof searchResults)[0] | null>(null);
+  const [showModal, setShowModal] = useState(false);
   const { hasPermission } = useAuth();
   const { toast } = useToast();
 
@@ -78,6 +134,16 @@ export default function Search() {
       title: "Checklist Generated",
       description: "Your customised compliance checklist is ready for export.",
     });
+  };
+
+  const handleOpenDocument = (result: (typeof searchResults)[0]) => {
+    setSelectedResult(result);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedResult(null);
   };
 
   const getActiveFilterCount = () => {
@@ -152,12 +218,16 @@ export default function Search() {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <span className="text-sm text-muted-foreground">Search in:</span>
-                <div className="flex space-x-2">
+                <div className="flex flex-wrap gap-2">
                   <Badge variant="secondary" className="cursor-pointer">All Documents</Badge>
                   <Badge variant="outline" className="cursor-pointer">BoB</Badge>
                   <Badge variant="outline" className="cursor-pointer">NBFIRA</Badge>
                   <Badge variant="outline" className="cursor-pointer">BSE</Badge>
                   <Badge variant="outline" className="cursor-pointer">FIA</Badge>
+                  <Badge variant="outline" className="cursor-pointer">CIPA</Badge>
+                  <Badge variant="outline" className="cursor-pointer">BURS</Badge>
+                  <Badge variant="outline" className="cursor-pointer">CCA</Badge>
+                  <Badge variant="outline" className="cursor-pointer">BOCRA</Badge>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -205,6 +275,14 @@ export default function Search() {
         onClose={() => setShowChecklist(false)}
         onChecklistGenerated={handleChecklistGenerated}
       />
+
+      {/* Document Preview Modal */}
+      {showModal && (
+        <DocumentModal 
+          result={selectedResult} 
+          onClose={handleCloseModal} 
+        />
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Main Search Results */}
@@ -283,7 +361,12 @@ export default function Search() {
                           )}
                         </div>
                         
-                        <Button variant="outline" size="sm" className="ml-4" onClick={() => alert(`Opening ${result.title}`)}>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="ml-4" 
+                          onClick={() => handleOpenDocument(result)}
+                        >
                           <BookOpen className="h-4 w-4 mr-2" />
                           Open
                         </Button>
@@ -357,6 +440,40 @@ export default function Search() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------
+ * Simple in-file modal for document preview – replaces alert popup.
+ * ----------------------------------------------------------------*/
+function DocumentModal({
+  result,
+  onClose,
+}: {
+  result: (typeof searchResults)[0] | null;
+  onClose: () => void;
+}) {
+  if (!result) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="bg-background max-w-xl w-full rounded-lg shadow-lg p-6 relative">
+        <button
+          className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
+          onClick={onClose}
+        >
+          <X className="h-5 w-5" />
+        </button>
+        <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
+          <BookOpen className="h-5 w-5" />
+          {result.title}
+        </h2>
+        <p className="text-sm text-muted-foreground mb-4">{result.regulator}</p>
+        <div className="prose max-h-80 overflow-y-auto">
+          {result.content}
         </div>
       </div>
     </div>
