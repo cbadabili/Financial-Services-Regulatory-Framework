@@ -8,21 +8,11 @@ import {
   TrendingUp,
   CheckCircle,
   Clock,
-  Users,
-  FileText,
-  AlertTriangle,
-  Download,
-  ExternalLink,
-  ArrowRight,
-  Target,
-  Briefcase,
-  Scale,
-  Phone
+  ArrowRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 
 interface RoadmapPhase {
@@ -35,9 +25,6 @@ interface RoadmapPhase {
   duration: string;
   cost: string;
   keyActivities: string[];
-  authorities: string[];
-  requiredInfo: string[];
-  strategicNote: string;
 }
 
 export default function FinTechRoadmap() {
@@ -58,14 +45,7 @@ export default function FinTechRoadmap() {
         "Service Definition: Precisely articulate financial service/product",
         "Business & Financial Planning: Comprehensive business plan with financial forecasts",
         "Regulatory Scoping: Determine primary regulator (BoB vs NBFIRA)"
-      ],
-      authorities: ["Research phase - no direct interaction"],
-      requiredInfo: [
-        "Detailed business plan",
-        "Financial models and projections", 
-        "Preliminary risk assessment"
-      ],
-      strategicNote: "Your business plan must be 'regulatory-aware', demonstrating clear understanding of specific regulatory obligations including capital requirements, compliance staffing, and technology costs."
+      ]
     },
     {
       id: 2,
@@ -80,16 +60,7 @@ export default function FinTechRoadmap() {
         "Company Registration: Formally register as legal entity",
         "Intellectual Property Protection: Secure brand and logo",
         "Beneficial Ownership Declaration: Mandatory FIA compliance"
-      ],
-      authorities: ["Companies and Intellectual Property Authority (CIPA)"],
-      requiredInfo: [
-        "Company name reservation via CIPA OBRS",
-        "Complete registration with directors/shareholders details",
-        "Company constitution (CIPA provides templates)",
-        "Beneficial ownership declaration (FIA Act compliance)",
-        "Trademark registration application"
-      ],
-      strategicNote: "Beneficial ownership declaration is under intense regulatory scrutiny globally. Ensure accuracy and transparency from day one to build trust with all authorities, particularly the FIA."
+      ]
     },
     {
       id: 3,
@@ -104,15 +75,7 @@ export default function FinTechRoadmap() {
         "Open corporate bank account",
         "Register for all applicable taxes",
         "Set up financial systems"
-      ],
-      authorities: ["Botswana Unified Revenue Service (BURS)"],
-      requiredInfo: [
-        "Corporate Income Tax (CIT) registration using BURS 1 form",
-        "VAT registration if annual turnover > BWP 1,000,000",
-        "BURS e-Services portal setup",
-        "Banking relationship establishment"
-      ],
-      strategicNote: "Investigate potential tax incentives early. Operations under IFSC or Special Economic Zones may qualify for preferential tax rates, significantly impacting your financial model."
+      ]
     },
     {
       id: 4,
@@ -127,20 +90,7 @@ export default function FinTechRoadmap() {
         "Prepare comprehensive license application",
         "Submit to appropriate primary regulator",
         "Undergo fit and proper assessments"
-      ],
-      authorities: [
-        "Bank of Botswana (BoB): Banking, EPS, bureaus de change",
-        "NBFIRA: Micro-finance, insurance, asset management, VASPs"
-      ],
-      requiredInfo: [
-        "Detailed business plan with target market and workflows",
-        "3-5 year financial projections",
-        "Directors, shareholders, and key management info (fit and proper)",
-        "Comprehensive risk management framework",
-        "Technology system details (architecture and security)",
-        "Draft AML/CFT program"
-      ],
-      strategicNote: "Don't treat this as paper-filling exercise. Proactively engage with regulator through introductory meetings to present your concept and demonstrate responsible, innovative business building."
+      ]
     },
     {
       id: 5,
@@ -155,21 +105,7 @@ export default function FinTechRoadmap() {
         "Develop robust AML/CFT compliance program",
         "Establish consumer protection policies",
         "Implement data protection and cybersecurity measures"
-      ],
-      authorities: [
-        "Financial Intelligence Agency (FIA): AML/CFT standards",
-        "Competition and Consumer Authority (CCA): Consumer protection",
-        "BOCRA: Technology platform standards"
-      ],
-      requiredInfo: [
-        "Qualified Compliance Officer appointment",
-        "Company-wide risk assessment documentation",
-        "Customer Due Diligence (CDD) procedures",
-        "Suspicious transaction monitoring/reporting processes",
-        "Clear terms of service and complaints resolution",
-        "Cybersecurity measures per National Cybersecurity Strategy"
-      ],
-      strategicNote: "Adopt 'Compliance by Design' philosophy. Build compliance obligations directly into technology and operational workflows from start, rather than adding as afterthought."
+      ]
     },
     {
       id: 6,
@@ -184,22 +120,7 @@ export default function FinTechRoadmap() {
         "Launch service to public",
         "Execute marketing and customer acquisition",
         "Fulfill periodic reporting obligations"
-      ],
-      authorities: [
-        "BoB/NBFIRA: Primary regulator",
-        "FIA: Financial intelligence",
-        "BURS: Tax compliance",
-        "CIPA: Company compliance"
-      ],
-      requiredInfo: [
-        "Periodic financial and operational reports",
-        "Suspicious Transaction Reports (STRs) for unusual activity",
-        "Cash transaction reports above prescribed limits",
-        "Regular VAT and CIT returns",
-        "Transfer pricing documentation for non-resident transactions",
-        "CIPA annual returns"
-      ],
-      strategicNote: "Automate regulatory reporting where possible. Investing in RegTech tools reduces administrative burden, minimizes human error, and ensures timely submissions."
+      ]
     },
     {
       id: 7,
@@ -214,16 +135,7 @@ export default function FinTechRoadmap() {
         "Evaluate IPO feasibility",
         "Prepare for public listing requirements",
         "Access growth capital"
-      ],
-      authorities: ["Botswana Stock Exchange (BSE) - regulated by NBFIRA"],
-      requiredInfo: [
-        "Venture Capital Board: BWP 2.5M subscribed capital (no profit history required)",
-        "Tshipidi SME Board (TSME): BWP 500K capital + NOMAD appointment",
-        "Listing prospectus preparation",
-        "Financial advisors and legal counsel engagement",
-        "Minimum public shareholders and free float requirements"
-      ],
-      strategicNote: "BSE actively encourages local business growth. Explore Tshipidi Mentorship Program for listing preparation and inquire about new SME Fund for enhanced capital access."
+      ]
     }
   ];
 
@@ -242,20 +154,9 @@ export default function FinTechRoadmap() {
               Strategic Compliance Roadmap
             </h1>
             <p className="text-xl text-primary-foreground/90 max-w-4xl mx-auto">
-              Your complete 7-phase guide to compliance success in Botswana’s financial sector. 
+              Your complete 7-phase guide to compliance success in Botswana's financial sector. 
               Navigate from initial concept to potential public listing with full regulatory clarity.
             </p>
-          </div>
-          
-          <div className="text-center">
-            <Button 
-              size="lg" 
-              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-              onClick={() => navigate('/login')}
-            >
-              <Target className="h-5 w-5 mr-2" />
-              Start Your Compliance Journey
-            </Button>
           </div>
         </div>
       </div>
@@ -308,8 +209,8 @@ export default function FinTechRoadmap() {
 
         {/* Phase Details */}
         <section>
-          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Detailed Phase Breakdown</h2>
-          
+          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Compliance Journey Phases</h2>
+
           <div className="space-y-8">
             {phases.map((phase, index) => (
               <Card key={phase.id} className="hover:shadow-large transition-all">
@@ -336,73 +237,33 @@ export default function FinTechRoadmap() {
                 <CardContent className="space-y-6">
                   <p className="text-muted-foreground">{phase.description}</p>
                   
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {/* Key Activities */}
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-3 flex items-center">
-                        <Target className="h-4 w-4 mr-2" />
-                        Key Activities
-                      </h4>
-                      <ul className="space-y-2">
-                        {phase.keyActivities.map((activity, idx) => (
-                          <li key={idx} className="text-sm text-muted-foreground flex items-start">
-                            <CheckCircle className="h-3 w-3 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                            {activity}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    {/* Authorities */}
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-3 flex items-center">
-                        <Building2 className="h-4 w-4 mr-2" />
-                        Interacting Authorities
-                      </h4>
-                      <ul className="space-y-2">
-                        {phase.authorities.map((authority, idx) => (
-                          <li key={idx} className="text-sm">
-                            <Badge variant="outline" className="text-xs">{authority}</Badge>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    {/* Required Information */}
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-3 flex items-center">
-                        <FileText className="h-4 w-4 mr-2" />
-                        Required Information
-                      </h4>
-                      <ul className="space-y-2">
-                        {phase.requiredInfo.slice(0, 3).map((info, idx) => (
-                          <li key={idx} className="text-sm text-muted-foreground flex items-start">
-                            <FileText className="h-3 w-3 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                            {info}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-3">Key Activities</h4>
+                    <ul className="space-y-2">
+                      {phase.keyActivities.map((activity, idx) => (
+                        <li key={idx} className="text-sm text-muted-foreground flex items-start">
+                          <CheckCircle className="h-3 w-3 text-green-500 mr-2 mt-1 flex-shrink-0" />
+                          {activity}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                   
-                  <Separator />
-                  
-                  {/* Strategic Consideration */}
-                  <div className="bg-amber-50 dark:bg-amber-950 p-4 rounded-lg">
-                    <div className="flex items-start space-x-3">
-                      <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                      <div>
-                        <h4 className="font-medium text-foreground mb-2">Strategic Consideration</h4>
-                        <p className="text-sm text-muted-foreground">{phase.strategicNote}</p>
-                      </div>
-                    </div>
+                  <div className="flex justify-end">
+                    <Button
+                      variant="outline"
+                      onClick={() => navigate('/regulatory-authorities')}
+                    >
+                      View Related Authorities
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
         </section>
-
+                  
         {/* Call to Action */}
         <section className="mt-16">
           <Card className="bg-gradient-dark text-white">
@@ -413,21 +274,21 @@ export default function FinTechRoadmap() {
                 Map your specific path through all seven phases based on your business model.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
+                <Button
                   size="lg"
                   className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold"
-                  onClick={() => navigate('/login')}
+                  onClick={() => navigate('/compliance-wizard')}
                 >
                   <Rocket className="h-5 w-5 mr-2" />
                   Start Compliance Journey
                 </Button>
-                <Button 
+                <Button
                   size="lg"
                   variant="hero"
-                  onClick={() => navigate('/login')}
+                  onClick={() => navigate('/regulatory-authorities')}
                 >
-                  <FileText className="h-5 w-5 mr-2" />
-                  Browse Knowledge Base
+                  <Shield className="h-5 w-5 mr-2" />
+                  View Regulatory Authorities
                 </Button>
               </div>
             </CardContent>

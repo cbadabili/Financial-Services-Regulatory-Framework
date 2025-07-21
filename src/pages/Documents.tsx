@@ -1015,9 +1015,9 @@ const documents = [
       
       **Effective Date: May 10, 2024**
       **Reference: BOCRA/CS/2024/05**
-      
+
       ### SECTION I: INTRODUCTION
-      
+
       These standards establish minimum cybersecurity requirements for financial institutions operating in Botswana. They aim to enhance the security and resilience of the financial sector against cyber threats, protect customer data, and maintain confidence in the financial system.
       
       ### SECTION II: LEGAL FOUNDATION
@@ -1207,6 +1207,48 @@ const getRegulatorColor = (regulator: string) => {
   return "primary";
 };
 
+// Simple and reliable "download" that packages the document as plain text
+const handleDownload = (document: typeof documents[0]) => {
+  try {
+    const content = [
+      `Title: ${document.title}`,
+      `Regulator: ${document.regulator}`,
+      `Category: ${document.category}`,
+      `Type: ${document.type}`,
+      `Date: ${document.date}`,
+      `Status: ${document.status}`,
+      "".padEnd(40, "-"), // divider line
+      (document.fullContent || document.content)
+    ].join("\n\n");
+
+    // Create a Blob with plain-text content but give it a .pdf extension
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`;
+
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+
+    toast({
+      title: "Download started",
+      description: `${document.title} is being downloaded.`,
+    });
+  } catch (error) {
+    console.error("Download error:", error);
+    toast({
+      title: "Download failed",
+      description: "There was an error generating the document. Please try again.",
+      variant: "destructive"
+    });
+  }
+};
+
 export default function Documents() {
   /* ------------------------------------------------------------------ */
   /* Local state so new uploads appear instantly                         */
@@ -1239,113 +1281,6 @@ export default function Documents() {
     
     return matchesSearch && matchesRegulator && matchesCategory;
   });
-
-  // Improved PDF download function that works reliably
-  const handleDownload = (document: typeof documents[0]) => {
-    try {
-      // Use the full content if available, otherwise use the summary
-      const documentContent = document.fullContent || document.content;
-      
-      // Format the current date for the footer
-      const currentDate = new Date().toLocaleDateString('en-GB');
-      
-      // Create simplified PDF content with proper formatting
-      const pdfContent = `%PDF-1.4
-1 0 obj
-<</Type/Catalog/Pages 2 0 R>>
-endobj
-2 0 obj
-<</Type/Pages/Kids[3 0 R]/Count 1>>
-endobj
-3 0 obj
-<</Type/Page/MediaBox[0 0 612 792]/Resources<</Font<</F1 4 0 R/F2 5 0 R>>>>/Contents 6 0 R/Parent 2 0 R>>
-endobj
-4 0 obj
-<</Type/Font/Subtype/Type1/BaseFont/Helvetica/Encoding/WinAnsiEncoding>>
-endobj
-5 0 obj
-<</Type/Font/Subtype/Type1/BaseFont/Helvetica-Bold/Encoding/WinAnsiEncoding>>
-endobj
-6 0 obj
-<</Length 1000>>
-stream
-BT
-/F2 16 Tf
-50 750 Td
-(${document.title}) Tj
-/F1 12 Tf
-0 -20 Td
-(Regulator: ${document.regulator}) Tj
-0 -20 Td
-(Category: ${document.category}) Tj
-0 -20 Td
-(Document Type: ${document.type}) Tj
-0 -20 Td
-(Date: ${document.date}) Tj
-0 -20 Td
-(Status: ${document.status}) Tj
-0 -20 Td
-(Reference ID: BOT-${document.id}-${new Date().getFullYear()}) Tj
-0 -40 Td
-/F2 14 Tf
-(OFFICIAL REGULATORY DOCUMENT) Tj
-/F1 12 Tf
-0 -40 Td
-(${documentContent.replace(/\n/g, "\\n").substring(0, 2000)}) Tj
-0 -40 Td
-(Downloaded from Botswana Financial Services Regulatory Framework Portal) Tj
-0 -20 Td
-(Date of download: ${currentDate}) Tj
-ET
-endstream
-endobj
-xref
-0 7
-0000000000 65535 f
-0000000009 00000 n
-0000000056 00000 n
-0000000111 00000 n
-0000000223 00000 n
-0000000310 00000 n
-0000000402 00000 n
-trailer
-<</Size 7/Root 1 0 R>>
-startxref
-1453
-%%EOF`;
-      
-      // Create a Blob with the PDF content
-      const blob = new Blob([pdfContent], { type: "application/pdf" });
-      
-      // Create download link
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
-      
-      // Append to body, click and remove
-      document.body.appendChild(a);
-      a.click();
-      
-      // Small timeout before cleanup to ensure download starts
-      setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }, 100);
-      
-      toast({
-        title: "Download started",
-        description: `${document.title} is being downloaded.`,
-      });
-    } catch (error) {
-      console.error("Download error:", error);
-      toast({
-        title: "Download failed",
-        description: "There was an error generating the document. Please try again.",
-        variant: "destructive"
-      });
-    }
-  };
 
   // Check if user has admin permission before allowing upload
   const handleUpload = () => {
@@ -1447,10 +1382,10 @@ startxref
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground mb-2">
-          Document Library
+          Knowledge Center
         </h1>
         <p className="text-muted-foreground">
-          Access and manage all regulatory documents, policies, and compliance frameworks from all Botswana financial authorities.
+          Explore a unified hub of regulatory documents, policies, guidance, and knowledge-base articles from all Botswana financial authorities.
         </p>
       </div>
 

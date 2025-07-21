@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Search as SearchIcon, Filter, BookOpen, Calendar, Tag, Sparkles, ArrowLeft, X, ClipboardList, FileText } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import AdvancedSearchFilters, { FilterState } from "@/components/search/AdvancedSearchFilters";
 import ChecklistGenerator from "@/components/search/ChecklistGenerator";
@@ -126,6 +126,7 @@ const recentSearches = [
 
 export default function Search() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
@@ -237,6 +238,12 @@ export default function Search() {
   const handleSearch = () => {
     filterResults();
     
+    // Update URL parameters to reflect the current search
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('q', searchQuery);
+    if (selectedRegulator !== 'all') params.set('category', selectedRegulator);
+    setSearchParams(params);
+    
     // Update related topics based on search query
     if (searchQuery.toLowerCase().includes("capital") || 
         searchQuery.toLowerCase().includes("bank")) {
@@ -248,7 +255,18 @@ export default function Search() {
   const handleRegulatorSelect = (regId: string) => {
     setSelectedRegulator(regId);
     // Apply filtering immediately when regulator is selected
-    setTimeout(() => filterResults(), 0);
+    setTimeout(() => {
+      filterResults();
+      
+      // Update URL parameters
+      const params = new URLSearchParams(searchParams);
+      if (regId !== 'all') {
+        params.set('category', regId);
+      } else {
+        params.delete('category');
+      }
+      setSearchParams(params);
+    }, 0);
   };
 
   // Handle after checklist creation
@@ -306,10 +324,31 @@ export default function Search() {
     return count;
   };
 
+  // Read URL parameters when component mounts
+  useEffect(() => {
+    const queryParam = searchParams.get('q');
+    const categoryParam = searchParams.get('category');
+    
+    // Set search query from URL parameter
+    if (queryParam) {
+      setSearchQuery(queryParam);
+    }
+    
+    // Set selected regulator from URL parameter
+    if (categoryParam) {
+      setSelectedRegulator(categoryParam);
+    }
+    
+    // Trigger search if parameters are present
+    if (queryParam || categoryParam) {
+      setTimeout(filterResults, 0);
+    }
+  }, [searchParams]);
+
   // Initialize results on first render
-  useState(() => {
+  useEffect(() => {
     filterResults();
-  });
+  }, []);
 
   return (
     <div className="p-6 space-y-6">

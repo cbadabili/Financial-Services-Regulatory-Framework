@@ -33,10 +33,13 @@ export function LoginForm() {
     }
   };
 
+  /* ------------------------------------------------------------------
+   * Updated demo credentials to match new domains / roles
+   * ----------------------------------------------------------------*/
   const demoCredentials = [
-    { email: 'john.modise@standardcharteredbw.com', role: 'Compliance Officer' },
-    { email: 'sarah.kgomo@fnbbotswana.co.bw', role: 'Admin' },
-    { email: 'thabo.seretse@absa.co.bw', role: 'User' }
+    { email: 'admin@bob.bw', role: 'Admin' },
+    { email: 'compliance.officer@fintech.co.bw', role: 'Compliance Officer' },
+    { email: 'user@fintech.co.bw', role: 'User' }
   ];
 
   return (

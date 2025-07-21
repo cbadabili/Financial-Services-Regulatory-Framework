@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -470,6 +471,51 @@ export default function ComplianceWizard() {
 
   if (showResults) {
     const route = analyzeComplianceRoute();
+    /* ------------------------------------------------------------
+     * Download checklist (simple demo PDF) helper
+     * ----------------------------------------------------------*/
+    const { toast } = useToast();
+    const handleDownloadChecklist = () => {
+      try {
+        // Flatten all steps/documents into simple text content
+        const lines: string[] = [];
+        lines.push(`CHECKLIST – ${route.routeName}`);
+        lines.push("----------------------------------------------------------");
+        route.steps.forEach((s, i) => {
+          lines.push(`\n${i + 1}. ${s.title}`);
+          lines.push(`   Priority: ${s.priority}`);
+          lines.push(`   Estimated time: ${s.estimatedTime}`);
+          lines.push(`   Documents:`);
+          s.requiredDocuments.forEach(d => lines.push(`      - ${d}`));
+        });
+
+        const blob = new Blob([lines.join("\n")], {
+          type: "text/plain;charset=utf-8"
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${route.routeName.replace(/[^a-zA-Z0-9]/g, "_")}_Checklist.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 100);
+        toast({
+          title: "Checklist download started",
+          description: "Your personalised checklist is being downloaded."
+        });
+      } catch (err) {
+        toast({
+          title: "Download failed",
+          description: "Unable to generate checklist. Please try again.",
+          variant: "destructive"
+        });
+        /* eslint-disable-next-line no-console */
+        console.error("Checklist download error", err);
+      }
+    };
     
     return (
       <div className="container mx-auto px-6 py-8">
@@ -517,7 +563,10 @@ export default function ComplianceWizard() {
                   <div className="text-sm text-muted-foreground">Estimated Cost</div>
                 </div>
                 <div className="text-center">
-                  <Button className="bg-bob-blue hover:bg-bob-blue/90">
+                  <Button 
+                    className="bg-bob-blue hover:bg-bob-blue/90"
+                    onClick={handleDownloadChecklist}
+                  >
                     <Download className="h-4 w-4 mr-2" />
                     Download Checklist
                   </Button>

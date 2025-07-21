@@ -17,6 +17,19 @@ import {
   BarChart3,
   Route
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface PublicLayoutProps {
   children: ReactNode;
@@ -26,13 +39,12 @@ export function PublicLayout({ children }: PublicLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const navigationItems = [
-    { name: "Home", url: "/", icon: <Home className="h-5 w-5" /> },
     { name: "Search", url: "/search", icon: <Search className="h-5 w-5" /> },
-    { name: "Documents", url: "/documents", icon: <FileText className="h-5 w-5" /> },
+    { name: "Knowledge Center", url: "/documents", icon: <BookOpen className="h-5 w-5" /> },
     { name: "Compliance Roadmap", url: "/compliance-roadmap", icon: <Route className="h-5 w-5" /> },
-    { name: "Knowledge Base", url: "/knowledge", icon: <BookOpen className="h-5 w-5" /> },
     { name: "Business", url: "/business", icon: <BarChart3 className="h-5 w-5" /> },
     { name: "Developer", url: "/developer", icon: <Code className="h-5 w-5" /> },
     { name: "Contacts", url: "/contacts", icon: <Users className="h-5 w-5" /> },
@@ -78,10 +90,49 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button onClick={() => navigate('/login')} className="hidden sm:flex">
-              <LogIn className="mr-2 h-4 w-4" />
-              Sign In
-            </Button>
+            {!isAuthenticated ? (
+              <Button
+                onClick={() => navigate("/login")}
+                className="hidden sm:flex"
+              >
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign In
+              </Button>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="cursor-pointer">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage src={user?.avatarUrl ?? ""} />
+                      <AvatarFallback>
+                        {user?.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .substring(0, 2)
+                          .toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    onClick={() => navigate("/profile")}
+                  >
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => {
+                      logout();
+                      navigate("/");
+                    }}
+                  >
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             
             {/* Mobile menu button */}
             <Button

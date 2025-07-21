@@ -11,15 +11,59 @@ import {
   Eye,
   Download,
   AlertTriangle,
-  Zap
+  Zap,
+  Filter,
+  Clock,
+  TrendingDown,
+  Tag
 } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  // Popular search categories
+  const searchCategories = [
+    { name: "Banking", icon: Shield },
+    { name: "AML/CFT", icon: AlertTriangle },
+    { name: "Licensing", icon: FileText },
+    { name: "Capital Requirements", icon: BarChart3 },
+    { name: "Reporting", icon: TrendingUp }
+  ];
+
+  // Popular/recent searches
+  const popularSearches = [
+    "Banking Act Amendment 2025",
+    "AML/CFT Guidelines",
+    "Capital Adequacy Requirements",
+    "Quarterly Risk Assessment",
+    "ESG Reporting Standards"
+  ];
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}${selectedCategory ? `&category=${encodeURIComponent(selectedCategory)}` : ''}`);
+    }
+  };
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category === selectedCategory ? null : category);
+  };
+
+  const handlePopularSearchClick = (term: string) => {
+    setSearchQuery(term);
+    navigate(`/search?q=${encodeURIComponent(term)}`);
+  };
 
   const features = [
     {
@@ -112,7 +156,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold shadow-gold"
-                onClick={() => navigate('/login')}
+                onClick={() => navigate(isAuthenticated ? '/compliance-wizard' : '/login')}
               >
                 <CheckCircle className="mr-2 h-5 w-5" />
                 Compliance Journey
@@ -133,6 +177,78 @@ export default function Home() {
                 <FileText className="mr-2 h-5 w-5" />
                 Browse Documents
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Universal Search Section */}
+      <section className="py-10 bg-background border-b">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-foreground">Search Across All Regulatory Documents</h2>
+              <p className="text-muted-foreground">
+                Find regulations, policies, and guidance from all financial authorities
+              </p>
+            </div>
+            
+            <form onSubmit={handleSearch} className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input 
+                  type="text"
+                  placeholder="Search for regulations, policies, guidelines..."
+                  className="pl-12 py-6 text-lg rounded-lg shadow-sm"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button 
+                  type="submit" 
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                >
+                  Search
+                </Button>
+              </div>
+            </form>
+            
+            <div className="mb-6">
+              <p className="text-sm text-muted-foreground mb-2 flex items-center">
+                <Filter className="h-4 w-4 mr-1" /> Filter by category:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {searchCategories.map((category, index) => (
+                  <Button
+                    key={index}
+                    variant={selectedCategory === category.name ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleCategoryClick(category.name)}
+                    className="flex items-center"
+                  >
+                    <category.icon className="h-4 w-4 mr-2" />
+                    {category.name}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <p className="text-sm text-muted-foreground mb-2 flex items-center">
+                <Clock className="h-4 w-4 mr-1" /> Popular searches:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {popularSearches.map((term, index) => (
+                  <Badge 
+                    key={index} 
+                    variant="secondary"
+                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                    onClick={() => handlePopularSearchClick(term)}
+                  >
+                    <Tag className="h-3 w-3 mr-1" />
+                    {term}
+                  </Badge>
+                ))}
+              </div>
             </div>
           </div>
         </div>

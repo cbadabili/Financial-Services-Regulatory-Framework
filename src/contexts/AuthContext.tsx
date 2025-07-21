@@ -10,6 +10,10 @@ interface User {
   permissions: string[];
   /** account status – must be 'active' to log in */
   status: 'active' | 'pending' | 'suspended';
+  /** URL to user avatar image (if available) */
+  avatarUrl?: string;
+  /** Session identifier for authentication persistence */
+  sessionId?: string;
 }
 
 /**
@@ -50,6 +54,10 @@ interface AuthContextType {
    * Verify email with activation code, returns true on success.
    */
   verifyEmail: (email: string, code: string) => boolean;
+  /**
+   * Refresh authentication state from localStorage
+   */
+  refreshAuth: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -69,60 +77,98 @@ const mockUsers: Array<
 > = [
   {
     id: '1',
-    name: 'John Modise',
-    email: 'john.modise@standardcharteredbw.com',
+    name: 'Lebo Pheko',
+    email: 'compliance.officer@fintech.co.bw',
     password: 'password123',
     role: 'compliance_officer' as const,
-    organization: 'Standard Chartered Bank Botswana',
+    organization: 'FinTech Innovations Ltd.',
     department: 'Risk & Compliance',
     permissions: ['read_documents', 'write_reports', 'manage_compliance', 'view_analytics'],
     status: 'active'
   },
   {
     id: '2',
-    name: 'Sarah Kgomo',
-    email: 'sarah.kgomo@fnbbotswana.co.bw',
+    name: 'Admin Bot',
+    email: 'admin@bob.bw',
     password: 'password123',
     role: 'admin' as const,
-    organization: 'First National Bank Botswana',
+    organization: 'Bank of Botswana',
     department: 'Operations',
     permissions: ['read_documents', 'write_reports', 'manage_compliance', 'view_analytics', 'admin_access', 'manage_users'],
     status: 'active'
   },
   {
     id: '3',
-    name: 'Thabo Seretse',
-    email: 'thabo.seretse@absa.co.bw',
+    name: 'Tumi Ndlovu',
+    email: 'user@fintech.co.bw',
     password: 'password123',
     role: 'user' as const,
-    organization: 'Absa Bank Botswana',
+    organization: 'FinTech Innovations Ltd.',
     department: 'Legal',
-    permissions: ['read_documents', 'view_analytics']
-    ,
+    permissions: ['read_documents', 'view_analytics'],
     status: 'active'
   }
 ];
+
 /* ------------------------------------------------------------------
  * Activation store – email → code (demo only, in-memory)
  * ----------------------------------------------------------------*/
 const activationStore: Record<string, string> = {};
 
+/* ------------------------------------------------------------------
+ * Generate a unique session ID
+ * ----------------------------------------------------------------*/
+const generateSessionId = (): string => {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+};
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Check for stored authentication
+  // Function to load user from localStorage
+  const refreshAuth = () => {
     const storedUser = localStorage.getItem('auth_user');
-    if (storedUser) {
+    const storedSessionId = localStorage.getItem('auth_session');
+    
+    if (storedUser && storedSessionId) {
       try {
         const userData = JSON.parse(storedUser);
-        setUser(userData);
+        // Verify the session ID matches
+        if (userData.sessionId === storedSessionId) {
+          setUser(userData);
+          return;
+        }
       } catch (error) {
-        localStorage.removeItem('auth_user');
+        // Invalid stored data, clear it
+        console.error('Error parsing stored user data', error);
       }
     }
+    
+    // If we reach here, either there's no stored user or the session is invalid
+    setUser(null);
+    localStorage.removeItem('auth_user');
+    localStorage.removeItem('auth_session');
+  };
+
+  // Initialize auth state on mount
+  useEffect(() => {
+    refreshAuth();
     setIsLoading(false);
+    
+    // Listen for storage events (for multi-tab support)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'auth_user' || e.key === 'auth_session') {
+        refreshAuth();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Clean up event listener on unmount
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
@@ -139,9 +185,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsLoading(false);
         return false;
       }
+      
+      // Generate a session ID
+      const sessionId = generateSessionId();
+      
       const { password: _, ...userWithoutPassword } = mockUser;
-      setUser(userWithoutPassword);
-      localStorage.setItem('auth_user', JSON.stringify(userWithoutPassword));
+      const userWithSession = {
+        ...userWithoutPassword,
+        sessionId
+      };
+      
+      // Store user and session data
+      localStorage.setItem('auth_user', JSON.stringify(userWithSession));
+      localStorage.setItem('auth_session', sessionId);
+      
+      setUser(userWithSession);
       setIsLoading(false);
       return true;
     }
@@ -153,6 +211,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     localStorage.removeItem('auth_user');
+    localStorage.removeItem('auth_session');
   };
 
   /**
@@ -190,8 +249,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         'admin_access',
         'manage_users',
       ],
-      compliance_officer: ['read_documents', 'write_reports', 'manage_compliance'],
-      user: ['read_documents'],
+      compliance_officer: ['read_documents', 'write_reports', 'manage_compliance', 'view_analytics'],
+      user: ['read_documents', 'view_analytics'],
     };
 
     const newUser: Omit<User, 'permissions'> & {
@@ -225,7 +284,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   /* -------- MOCK EMAIL DELIVERY --------------------------------------*/
   const sendActivationEmail = (email: string, code: string) => {
     // In real app this would call backend email service
-    console.info(`[MockEmail] Activation code for ${email}: ${code}`);
+    /* -----------------------------------------------------------------
+     * Demo-only delivery mechanism
+     * 1. Log to the browser console (existing behaviour)
+     * 2. Show an alert so testers immediately see the code.
+     * ----------------------------------------------------------------*/
+    const message = `[Demo Email] Activation code for ${email}: ${code}`;
+    console.info(message);
+    // Quick visible feedback for demo sessions
+    try {
+      window.alert(message);
+    } catch {
+      /* alert might be blocked – no further action needed for demo */
+    }
   };
 
   /* -------- VERIFY EMAIL --------------------------------------------*/
@@ -242,7 +313,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return false;
   };
 
+  // Admins have full access everywhere
   const hasPermission = (permission: string): boolean => {
+    if (user?.role === 'admin') return true;
     return user?.permissions.includes(permission) || false;
   };
 
@@ -253,6 +326,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     register,
     sendActivationEmail,
     verifyEmail,
+    refreshAuth,
     isAuthenticated: !!user,
     hasPermission,
     isLoading

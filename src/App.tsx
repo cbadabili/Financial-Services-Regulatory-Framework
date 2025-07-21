@@ -3,14 +3,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
-import Knowledge from "./pages/Knowledge";
 import Developer from "./pages/Developer";
 import Business from "./pages/Business";
 import Contacts from "./pages/Contacts";
@@ -19,6 +18,7 @@ import Documents from "./pages/Documents";
 import Search from "./pages/Search";
 import Compliance from "./pages/Compliance";
 import FinTechRoadmap from "./pages/FinTechRoadmap";
+import RegulatoryAuthorities from "./pages/RegulatoryAuthorities";
 import Analytics from "./pages/Analytics";
 import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
@@ -38,12 +38,18 @@ const App = () => (
         <Routes>
           {/* Public routes with PublicLayout */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-          <Route path="/knowledge" element={<PublicLayout><Knowledge /></PublicLayout>} />
+          {/* Redirect /knowledge to /documents for backward compatibility */}
+          <Route path="/knowledge" element={<Navigate to="/documents" replace />} />
           <Route path="/business" element={<PublicLayout><Business /></PublicLayout>} />
           <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
           <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
           {/* Rebranded roadmap route */}
           <Route path="/compliance-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
+          {/* Route alias for easier access to the roadmap */}
+          <Route path="/fintech-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
+          {/* Regulatory authorities directory */}
+          <Route path="/regulatory-authorities" element={<PublicLayout><RegulatoryAuthorities /></PublicLayout>} />
+          
           <Route path="/login" element={<Login />} />
           {/* Registration route */}
           <Route path="/register" element={<Register />} />
