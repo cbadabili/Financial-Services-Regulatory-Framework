@@ -1,73 +1,153 @@
-# Welcome to your Lovable project
+# Financial Services Regulatory Framework (FSRF) Portal
 
-## Project info
+A one-stop, self-service platform that guides financial-services innovators through Botswana’s complex regulatory landscape.  
+The portal offers interactive tooling, document templates, and automated check-lists to help FinTechs, banks, insurers, and other regulated entities achieve and maintain compliance with the Bank of Botswana (BoB), NBFIRA, FIA, BURS, CIPA and allied authorities.
 
-**URL**: https://lovable.dev/projects/556b4a74-a936-4380-a67a-6d80fceb38b9
+---
 
-## How can I edit this code?
+## ✨ Key Features
 
-There are several ways of editing your application.
+| Category | Capability |
+|----------|------------|
+| Compliance Roadmap | AI-driven wizard generates a 7-phase, milestone-based licensing journey with timelines, costs, priority tags, and document requirements. |
+| Downloadable Checklists | One-click export of customised PDF/CSV check-lists for every regulatory phase. |
+| Document Templates | Pre-approved template library for policies, AML / CFT programmes, risk frameworks, prospectuses, etc. |
+| Real-time Analytics | Dashboard of compliance progress, task completion, and filing deadlines. |
+| Role-Based Access | Admin, Compliance Officer, and General User roles with granular permission control. |
+| Session Persistence | Secure local-storage session ID with multi-tab synchronisation. |
+| Notifications | Toasts & email alerts for activation codes, checklist downloads, and deadline reminders. |
+| Responsive UI | Mobile-first user experience built with Tailwind & shadcn-ui components. |
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/556b4a74-a936-4380-a67a-6d80fceb38b9) and start prompting.
+## 🛠 Technology Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+* **Frontend**: Vite + React 18 (TypeScript)
+* **UI Library**: shadcn-ui, Tailwind CSS 3
+* **State / Auth**: React Context, LocalStorage
+* **Icons**: Lucide
+* **Tooling**: ESLint, Prettier, Husky (pre-commit)
+* **Deployment**: Netlify (static) / Lovable dev environment
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 👥 Demo Credentials
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+| Role | Email | Password |
+|------|-------|----------|
+| Administrator | `admin@bob.bw` | `password123` |
+| Compliance Officer | `compliance.officer@fintech.co.bw` | `password123` |
+| General User | `user@fintech.co.bw` | `password123` |
 
-Follow these steps:
+_Note: These accounts are mock users for exploration purposes only._
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## ⚙️ Installation & Setup
 
-# Step 3: Install the necessary dependencies.
-npm i
+```bash
+# 1. Clone
+git clone https://github.com/<your-org>/financial-services-regulatory-framework.git
+cd financial-services-regulatory-framework
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# 2. Install dependencies
+npm install          # or: pnpm install / yarn
+
+# 3. Environment
+# For local mocks no .env is required, but you can copy .env.example if present.
+cp .env.example .env.local   # edit as needed
+
+# 4. Run dev server
+npm run dev          # Vite auto-reload enabled
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at http://localhost:5173 (default Vite port).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 🚀 Usage Guide
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. **Register / Login** using the demo credentials or create a new account (activation code delivered via on-screen alert for demo).
+2. **Launch the Compliance Journey Wizard** from the dashboard.
+3. Fill in **Company Information** & **Services** → generate personalised roadmap.
+4. **Download Checklist** or export a full report.
+5. Explore the **Knowledge Centre** for template downloads and regulatory guidance.
+6. Review **Analytics** for progress and upcoming obligations.
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 📂 Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+ ├─ assets/              # Static images & icons
+ ├─ components/
+ │   ├─ ui/              # shadcn-ui wrapped components
+ │   ├─ layout/          # Public & protected layouts
+ │   └─ auth/            # Forms & guards
+ ├─ contexts/            # React Context providers (Auth, Theme, etc.)
+ ├─ pages/               # Route-level components
+ ├─ lib/                 # Utility functions
+ ├─ routes.tsx           # React-Router configuration
+ └─ main.tsx             # Vite entry point
+```
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/556b4a74-a936-4380-a67a-6d80fceb38b9) and click on Share -> Publish.
+## 🧑‍💻 Development Workflow
 
-## Can I connect a custom domain to my Lovable project?
+* **Commit style**: Conventional Commits (`feat:`, `fix:`, `docs:`)  
+* **Linting**: `npm run lint` (ESLint + TS)  
+* **Formatting**: `npm run format` (Prettier)  
+* **Tests**: _(planned)_ unit tests with Vitest + React Testing Library  
+* **Git Hooks**: Husky blocks commits that fail lint / format
 
-Yes, you can!
+Run the full quality suite:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```bash
+npm run lint && npm run format
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+---
+
+## 🌐 Deployment
+
+### 1. Lovable (recommended)
+
+1. Open the project page → **Share → Publish**.  
+2. Select **Netlify** or Lovable hosting and follow the prompts.
+
+### 2. Netlify manual
+
+```bash
+npm run build          # Generates /dist
+netlify deploy --prod -d dist
+```
+
+### 3. Custom Domain
+
+In Lovable: **Project → Settings → Domains → Connect Domain**  
+Follow the wizard to add DNS records and issue HTTPS certificates.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository and create a feature branch:
+   ```
+   git checkout -b feat/my-awesome-feature
+   ```
+2. Commit your changes following Conventional Commits.
+3. Ensure `npm run lint` passes.
+4. Push and open a Pull Request describing the change and linking to any relevant issue.
+
+All contributions—code, documentation, and feedback—are welcome!
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.  
+See the [LICENSE](LICENSE) file for full text.
+
+---
