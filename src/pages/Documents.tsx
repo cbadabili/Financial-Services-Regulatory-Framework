@@ -180,8 +180,55 @@ export default function Documents() {
   });
 
   const handleDownload = (document: typeof documents[0]) => {
-    // Create a blob with document content (simulating PDF data)
-    const blob = new Blob([document.content], { type: 'application/pdf' });
+    /* ------------------------------------------------------------------
+     * Build a tiny, valid single-page PDF so that the file opens
+     * in any PDF viewer.  We embed the document title + content
+     * as plain text on the page.  This avoids adding heavy libs.
+     * ----------------------------------------------------------------*/
+    const pdfText = `${document.title}\n\n${document.content}`;
+
+    // Basic one-page PDF (Helvetica 12pt).  Enough for viewers to parse.
+    const pdf = `%PDF-1.3
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 4 0 R >> >> /MediaBox [0 0 595 842] /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length ${pdfText.length + 73} >>
+stream
+ BT
+ /F1 12 Tf
+ 50 780 Td
+ (${pdfText
+      // escape literal parentheses per PDF text object requirements
+      .replace(/\(/g, '\\(')
+      .replace(/\)/g, '\\)')}) Tj
+ ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f
+0000000010 00000 n
+0000000060 00000 n
+0000000112 00000 n
+0000000223 00000 n
+0000000302 00000 n
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+${pdf.length - 42}
+%%EOF`;
+
+    const blob = new Blob([pdf], { type: "application/pdf" });
     
     // Create download link
     const link = window.URL.createObjectURL(blob);

@@ -9,6 +9,7 @@ import {
   Info, 
   Users, 
   Code, 
+  Shield,
   Menu, 
   X, 
   LogIn,
@@ -30,7 +31,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
     { name: "Home", url: "/", icon: <Home className="h-5 w-5" /> },
     { name: "Search", url: "/search", icon: <Search className="h-5 w-5" /> },
     { name: "Documents", url: "/documents", icon: <FileText className="h-5 w-5" /> },
-    { name: "FinTech Roadmap", url: "/fintech-roadmap", icon: <Route className="h-5 w-5" /> },
+    { name: "Compliance Roadmap", url: "/compliance-roadmap", icon: <Route className="h-5 w-5" /> },
     { name: "Knowledge Base", url: "/knowledge", icon: <BookOpen className="h-5 w-5" /> },
     { name: "Business", url: "/business", icon: <BarChart3 className="h-5 w-5" /> },
     { name: "Developer", url: "/developer", icon: <Code className="h-5 w-5" /> },
@@ -49,7 +50,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center gap-2">
               <div className="rounded-md bg-primary p-1">
-                <FileText className="h-6 w-6 text-primary-foreground" />
+                <Shield className="h-6 w-6 text-yellow-500" />
               </div>
               <span className="hidden font-bold sm:inline-block">
                 Financial Services Regulatory Framework

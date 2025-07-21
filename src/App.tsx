@@ -40,7 +40,8 @@ const App = () => (
           <Route path="/business" element={<PublicLayout><Business /></PublicLayout>} />
           <Route path="/developer" element={<PublicLayout><Developer /></PublicLayout>} />
           <Route path="/contacts" element={<PublicLayout><Contacts /></PublicLayout>} />
-          <Route path="/fintech-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
+          {/* Rebranded roadmap route */}
+          <Route path="/compliance-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
           <Route path="/login" element={<Login />} />
           
           {/* Admin/Portal routes with private Layout */}

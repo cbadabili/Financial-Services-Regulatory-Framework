@@ -239,11 +239,11 @@ export default function FinTechRoadmap() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-8">
             <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4">
-              Strategic FinTech Roadmap
+              Strategic Compliance Roadmap
             </h1>
             <p className="text-xl text-primary-foreground/90 max-w-4xl mx-auto">
-              Your complete 7-phase guide to FinTech success in Botswana. 
-              Navigate from initial concept to potential public listing with regulatory clarity.
+              Your complete 7-phase guide to compliance success in Botswana’s financial sector. 
+              Navigate from initial concept to potential public listing with full regulatory clarity.
             </p>
           </div>
           
@@ -407,7 +407,7 @@ export default function FinTechRoadmap() {
         <section className="mt-16">
           <Card className="bg-gradient-dark text-white">
             <CardContent className="p-8 text-center">
-              <h2 className="text-3xl font-bold mb-4">Ready to Start Your FinTech Journey?</h2>
+              <h2 className="text-3xl font-bold mb-4">Ready to Start Your Compliance Journey?</h2>
               <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
                 Get personalized guidance through our intelligent Compliance Journey wizard. 
                 Map your specific path through all seven phases based on your business model.
