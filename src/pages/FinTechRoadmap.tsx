@@ -251,7 +251,7 @@ export default function FinTechRoadmap() {
             <Button 
               size="lg" 
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-              onClick={() => navigate('/compliance-wizard')}
+              onClick={() => navigate('/login')}
             >
               <Target className="h-5 w-5 mr-2" />
               Start Your Compliance Journey
@@ -416,7 +416,7 @@ export default function FinTechRoadmap() {
                 <Button 
                   size="lg"
                   className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold"
-                  onClick={() => navigate('/compliance-wizard')}
+                  onClick={() => navigate('/login')}
                 >
                   <Rocket className="h-5 w-5 mr-2" />
                   Start Compliance Journey
@@ -424,7 +424,7 @@ export default function FinTechRoadmap() {
                 <Button 
                   size="lg"
                   variant="hero"
-                  onClick={() => navigate('/knowledge')}
+                  onClick={() => navigate('/login')}
                 >
                   <FileText className="h-5 w-5 mr-2" />
                   Browse Knowledge Base

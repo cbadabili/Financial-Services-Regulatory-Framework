@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { Search as SearchIcon, Filter, BookOpen, Calendar, Tag, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -55,6 +56,7 @@ const recentSearches = [
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
+  const { hasPermission } = useAuth();
 
   const handleSearch = () => {
     // Search functionality would be implemented here
@@ -197,6 +199,8 @@ export default function Search() {
                           <BookOpen className="h-4 w-4 mr-2" />
                           Open
                         </Button>
+                        {hasPermission('read_documents') && (
+                        )}
                       </div>
                     </div>
                   </CardContent>

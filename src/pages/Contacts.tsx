@@ -158,6 +158,9 @@ export default function Contacts() {
                 <MessageSquare className="mr-2 h-5 w-5" />
                 Send Message
               </Button>
+              onClick={() => {
+                alert('Message sent successfully! We will get back to you within 24 hours.');
+              }}
             </form>
           </CardContent>
         </Card>
@@ -177,7 +180,9 @@ export default function Contacts() {
                 </div>
                 <h3 className="text-lg font-semibold mb-3">{channel.title}</h3>
                 <p className="text-muted-foreground text-sm mb-4">{channel.description}</p>
-                <Button variant="outline" size="sm" className="w-full">
+                <Button variant="outline" size="sm" className="w-full" onClick={() => {
+                  window.location.href = `mailto:${channel.contact}`;
+                }}>
                   <Mail className="mr-2 h-4 w-4" />
                   {channel.contact}
                 </Button>

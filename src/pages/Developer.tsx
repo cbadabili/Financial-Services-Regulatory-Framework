@@ -151,7 +151,7 @@ export default function Developer() {
             <div className="flex justify-center mt-8">
               <Button 
                 className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark font-semibold"
-                onClick={() => alert('Redirecting to GitHub repository...')}
+                onClick={() => window.open('https://github.com', '_blank')}
               >
                 <Github className="mr-2 h-5 w-5" />
                 Start Building

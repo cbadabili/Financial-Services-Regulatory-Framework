@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   BarChart3, 
   BookOpen, 
@@ -94,6 +95,7 @@ const regulatoryBodies = [
 ];
 
 export function Sidebar() {
+  const { hasPermission } = useAuth();
   return (
     <aside className="w-64 bg-card border-r border-border flex flex-col shadow-soft">
       {/* Main Navigation */}
@@ -106,6 +108,9 @@ export function Sidebar() {
             {mainNavItems.map((item) => (
               <NavLink
                 key={item.title}
+                to={item.url === "/compliance" && !hasPermission('manage_compliance') ? "#" : 
+                    item.url === "/analytics" && !hasPermission('view_analytics') ? "#" : 
+                    item.url}
                 to={item.url}
                 end={item.url === "/"}
                 className={({ isActive }) =>
