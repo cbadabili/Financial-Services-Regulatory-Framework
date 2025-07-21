@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Search as SearchIcon, Filter, BookOpen, Calendar, Tag, Sparkles } from "lucide-react";
+import { Search as SearchIcon, Filter, BookOpen, Calendar, Tag, Sparkles, ArrowLeft, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useNavigate } from "react-router-dom";
 
 const searchResults = [
   {
@@ -54,6 +55,7 @@ const recentSearches = [
 ];
 
 export default function Search() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   const { hasPermission } = useAuth();
@@ -66,13 +68,33 @@ export default function Search() {
   return (
     <div className="p-6 space-y-6">
       {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">
-          Regulatory Search
-        </h1>
-        <p className="text-muted-foreground">
-          Advanced semantic search across all regulatory documents and compliance frameworks.
-        </p>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center space-x-4">
+          <Button 
+            variant="outline" 
+            onClick={() => navigate('/dashboard')}
+            className="flex items-center"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">
+              Regulatory Search
+            </h1>
+            <p className="text-muted-foreground">
+              Advanced semantic search across all regulatory documents and compliance frameworks.
+            </p>
+          </div>
+        </div>
+        <Button 
+          variant="ghost" 
+          size="icon"
+          onClick={() => navigate('/dashboard')}
+          className="text-muted-foreground hover:text-foreground"
+        >
+          <X className="h-5 w-5" />
+        </Button>
       </div>
 
       {/* Search Interface */}
