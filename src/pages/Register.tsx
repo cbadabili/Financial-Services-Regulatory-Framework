@@ -137,11 +137,12 @@ export default function Register() {
       // Show success toast
       toast({
         title: "Registration successful",
-        description: "Your account has been created. Please log in.",
+        description:
+          "We’ve sent a 6-digit verification code to your email. Please verify your account to continue.",
       });
       
-      // Redirect to login
-      navigate("/login");
+      // Redirect to email-verification screen with the email in location state
+      navigate("/verify-email", { state: { email: formData.email } });
     } catch (error) {
       // Show error toast
       toast({

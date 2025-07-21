@@ -9,6 +9,7 @@ import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import VerifyEmail from "./pages/VerifyEmail";
 import Knowledge from "./pages/Knowledge";
 import Developer from "./pages/Developer";
 import Business from "./pages/Business";
@@ -46,6 +47,8 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           {/* Registration route */}
           <Route path="/register" element={<Register />} />
+          {/* Email verification route */}
+          <Route path="/verify-email" element={<VerifyEmail />} />
           
           {/* Admin/Portal routes with private Layout */}
           <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
