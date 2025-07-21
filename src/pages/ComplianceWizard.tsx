@@ -685,17 +685,38 @@ export default function ComplianceWizard() {
           </Button>
         </div>
 
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <Zap className="h-16 w-16 text-bob-blue" />
+        {/* ----------------------------------------------------------
+         * Hero Section – Bank of Botswana theme
+         * --------------------------------------------------------*/}
+        <section className="relative overflow-hidden rounded-lg mb-10">
+          {/* Navy-blue background */}
+          <div className="bg-[#0b2144]  py-14 px-6 sm:px-12 text-center text-white relative">
+            {/* subtle repeating gold emblem pattern (5 % opacity) */}
+            <div
+              className="absolute inset-0 opacity-5 pointer-events-none"
+              style={{
+                backgroundImage:
+                  'url("data:image/svg+xml,%3Csvg width=\'160\' height=\'160\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'80\' cy=\'80\' r=\'70\' stroke=\'%23d4af37\' stroke-width=\'3\' fill=\'none\'/%3E%3C/svg%3E")',
+                backgroundRepeat: "repeat",
+                backgroundSize: "180px 180px",
+              }}
+            />
+            {/* dark overlay for better contrast */}
+            <div className="absolute inset-0 bg-black/30"></div>
+
+            {/* Content */}
+            <div className="relative z-10 flex flex-col items-center">
+              <Zap className="h-16 w-16 text-[#d4af37] mb-4" />
+              <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+                Compliance Journey
+              </h1>
+              <p className="max-w-2xl text-white/90 text-lg">
+                Get personalised compliance guidance tailored to your business needs&nbsp;and
+                regulatory requirements
+              </p>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            Compliance Journey
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Get personalized compliance guidance tailored to your business needs and regulatory requirements
-          </p>
-        </div>
+        </section>
 
         {/* Progress Bar */}
         <div className="mb-8">

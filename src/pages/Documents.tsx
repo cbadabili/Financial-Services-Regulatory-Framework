@@ -1209,58 +1209,90 @@ const getRegulatorColor = (regulator: string) => {
 
 // Enhanced download function with better reliability and error handling
 const handleDownload = (document: typeof documents[0]) => {
-  try {
-    // Create a well-formatted document with proper headers and content
-    const formattedContent = [
-      `# ${document.title}`,
-      `## ${document.regulator}`,
-      `Date: ${document.date}`,
-      `Category: ${document.category}`,
-      `Type: ${document.type}`,
-      `Status: ${document.status}`,
-      `Tags: ${document.tags.join(', ')}`,
-      '\n' + '-'.repeat(80) + '\n',
-      document.fullContent || document.content
-    ].join('\n\n');
+  // timeout helper so user isn't left waiting forever
+  const withTimeout = <T,>(promise: Promise<T>, ms = 7000) =>
+    Promise.race([
+      promise,
+      new Promise<T>((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), ms)
+      ),
+    ]);
 
-    // Create a Blob with the formatted content
-    // Using text/plain for maximum compatibility
-    const blob = new Blob([formattedContent], { type: "text/plain;charset=utf-8" });
-    
-    // Create a URL for the blob
+  const run = async () => {
+    // Decide file extension & mime type
+    const inferredExt =
+      document.title.toLowerCase().endsWith(".pdf")
+        ? "pdf"
+        : document.title.toLowerCase().endsWith(".md")
+        ? "md"
+        : "txt";
+    const mimeMap: Record<string, string> = {
+      pdf: "application/pdf",
+      md: "text/markdown;charset=utf-8",
+      txt: "text/plain;charset=utf-8",
+    };
+
+    // Compose content – for PDF we still export txt fallback
+    const fileContent =
+      inferredExt === "pdf"
+        ? [
+            "This is a placeholder text export generated from the portal.",
+            "",
+            document.fullContent || document.content,
+          ].join("\n\n")
+        : [
+            `# ${document.title}`,
+            `## ${document.regulator}`,
+            `Date: ${document.date}`,
+            `Category: ${document.category}`,
+            `Type: ${document.type}`,
+            `Status: ${document.status}`,
+            `Tags: ${document.tags.join(", ")}`,
+            "\n" + "-".repeat(80) + "\n",
+            document.fullContent || document.content,
+          ].join("\n\n");
+
+    let blob: Blob;
+    try {
+      blob = new Blob([fileContent], { type: mimeMap[inferredExt] });
+    } catch (err) {
+      console.error("Blob creation failed:", err);
+      throw new Error("Unable to create document blob");
+    }
+
     const url = URL.createObjectURL(blob);
-    
-    // Create an anchor element and set its properties
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, "_")}.txt`;
-    
-    // Append to the document, click, and remove
+    a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, "_")}.${inferredExt}`;
+
     document.body.appendChild(a);
-    a.click();
-    
-    // Clean up
-    setTimeout(() => {
+    try {
+      a.click();
+    } catch (err) {
+      console.error("Link click failed:", err);
+      throw new Error("Browser prevented automatic download");
+    } finally {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-    }, 100);
+    }
+  };
 
-    // Show success message
-    toast({
-      title: "Download successful",
-      description: `${document.title} has been downloaded.`,
+  withTimeout(run())
+    .then(() =>
+      toast({
+        title: "Download started",
+        description: `${document.title} is downloading...`,
+      })
+    )
+    .catch((err: unknown) => {
+      console.error("Download error:", err);
+      toast({
+        title: "Download failed",
+        description:
+          err instanceof Error ? err.message : "Unexpected error occurred",
+        variant: "destructive",
+      });
     });
-  } catch (error) {
-    // Log the error for debugging
-    console.error("Download error:", error);
-    
-    // Show user-friendly error message
-    toast({
-      title: "Download failed",
-      description: "There was an error generating the document. Please try again.",
-      variant: "destructive"
-    });
-  }
 };
 
 export default function Documents() {
