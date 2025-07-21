@@ -120,7 +120,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 variant="hero"
-                onClick={() => navigate('/register')}
+                onClick={() => navigate('/documents')}
               >
                 <Search className="mr-2 h-5 w-5" />
                 Start Exploring

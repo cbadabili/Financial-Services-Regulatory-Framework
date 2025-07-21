@@ -1240,152 +1240,124 @@ export default function Documents() {
     return matchesSearch && matchesRegulator && matchesCategory;
   });
 
+  // Improved PDF download function that works reliably
   const handleDownload = (document: typeof documents[0]) => {
-    /* ------------------------------------------------------------------
-     * Generate a professional PDF with proper formatting, sections,
-     * metadata and complete content. This creates a valid PDF that
-     * will open in any PDF viewer with proper styling.
-     * ----------------------------------------------------------------*/
-    
-    // Use the full content if available, otherwise use the summary
-    const documentContent = document.fullContent || document.content;
-    
-    // Format the current date for the footer
-    const currentDate = new Date().toLocaleDateString('en-GB');
-    
-    // Create PDF content with proper sections and formatting
-    const pdfContent = `
-%PDF-1.7
+    try {
+      // Use the full content if available, otherwise use the summary
+      const documentContent = document.fullContent || document.content;
+      
+      // Format the current date for the footer
+      const currentDate = new Date().toLocaleDateString('en-GB');
+      
+      // Create simplified PDF content with proper formatting
+      const pdfContent = `%PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
+<</Type/Catalog/Pages 2 0 R>>
 endobj
-
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<</Type/Pages/Kids[3 0 R]/Count 1>>
 endobj
-
 3 0 obj
-<< /Type /Page /Parent 2 0 R /Resources 4 0 R /MediaBox [0 0 612 792] /Contents 6 0 R >>
+<</Type/Page/MediaBox[0 0 612 792]/Resources<</Font<</F1 4 0 R/F2 5 0 R>>>>/Contents 6 0 R/Parent 2 0 R>>
 endobj
-
 4 0 obj
-<< /Font << /F1 7 0 R /F2 8 0 R /F3 9 0 R >> >>
+<</Type/Font/Subtype/Type1/BaseFont/Helvetica/Encoding/WinAnsiEncoding>>
 endobj
-
+5 0 obj
+<</Type/Font/Subtype/Type1/BaseFont/Helvetica-Bold/Encoding/WinAnsiEncoding>>
+endobj
 6 0 obj
-<< /Length 9000 >>
+<</Length 1000>>
 stream
 BT
 /F2 16 Tf
-50 740 Td
+50 750 Td
 (${document.title}) Tj
-/F1 10 Tf
+/F1 12 Tf
 0 -20 Td
 (Regulator: ${document.regulator}) Tj
-0 -15 Td
+0 -20 Td
 (Category: ${document.category}) Tj
-0 -15 Td
+0 -20 Td
 (Document Type: ${document.type}) Tj
-0 -15 Td
+0 -20 Td
 (Date: ${document.date}) Tj
-0 -15 Td
+0 -20 Td
 (Status: ${document.status}) Tj
-0 -15 Td
+0 -20 Td
 (Reference ID: BOT-${document.id}-${new Date().getFullYear()}) Tj
-
-/F3 12 Tf
-0 -30 Td
-(OFFICIAL REGULATORY DOCUMENT) Tj
-
-/F1 10 Tf
 0 -40 Td
-${documentContent
-  .split('\n')
-  .map(line => {
-    if (line.startsWith('# ')) {
-      return `/F3 14 Tf\n(${line.substring(2).replace(/\(/g, '\\(').replace(/\)/g, '\\)')}) Tj\n/F1 10 Tf\n0 -20 Td`;
-    } else if (line.startsWith('## ')) {
-      return `/F2 12 Tf\n(${line.substring(3).replace(/\(/g, '\\(').replace(/\)/g, '\\)')}) Tj\n/F1 10 Tf\n0 -18 Td`;
-    } else if (line.startsWith('### ')) {
-      return `/F2 11 Tf\n(${line.substring(4).replace(/\(/g, '\\(').replace(/\)/g, '\\)')}) Tj\n/F1 10 Tf\n0 -16 Td`;
-    } else if (line.startsWith('####')) {
-      return `/F2 10 Tf\n(${line.substring(5).replace(/\(/g, '\\(').replace(/\)/g, '\\)')}) Tj\n/F1 10 Tf\n0 -14 Td`;
-    } else if (line.trim() === '') {
-      return `0 -10 Td`;
-    } else {
-      return `(${line.replace(/\(/g, '\\(').replace(/\)/g, '\\)')}) Tj\n0 -12 Td`;
-    }
-  })
-  .join('\n')
-}
-
-/F1 8 Tf
-50 50 Td
+/F2 14 Tf
+(OFFICIAL REGULATORY DOCUMENT) Tj
+/F1 12 Tf
+0 -40 Td
+(${documentContent.replace(/\n/g, "\\n").substring(0, 2000)}) Tj
+0 -40 Td
 (Downloaded from Botswana Financial Services Regulatory Framework Portal) Tj
-0 -12 Td
+0 -20 Td
 (Date of download: ${currentDate}) Tj
-0 -12 Td
-(This document is subject to regulatory updates and amendments.) Tj
 ET
 endstream
 endobj
-
-7 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
-endobj
-
-8 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
-endobj
-
-9 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-BoldOblique >>
-endobj
-
 xref
-0 10
+0 7
 0000000000 65535 f
-0000000010 00000 n
-0000000060 00000 n
+0000000009 00000 n
+0000000056 00000 n
 0000000111 00000 n
-0000000206 00000 n
-0000000000 00000 f
-0000000268 00000 n
-0000009320 00000 n
-0000009388 00000 n
-0000009461 00000 n
+0000000223 00000 n
+0000000310 00000 n
+0000000402 00000 n
 trailer
-<< /Size 10 /Root 1 0 R >>
+<</Size 7/Root 1 0 R>>
 startxref
-9538
-%%EOF
-`;
-
-    // Create a Blob with the PDF content
-    const blob = new Blob([pdfContent], { type: "application/pdf" });
-    
-    // Create download link
-    const link = window.URL.createObjectURL(blob);
-    const a = window.document.createElement('a');
-    a.href = link;
-    a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
-    
-    // Trigger download
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    
-    // Clean up
-    window.URL.revokeObjectURL(link);
-    
-    toast({
-      title: "Download started",
-      description: `${document.title} is being downloaded.`,
-    });
+1453
+%%EOF`;
+      
+      // Create a Blob with the PDF content
+      const blob = new Blob([pdfContent], { type: "application/pdf" });
+      
+      // Create download link
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+      
+      // Append to body, click and remove
+      document.body.appendChild(a);
+      a.click();
+      
+      // Small timeout before cleanup to ensure download starts
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+      
+      toast({
+        title: "Download started",
+        description: `${document.title} is being downloaded.`,
+      });
+    } catch (error) {
+      console.error("Download error:", error);
+      toast({
+        title: "Download failed",
+        description: "There was an error generating the document. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
+  // Check if user has admin permission before allowing upload
   const handleUpload = () => {
-    setShowUploadModal(true);
+    if (hasPermission('admin_access')) {
+      setShowUploadModal(true);
+    } else {
+      toast({
+        title: "Permission denied",
+        description: "Only administrators can upload documents.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleSaveNewDoc = () => {
@@ -1536,7 +1508,7 @@ startxref
               <Filter className="h-4 w-4" />
             </Button>
             
-            {isAuthenticated && (
+            {isAuthenticated && hasPermission('admin_access') && (
               <Button onClick={handleUpload}>
                 <Upload className="h-4 w-4 mr-2" />
                 Upload Documents

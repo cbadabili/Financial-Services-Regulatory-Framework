@@ -111,7 +111,6 @@ export function Sidebar() {
                 to={item.url === "/compliance" && !hasPermission('manage_compliance') ? "#" : 
                     item.url === "/analytics" && !hasPermission('view_analytics') ? "#" : 
                     item.url}
-                to={item.url}
                 end={item.url === "/"}
                 className={({ isActive }) =>
                   cn(
