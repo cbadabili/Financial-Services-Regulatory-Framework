@@ -199,8 +199,6 @@ export default function Search() {
                           <BookOpen className="h-4 w-4 mr-2" />
                           Open
                         </Button>
-                        {hasPermission('read_documents') && (
-                        )}
                       </div>
                     </div>
                   </CardContent>
