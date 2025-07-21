@@ -104,7 +104,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   <div className="cursor-pointer">
                     <Avatar className="h-9 w-9">
                       <AvatarImage src={user?.avatarUrl ?? ""} />
-                      <AvatarFallback>
+                      {/*  Green → Gold gradient background & white initials */}
+                      <AvatarFallback className="bg-gradient-to-br from-emerald-700 via-emerald-600 to-yellow-400 text-white font-semibold">
                         {user?.name
                           .split(" ")
                           .map((n) => n[0])
