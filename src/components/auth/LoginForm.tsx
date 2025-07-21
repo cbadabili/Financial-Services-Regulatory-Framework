@@ -106,6 +106,18 @@ export function LoginForm() {
               >
                 {isLoading ? 'Signing In...' : 'Sign In'}
               </Button>
+
+              {/* Register link */}
+              <p className="text-center text-sm text-muted-foreground">
+                Don&apos;t have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => navigate('/register')}
+                  className="text-primary underline underline-offset-4 hover:text-primary/80"
+                >
+                  Create an account
+                </button>
+              </p>
             </form>
           </CardContent>
         </Card>

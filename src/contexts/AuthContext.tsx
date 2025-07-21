@@ -10,6 +10,23 @@ interface User {
   permissions: string[];
 }
 
+/**
+ * Payload structure for user registration (mirrors the register UI form).
+ * Moving this interface to the top-level ensures it is in scope everywhere
+ * including the AuthContextType definition.
+ */
+export interface RegistrationData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: User['role'];
+  organizationName?: string;
+  organizationType?: string;
+  jobTitle?: string;
+  department?: string;
+}
+
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
@@ -17,6 +34,11 @@ interface AuthContextType {
   isAuthenticated: boolean;
   hasPermission: (permission: string) => boolean;
   isLoading: boolean;
+  /**
+   * Register a new user.  Returns `true` on success, `false` if
+   * the email is already taken or validation fails.
+   */
+  register: (data: RegistrationData) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,7 +52,10 @@ export const useAuth = () => {
 };
 
 // Mock user data for demonstration
-const mockUsers = [
+// NOTE:  we keep this mutable so that registration can push
+const mockUsers: Array<
+  Omit<User, 'permissions'> & { password: string; permissions: string[] }
+> = [
   {
     id: '1',
     name: 'John Modise',
@@ -106,6 +131,68 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('auth_user');
   };
 
+  /**
+   * Register a new user.
+   * - Ensures email is unique.
+   * - Adds sensible default permissions based on role.
+   * - Persists to mockUsers so the user can log in immediately afterwards.
+   */
+  /* ----------------------------------------------------------
+   * Registration payload structure – matches the UI form
+   * --------------------------------------------------------*/
+
+  const register = async (data: RegistrationData): Promise<boolean> => {
+    setIsLoading(true);
+
+    // Quick client-side validation
+    if (!data.email || !data.password) {
+      setIsLoading(false);
+      return false;
+    }
+
+    // Email uniqueness check
+    if (mockUsers.some((u) => u.email.toLowerCase() === data.email.toLowerCase())) {
+      setIsLoading(false);
+      return false;
+    }
+
+    // Determine default permissions by role
+    const rolePermissions: Record<User['role'], string[]> = {
+      admin: [
+        'read_documents',
+        'write_reports',
+        'manage_compliance',
+        'view_analytics',
+        'admin_access',
+        'manage_users',
+      ],
+      compliance_officer: ['read_documents', 'write_reports', 'manage_compliance'],
+      user: ['read_documents'],
+    };
+
+    const newUser: Omit<User, 'permissions'> & {
+      password: string;
+      permissions: string[];
+    } = {
+      id: Date.now().toString(),
+      name: `${data.firstName ?? ''} ${data.lastName ?? ''}`.trim() || data.email,
+      email: data.email,
+      password: data.password,
+      role: data.role,
+      // Map correct field names from RegistrationData
+      organization: data.organizationName ?? '',
+      department: data.department ?? '',
+      permissions: rolePermissions[data.role] ?? ['read_documents'],
+    };
+
+    // Simulate API latency
+    await new Promise((r) => setTimeout(r, 800));
+
+    mockUsers.push(newUser);
+    setIsLoading(false);
+    return true;
+  };
+
   const hasPermission = (permission: string): boolean => {
     return user?.permissions.includes(permission) || false;
   };
@@ -114,6 +201,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     login,
     logout,
+    register,
     isAuthenticated: !!user,
     hasPermission,
     isLoading

@@ -8,6 +8,7 @@ import { Layout } from "@/components/layout/Layout";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Knowledge from "./pages/Knowledge";
 import Developer from "./pages/Developer";
 import Business from "./pages/Business";
@@ -43,6 +44,8 @@ const App = () => (
           {/* Rebranded roadmap route */}
           <Route path="/compliance-roadmap" element={<PublicLayout><FinTechRoadmap /></PublicLayout>} />
           <Route path="/login" element={<Login />} />
+          {/* Registration route */}
+          <Route path="/register" element={<Register />} />
           
           {/* Admin/Portal routes with private Layout */}
           <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
