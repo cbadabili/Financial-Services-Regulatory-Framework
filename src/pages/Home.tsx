@@ -10,6 +10,7 @@ import {
   BarChart3,
   Eye,
   Download,
+  MessageSquare,
   AlertTriangle,
   Banknote,
   Zap,
@@ -264,6 +265,39 @@ export default function Home() {
                 </Button>
               </div>
             </form>
+
+            {/* ================================
+                 Ask Our Regulatory Assistant
+                 (prominent promo card)
+               ================================ */}
+            <Card className="mb-8 shadow-md border-dashed border-2 border-primary/30 hover:shadow-lg transition-all">
+              <CardContent className="p-6 flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 text-center sm:text-left">
+                <div className="flex-shrink-0 mb-4 sm:mb-0">
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <MessageSquare className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">
+                    Ask Our Regulatory Assistant
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Unsure where to start? Get instant answers from our AI-powered chatbot trained on Botswana’s financial regulations.
+                  </p>
+                  <Button
+                    onClick={() => {
+                      // Attempt to programmatically open the floating chatbot if present
+                      const chatToggle: HTMLElement | null = document.querySelector(
+                        'button[data-reg-chat-toggle]'
+                      ) as HTMLElement | null;
+                      chatToggle?.click();
+                    }}
+                  >
+                    Start a Chat
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
             
             <div className="mb-6">
               <p className="text-sm text-muted-foreground mb-2 flex items-center">
@@ -526,6 +560,9 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
           <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
             Join over 1,200 financial institutions already using the Botswana Financial Regulatory Portal
+          </p>
+          <p className="text-sm text-white/80 mb-6">
+            Need quick help? Use the <MessageSquare className="inline h-4 w-4" /> chat bubble in the bottom-right to ask our Regulatory&nbsp;Assistant.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 

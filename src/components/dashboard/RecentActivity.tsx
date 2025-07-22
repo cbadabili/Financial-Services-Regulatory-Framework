@@ -1,64 +1,24 @@
-import { Clock, FileText, AlertTriangle, CheckCircle, Upload } from "lucide-react";
+import {
+  Clock,
+  FileText,
+  AlertTriangle,
+  CheckCircle,
+  UploadCloud,
+  LogIn,
+  LogOut,
+  Eye,
+  Plus,
+  Edit,
+  Trash2,
+  Download,
+  RefreshCw,
+  X,
+  Settings
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-const activities = [
-  {
-    id: 1,
-    type: "regulation_update",
-    title: "Banking Act Amendment 2025",
-    description: "BoB updated capital requirements for commercial banks",
-    time: "2 hours ago",
-    icon: AlertTriangle,
-    iconColor: "text-warning",
-    source: "Bank of Botswana",
-    priority: "high"
-  },
-  {
-    id: 2,
-    type: "compliance_due",
-    title: "Quarterly Risk Assessment Due",
-    description: "Submit Q4 2024 risk assessment to NBFIRA",
-    time: "1 day ago",
-    icon: Clock,
-    iconColor: "text-destructive",
-    source: "NBFIRA",
-    priority: "urgent"
-  },
-  {
-    id: 3,
-    type: "document_upload",
-    title: "AML Policy Updated",
-    description: "New anti-money laundering guidelines uploaded",
-    time: "3 days ago",
-    icon: Upload,
-    iconColor: "text-success",
-    source: "Financial Intelligence Agency",
-    priority: "medium"
-  },
-  {
-    id: 4,
-    type: "compliance_complete",
-    title: "Stress Testing Completed",
-    description: "Annual stress testing requirements fulfilled",
-    time: "1 week ago",
-    icon: CheckCircle,
-    iconColor: "text-success",
-    source: "Bank of Botswana",
-    priority: "low"
-  },
-  {
-    id: 5,
-    type: "regulation_new",
-    title: "ESG Reporting Framework",
-    description: "New environmental and social governance guidelines",
-    time: "1 week ago",
-    icon: FileText,
-    iconColor: "text-primary",
-    source: "Botswana Stock Exchange",
-    priority: "medium"
-  }
-];
+import { useAudit, AuditLogEntry, AuditActionType, SeverityLevel } from "@/components/audit/AuditLogger";
+import { formatDistanceToNowStrict } from "date-fns";
 
 const getPriorityColor = (priority: string) => {
   switch (priority) {
@@ -71,39 +31,86 @@ const getPriorityColor = (priority: string) => {
 };
 
 export function RecentActivity() {
+  const { logs } = useAudit();
+  const recentLogs = logs.slice(0, 5);
+
+  const getActionIcon = (action: AuditActionType) => {
+    switch (action) {
+      case "login":
+        return LogIn;
+      case "logout":
+        return LogOut;
+      case "view":
+        return Eye;
+      case "create":
+        return Plus;
+      case "update":
+        return Edit;
+      case "delete":
+        return Trash2;
+      case "download":
+        return Download;
+      case "upload":
+        return UploadCloud;
+      case "generate":
+        return RefreshCw;
+      case "access_denied":
+        return X;
+      case "system":
+        return Settings;
+      default:
+        return FileText;
+    }
+  };
+
+  const getSeverityColor = (sev: SeverityLevel) => {
+    switch (sev) {
+      case "warning":
+        return "text-warning";
+      case "error":
+      case "critical":
+        return "text-destructive";
+      default:
+        return "text-primary";
+    }
+  };
+
   return (
     <Card className="bg-gradient-card shadow-soft">
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Recent Activity</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {activities.map((activity) => (
+        {recentLogs.map((log: AuditLogEntry) => {
+          const Icon = getActionIcon(log.action);
+          return (
           <div 
-            key={activity.id}
+            key={log.id}
             className="flex items-start space-x-4 p-4 rounded-lg bg-background/50 hover:bg-background/80 transition-smooth cursor-pointer"
           >
-            <div className={`mt-1 ${activity.iconColor}`}>
-              <activity.icon className="h-5 w-5" />
+            <div className={`mt-1 ${getSeverityColor(log.severity)}`}>
+              <Icon className="h-5 w-5" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-1">
                 <h4 className="text-sm font-medium text-foreground truncate">
-                  {activity.title}
+                  {log.resourceName || log.description}
                 </h4>
-                <Badge variant={getPriorityColor(activity.priority)} className="ml-2 text-xs">
-                  {activity.priority}
+                <Badge variant={log.success ? "secondary" : "destructive"} className="ml-2 text-xs">
+                  {log.success ? "success" : "failed"}
                 </Badge>
               </div>
               <p className="text-xs text-muted-foreground mb-2">
-                {activity.description}
+                {log.description}
               </p>
               <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>{activity.source}</span>
-                <span>{activity.time}</span>
+                <span>{log.userName}</span>
+                <span>{formatDistanceToNowStrict(log.timestamp, { addSuffix: true })}</span>
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </CardContent>
     </Card>
   );

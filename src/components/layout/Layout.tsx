@@ -1,5 +1,6 @@
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
+import FAQChatbot from "../chatbot/FAQChatbot"; // Floating FAQ assistant
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,8 @@ export function Layout({ children }: LayoutProps) {
           {children}
         </main>
       </div>
+      {/* Floating FAQ Chatbot available on all pages */}
+      <FAQChatbot />
     </div>
   );
 }

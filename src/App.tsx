@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuditProvider } from "@/components/audit/AuditLogger";
 import { Layout } from "@/components/layout/Layout";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import Home from "./pages/Home";
@@ -33,9 +34,11 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      {/* Auth must come first – AuditProvider consumes AuthContext */}
       <AuthProvider>
-      <BrowserRouter>
-        <Routes>
+        <AuditProvider>
+        <BrowserRouter>
+          <Routes>
           {/* Public routes with PublicLayout */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
           {/* Redirect /knowledge to /documents for backward compatibility */}
@@ -50,11 +53,11 @@ const App = () => (
           {/* Regulatory authorities directory */}
           <Route path="/regulatory-authorities" element={<PublicLayout><RegulatoryAuthorities /></PublicLayout>} />
           
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
           {/* Registration route */}
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
           {/* Email verification route */}
-          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/verify-email" element={<PublicLayout><VerifyEmail /></PublicLayout>} />
           
           {/* Admin/Portal routes with private Layout */}
           <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
@@ -83,8 +86,9 @@ const App = () => (
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+        </AuditProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>

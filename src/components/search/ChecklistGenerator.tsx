@@ -91,6 +91,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 // TypeScript interfaces
+// PDF / CSV export utility
+import {
+  generateChecklistPDF,
+  exportChecklistCSV
+} from "@/utils/pdfExport";
 interface ChecklistItem {
   id: string;
   title: string;
@@ -918,18 +923,31 @@ export default function ChecklistGenerator({
   
   // Handle export
   const handleExport = () => {
-    // In a real app, this would trigger the actual export process
-    toast({
-      title: "Exporting Checklist",
-      description: `Exporting ${checklistItems.length} items as ${exportFormat.toUpperCase()}`
-    });
-    
-    setTimeout(() => {
-      toast({
-        title: "Export Complete",
-        description: `Your checklist has been exported and is ready to download.`
-      });
-    }, 2000);
+    // Build minimal config for the export helpers
+    const exportConfig = {
+      ...config,
+      // fallback business name because current config schema lacks it
+      businessName: config.title || "My Business",
+      generatedDate: new Date()
+    } as any; // compatible with utility interface
+
+    switch (exportFormat) {
+      case "pdf":
+        generateChecklistPDF(checklistItems, exportConfig).catch(() => {
+          /* error handled inside util */
+        });
+        break;
+      case "xlsx":
+        // Use CSV as a stand-in for spreadsheet export during hackathon
+        exportChecklistCSV(checklistItems, exportConfig);
+        break;
+      default:
+        toast({
+          title: "Export Unavailable",
+          description: "This export format is not yet supported in the demo.",
+          variant: "destructive"
+        });
+    }
   };
   
   // Handle adding a new custom item

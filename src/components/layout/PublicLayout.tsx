@@ -29,6 +29,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+// Floating chatbot (also used in authenticated layout)
+import FAQChatbot from "../chatbot/FAQChatbot";
 
 interface PublicLayoutProps {
   children: ReactNode;
@@ -210,6 +212,9 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           </div>
         </div>
       </footer>
+
+      {/* Floating Regulatory Assistant / FAQ Chatbot */}
+      <FAQChatbot />
     </div>
   );
 }
