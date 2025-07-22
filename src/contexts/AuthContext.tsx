@@ -1,5 +1,40 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+/* ------------------------------------------------------------------
+ * Safe localStorage wrapper – avoids runtime errors in non-browser
+ * environments (SSR) or when storage is unavailable (private mode).
+ * ----------------------------------------------------------------*/
+const safeStorage = {
+  getItem(key: string): string | null {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return window.localStorage.getItem(key);
+      }
+    } catch {
+      /* ignored */
+    }
+    return null;
+  },
+  setItem(key: string, value: string) {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem(key, value);
+      }
+    } catch {
+      /* ignored */
+    }
+  },
+  removeItem(key: string) {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem(key);
+      }
+    } catch {
+      /* ignored */
+    }
+  },
+};
+
 interface User {
   id: string;
   name: string;
@@ -128,8 +163,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Function to load user from localStorage
   const refreshAuth = () => {
-    const storedUser = localStorage.getItem('auth_user');
-    const storedSessionId = localStorage.getItem('auth_session');
+    const storedUser = safeStorage.getItem('auth_user');
+    const storedSessionId = safeStorage.getItem('auth_session');
     
     if (storedUser && storedSessionId) {
       try {
@@ -147,8 +182,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     // If we reach here, either there's no stored user or the session is invalid
     setUser(null);
-    localStorage.removeItem('auth_user');
-    localStorage.removeItem('auth_session');
+    safeStorage.removeItem('auth_user');
+    safeStorage.removeItem('auth_session');
   };
 
   // Initialize auth state on mount
@@ -163,11 +198,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     };
     
-    window.addEventListener('storage', handleStorageChange);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorageChange);
+    }
     
     // Clean up event listener on unmount
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('storage', handleStorageChange);
+      }
     };
   }, []);
 
@@ -196,8 +235,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       
       // Store user and session data
-      localStorage.setItem('auth_user', JSON.stringify(userWithSession));
-      localStorage.setItem('auth_session', sessionId);
+      safeStorage.setItem('auth_user', JSON.stringify(userWithSession));
+      safeStorage.setItem('auth_session', sessionId);
       
       setUser(userWithSession);
       setIsLoading(false);
@@ -210,8 +249,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('auth_user');
-    localStorage.removeItem('auth_session');
+    safeStorage.removeItem('auth_user');
+    safeStorage.removeItem('auth_session');
   };
 
   /**

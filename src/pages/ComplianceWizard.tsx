@@ -62,6 +62,11 @@ interface ComplianceRoute {
 
 export default function ComplianceWizard() {
   const navigate = useNavigate();
+  // ------------------------------------------------------------------
+  // Hooks
+  // ------------------------------------------------------------------
+  // toast helper must be declared at component top-level (React hook rules)
+  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showResults, setShowResults] = useState(false);
@@ -474,7 +479,6 @@ export default function ComplianceWizard() {
     /* ------------------------------------------------------------
      * Download checklist (simple demo PDF) helper
      * ----------------------------------------------------------*/
-    const { toast } = useToast();
     const handleDownloadChecklist = () => {
       try {
         // Flatten all steps/documents into simple text content
@@ -492,10 +496,18 @@ export default function ComplianceWizard() {
         const blob = new Blob([lines.join("\n")], {
           type: "text/plain;charset=utf-8"
         });
+        /**
+         * We are generating a plain-text checklist. Saving it
+         * with a “.pdf” extension produced an invalid file that
+         * browsers could not open.  Until we introduce a real
+         * PDF generator (e.g. jsPDF / pdf-make) we should export
+         * the file with a “.txt” extension so the content type
+         * and extension match.
+         */
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `${route.routeName.replace(/[^a-zA-Z0-9]/g, "_")}_Checklist.pdf`;
+        a.download = `${route.routeName.replace(/[^a-zA-Z0-9]/g, "_")}_Checklist.txt`;
         document.body.appendChild(a);
         a.click();
         setTimeout(() => {
@@ -651,6 +663,14 @@ export default function ComplianceWizard() {
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Start Over
+            </Button>
+            {/* Navigate back to main dashboard */}
+            <Button
+              onClick={() => navigate("/dashboard")}
+              className="bg-bob-blue hover:bg-bob-blue/90 text-white"
+            >
+              <ArrowRight className="h-4 w-4 mr-2" />
+              Back to Dashboard
             </Button>
             <Button className="bg-bob-gold hover:bg-bob-gold/90 text-bob-dark">
               <Download className="h-4 w-4 mr-2" />
