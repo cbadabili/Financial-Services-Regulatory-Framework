@@ -504,7 +504,7 @@ export default function FAQChatbot() {
                 </div>
               )}
             </CardContent>
-                <CardFooter className="p-2 flex-shrink-0">
+          )}
 
           {/* Chat content - only show if not minimized */}
           {!isMinimized && (
@@ -517,7 +517,7 @@ export default function FAQChatbot() {
                 </TabsList>
                 
                 {/* Chat tab */}
-                <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 p-0 border-0">
+                <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 p-0 border-0 h-full">
                   <ScrollArea className="flex-1 p-3">
                     <div className="space-y-4">
                       {messages.map((message) => (
@@ -532,7 +532,7 @@ export default function FAQChatbot() {
                               </Avatar>
                             )}
                             {message.sender === 'user' && (
-                className="m-0 p-0 border-0 flex flex-col h-full data-[state=active]:m-0 overflow-hidden"
+                              <Avatar className="h-6 w-6 mt-0.5 flex-shrink-0">
                                 <AvatarFallback className="bg-secondary text-secondary-foreground">
                                   <User size={10} />
                                 </AvatarFallback>
@@ -601,7 +601,7 @@ export default function FAQChatbot() {
                   </ScrollArea>
 
                   {/* Quick action buttons */}
-                  <div className="px-4 py-2 border-t border-b">
+                  <div className="px-4 py-2 border-t border-b flex-shrink-0">
                     <p className="text-xs text-muted-foreground mb-1">Quick Actions:</p>
                     <div className="flex flex-wrap gap-2">
                       {quickActions.map((action) => (
@@ -647,7 +647,7 @@ export default function FAQChatbot() {
                 {/* FAQs tab - with clean spacing approach */}
                 <TabsContent
                   value="faqs"
-                  className="m-0 p-0 border-0 flex flex-col h-full data-[state=active]:m-0"
+                  className="m-0 p-0 border-0 flex flex-col h-full data-[state=active]:m-0 overflow-hidden"
                 >
                   {/* Search and filter section */}
                   <div className="p-1 flex-shrink-0">
@@ -742,7 +742,7 @@ export default function FAQChatbot() {
                                     className="text-sm font-medium break-words leading-tight"
                                     style={{ 
                                       wordBreak: "break-word",
-              <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 p-0 border-0 h-full">
+                                      overflowWrap: "break-word",
                                       hyphens: "auto"
                                     }}
                                   >
@@ -793,7 +793,7 @@ export default function FAQChatbot() {
                             <Clock className="h-3 w-3 mr-1" />
                             Hours
                           </Button>
-                <div className="px-4 py-2 border-t border-b flex-shrink-0">
+                        </PopoverTrigger>
                         <PopoverContent className="w-60 p-3">
                           <h4 className="text-sm font-medium mb-1">Support Hours</h4>
                           <div className="text-sm space-y-0.5">
