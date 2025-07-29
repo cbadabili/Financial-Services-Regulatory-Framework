@@ -433,12 +433,16 @@ export default function FAQChatbot() {
 
   // Format message content with links
   const formatMessageContent = (content: string) => {
-    // Ensure content is always a string to prevent indexOf errors
-    const safeContent = String(content || '');
+    // Explicit typeof check and assignment to prevent SWC plugin issues
+    let processedContent: string;
+    if (typeof content === 'string') {
+      processedContent = content;
+    } else {
+      processedContent = '';
+    }
     
     // Replace markdown-style links with actual links using callback function
-    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    const formattedContent = safeContent.replace(linkRegex, (match, linkText, linkUrl) => {
+    const formattedContent = processedContent.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, linkUrl) => {
       return `<a href="${linkUrl}" class="text-primary underline hover:text-primary/80" target="_blank">${linkText}</a>`;
     });
     
