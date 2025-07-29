@@ -468,7 +468,7 @@ export default function FAQChatbot() {
           className={`fixed bottom-20 right-4 sm:right-6 shadow-xl z-50 transition-all duration-300 ease-in-out
             ${isMinimized
               ? 'w-64 sm:w-72 h-auto' // Auto height for minimized view
-              : 'w-[350px] sm:w-[400px] h-[36rem] sm:h-[40rem] max-w-[95vw] max-h-[85vh]'}
+              : 'w-[350px] sm:w-[400px] h-[44rem] sm:h-[48rem] max-w-[95vw] max-h-[90vh]'}
           `}
         >
           {/* Chat header */}
