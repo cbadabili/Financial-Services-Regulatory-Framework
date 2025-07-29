@@ -223,7 +223,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     if (mockUser) {
       if (mockUser.status !== 'active') {
-        // refuse login if not activated
+        // refuse login if not activated - provide better feedback
+        console.log(`Login failed: Account status is '${mockUser.status}' for ${email}. Please verify your email first.`);
         setIsLoading(false);
         return false;
       }
@@ -244,6 +245,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(userWithSession);
       setIsLoading(false);
       return true;
+    }
+    
+    // Log for debugging - check if user exists but password is wrong
+    const userExists = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (userExists) {
+      console.log(`Login failed: Incorrect password for ${email}`);
+    } else {
+      console.log(`Login failed: No user found with email ${email}`);
+      console.log('Available users:', mockUsers.map(u => ({ email: u.email, status: u.status })));
     }
     
     setIsLoading(false);
