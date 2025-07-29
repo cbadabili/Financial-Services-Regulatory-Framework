@@ -689,21 +689,25 @@ export default function FAQChatbot() {
                   </div>
                   
                   {/* FAQ content area */}
-                  <ScrollArea className="flex-1 p-0">
-                    <div className="p-1 space-y-1">
+                  <ScrollArea className="flex-1 p-0 max-h-[300px]">
+                    <div className="p-2 space-y-2">
                       {/* Search results */}
                       {searchQuery && suggestedFAQs.length > 0 ? (
                         <>
                           {suggestedFAQs.map((faq) => (
                             <Card 
                               key={faq.id} 
-                              className="cursor-pointer hover:bg-muted/50 transition-colors overflow-hidden max-w-full"
+                              className="cursor-pointer hover:bg-muted/50 transition-colors"
                               onClick={() => handleSelectFAQ(faq)}
                             >
-                              <CardContent className="p-1 overflow-hidden">
+                              <CardContent className="p-2">
                                 <h4
-                                  className="text-sm font-medium break-words"
-                                  style={{ wordBreak: "break-word" }}
+                                  className="text-sm font-medium break-words leading-tight"
+                                  style={{ 
+                                    wordBreak: "break-word",
+                                    overflowWrap: "break-word",
+                                    hyphens: "auto"
+                                  }}
                                 >
                                   {faq.question}
                                 </h4>
@@ -730,13 +734,17 @@ export default function FAQChatbot() {
                             displayedFAQs.map((faq) => (
                               <Card 
                                 key={faq.id} 
-                                className="cursor-pointer hover:bg-muted/50 transition-colors overflow-hidden max-w-full"
+                                className="cursor-pointer hover:bg-muted/50 transition-colors"
                                 onClick={() => handleSelectFAQ(faq)}
                               >
-                                <CardContent className="p-1 overflow-hidden">
+                                <CardContent className="p-2">
                                   <h4
-                                    className="text-sm font-medium break-words"
-                                    style={{ wordBreak: "break-word" }}
+                                    className="text-sm font-medium break-words leading-tight"
+                                    style={{ 
+                                      wordBreak: "break-word",
+                                      overflowWrap: "break-word",
+                                      hyphens: "auto"
+                                    }}
                                   >
                                     {faq.question}
                                   </h4>
@@ -754,25 +762,25 @@ export default function FAQChatbot() {
                   </ScrollArea>
                   
                   {/* Contact information – slimmer */}
-                  <div className="p-1 border-t mt-auto">
-                    <p className="text-xs font-medium mb-1">Need more help?</p>
-                    <div className="flex space-x-1">
+                  <div className="p-2 border-t mt-auto flex-shrink-0">
+                    <p className="text-xs font-medium mb-2">Need more help?</p>
+                    <div className="flex space-x-2">
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="text-xs h-6 px-2 flex items-center"
+                        className="text-xs h-7 px-2 flex items-center flex-1"
                         onClick={handleContactSpecialist}
                       >
-                        <Phone className="h-2.5 w-2.5 mr-1" />
+                        <Phone className="h-3 w-3 mr-1" />
                         Call
                       </Button>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="text-xs h-6 px-2 flex items-center"
+                        className="text-xs h-7 px-2 flex items-center flex-1"
                         onClick={handleContactSpecialist}
                       >
-                        <Mail className="h-2.5 w-2.5 mr-1" />
+                        <Mail className="h-3 w-3 mr-1" />
                         Email
                       </Button>
                       <Popover>
@@ -780,13 +788,13 @@ export default function FAQChatbot() {
                           <Button 
                             variant="outline" 
                             size="sm" 
-                            className="text-xs h-6 px-2 flex items-center"
+                            className="text-xs h-7 px-2 flex items-center flex-1"
                           >
-                            <Clock className="h-2.5 w-2.5 mr-1" />
+                            <Clock className="h-3 w-3 mr-1" />
                             Hours
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-60 p-2">
+                        <PopoverContent className="w-60 p-3">
                           <h4 className="text-sm font-medium mb-1">Support Hours</h4>
                           <div className="text-sm space-y-0.5">
                             <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
