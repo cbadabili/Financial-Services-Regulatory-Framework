@@ -30,7 +30,7 @@ export default function VerifyEmail() {
     const originalConsoleInfo = console.info;
     console.info = function(message) {
       originalConsoleInfo.apply(console, arguments);
-      if (typeof message === 'string' && message.includes('[MockEmail] Activation code')) {
+      if (typeof message === 'string' && message.includes('[Demo Email] Activation code')) {
         const code = message.split(': ')[1];
         setActivationCode(code);
       }
