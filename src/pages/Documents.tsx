@@ -1261,18 +1261,18 @@ const handleDownload = (document: typeof documents[0]) => {
     }
 
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = window.document.createElement("a");
     a.href = url;
     a.download = `${document.title.replace(/[^a-zA-Z0-9]/g, "_")}.${inferredExt}`;
 
-    document.body.appendChild(a);
+    window.document.body.appendChild(a);
     try {
       a.click();
     } catch (err) {
       console.error("Link click failed:", err);
       throw new Error("Browser prevented automatic download");
     } finally {
-      document.body.removeChild(a);
+      window.document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
   };
