@@ -468,7 +468,7 @@ export default function FAQChatbot() {
           className={`fixed bottom-20 right-4 sm:right-6 shadow-xl z-50 transition-all duration-300 ease-in-out
             ${isMinimized
               ? 'w-64 sm:w-72 h-auto' // Auto height for minimized view
-              : 'w-[350px] sm:w-[400px] h-[44rem] sm:h-[48rem] max-w-[95vw] max-h-[90vh]'}
+              : 'w-[350px] sm:w-[400px] h-[36rem] sm:h-[40rem] max-w-[95vw] max-h-[85vh]'}
           `}
         >
           {/* Chat header */}
@@ -647,10 +647,10 @@ export default function FAQChatbot() {
                 {/* FAQs tab - with clean spacing approach */}
                 <TabsContent
                   value="faqs"
-                  className="m-0 p-0 border-0 flex flex-col data-[state=active]:m-0"
+                  className="m-0 p-0 border-0 flex flex-col h-full data-[state=active]:m-0"
                 >
                   {/* Search and filter section */}
-                  <div className="p-1">
+                  <div className="p-1 flex-shrink-0">
                     <p className="text-sm font-medium mb-1">
                       {activeCategory === "All" ? "FAQs:" : `${activeCategory} FAQs:`}
                     </p>
@@ -689,7 +689,7 @@ export default function FAQChatbot() {
                   </div>
                   
                   {/* FAQ content area */}
-                  <ScrollArea className="flex-1 p-0 max-h-[300px]">
+                  <ScrollArea className="flex-1 p-0 min-h-0">
                     <div className="p-2 space-y-2">
                       {/* Search results */}
                       {searchQuery && suggestedFAQs.length > 0 ? (
@@ -762,7 +762,7 @@ export default function FAQChatbot() {
                   </ScrollArea>
                   
                   {/* Contact information – slimmer */}
-                  <div className="p-2 border-t mt-auto flex-shrink-0">
+                  <div className="p-2 border-t flex-shrink-0 bg-background">
                     <p className="text-xs font-medium mb-2">Need more help?</p>
                     <div className="flex space-x-2">
                       <Button 
