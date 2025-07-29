@@ -433,9 +433,12 @@ export default function FAQChatbot() {
 
   // Format message content with links
   const formatMessageContent = (content: string) => {
+    // Ensure content is always a string to prevent indexOf errors
+    const safeContent = String(content || '');
+    
     // Replace markdown-style links with actual links
     const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    const formattedContent = content.replace(linkRegex, '<a href="$2" class="text-primary underline hover:text-primary/80" target="_blank">$1</a>');
+    const formattedContent = safeContent.replace(linkRegex, '<a href="$2" class="text-primary underline hover:text-primary/80" target="_blank">$1</a>');
     
     // Split by newlines and create paragraphs
     return formattedContent.split('\n\n').map((paragraph, i) => (
