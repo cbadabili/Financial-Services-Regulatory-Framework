@@ -504,7 +504,7 @@ export default function FAQChatbot() {
                 </div>
               )}
             </CardContent>
-          )}
+                <CardFooter className="p-2 flex-shrink-0">
 
           {/* Chat content - only show if not minimized */}
           {!isMinimized && (
@@ -532,7 +532,7 @@ export default function FAQChatbot() {
                               </Avatar>
                             )}
                             {message.sender === 'user' && (
-                              <Avatar className="h-6 w-6 mt-0.5 flex-shrink-0">
+                className="m-0 p-0 border-0 flex flex-col h-full data-[state=active]:m-0 overflow-hidden"
                                 <AvatarFallback className="bg-secondary text-secondary-foreground">
                                   <User size={10} />
                                 </AvatarFallback>
@@ -742,7 +742,7 @@ export default function FAQChatbot() {
                                     className="text-sm font-medium break-words leading-tight"
                                     style={{ 
                                       wordBreak: "break-word",
-                                      overflowWrap: "break-word",
+              <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 p-0 border-0 h-full">
                                       hyphens: "auto"
                                     }}
                                   >
@@ -793,7 +793,7 @@ export default function FAQChatbot() {
                             <Clock className="h-3 w-3 mr-1" />
                             Hours
                           </Button>
-                        </PopoverTrigger>
+                <div className="px-4 py-2 border-t border-b flex-shrink-0">
                         <PopoverContent className="w-60 p-3">
                           <h4 className="text-sm font-medium mb-1">Support Hours</h4>
                           <div className="text-sm space-y-0.5">
