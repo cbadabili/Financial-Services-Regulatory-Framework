@@ -652,7 +652,6 @@ export default function FAQChatbot() {
                     </div>
                   </div>
                 </TabsContent>
-                </TabsContent>
                 
                 {/* FAQs tab - with clean spacing approach */}
                 <TabsContent
