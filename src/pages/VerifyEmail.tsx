@@ -163,6 +163,15 @@ export default function VerifyEmail() {
                   </Alert>
                 )}
 
+                {/* Always show helpful message about where to find the code */}
+                {!activationCode && (
+                  <Alert className="bg-blue-50 dark:bg-blue-950 border-blue-200">
+                    <AlertDescription>
+                      <span className="font-semibold">Demo Mode:</span> Check the browser alert popup or console for your 6-digit activation code.
+                    </AlertDescription>
+                  </Alert>
+                )}
+
                 <div className="space-y-2">
                   <Input
                     type="text"
