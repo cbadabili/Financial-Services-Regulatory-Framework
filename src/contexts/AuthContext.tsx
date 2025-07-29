@@ -216,7 +216,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const mockUser = mockUsers.find(u => u.email === email && u.password === password);
+    const mockUser = mockUsers.find(u => 
+      u.email.toLowerCase() === email.toLowerCase() && 
+      u.password === password
+    );
     
     if (mockUser) {
       if (mockUser.status !== 'active') {
