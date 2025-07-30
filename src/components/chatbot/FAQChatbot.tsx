@@ -339,7 +339,13 @@ export default function FAQChatbot() {
 
   // Handle FAQ selection
   const handleSelectFAQ = (faq: FAQ) => {
-    // Add user question
+    // Switch to chat tab first
+    const chatTab = document.querySelector('[data-state="inactive"][value="chat"]') as HTMLElement;
+    if (chatTab) {
+      chatTab.click();
+    }
+    
+    // Add user question to chat
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       content: faq.question,
@@ -349,23 +355,23 @@ export default function FAQChatbot() {
 
     setMessages(prev => [...prev, userMessage]);
     
-    // Construct bot response
+    // Construct comprehensive bot response
     let responseContent = faq.answer;
     
     // Add regulatory references if available
     if (faq.regulatoryReference) {
-      responseContent += `\n\nReference: ${faq.regulatoryReference}`;
+      responseContent += `\n\n📋 **Reference:** ${faq.regulatoryReference}`;
     }
     
     // Add links if available
     if (faq.regulatoryLinks && faq.regulatoryLinks.length > 0) {
-      responseContent += "\n\nRelevant Documents:";
+      responseContent += "\n\n📄 **Relevant Documents:**";
       faq.regulatoryLinks.forEach(link => {
-        responseContent += `\n- [${link.title}](${link.url})`;
+        responseContent += `\n• [${link.title}](${link.url})`;
       });
     }
 
-    // Add bot response
+    // Add bot response with slight delay for natural feel
     setTimeout(() => {
       const botResponse: Message = {
         id: `bot-${Date.now()}`,
@@ -375,15 +381,7 @@ export default function FAQChatbot() {
       };
 
       setMessages(prev => [...prev, botResponse]);
-    }, 500);
-
-    // Clear search
-    setSearchQuery("");
-    setSuggestedFAQs([]);
-    // Reset displayed FAQs to match the active category
-    setDisplayedFAQs(
-      faqData.filter(faq => activeCategory === "All" || faq.category === activeCategory)
-    );
+    }, 800);
 
     // Track analytics
     setAnalytics(prev => ({
