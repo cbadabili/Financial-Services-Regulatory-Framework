@@ -343,53 +343,56 @@ export default function FAQChatbot() {
     // Switch to chat tab first
     setActiveTab("chat");
     
-    // Add user question to chat
-    const userMessage: Message = {
-      id: `user-${Date.now()}`,
-      content: faq.question,
-      sender: "user",
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    
-    // Construct comprehensive bot response
-    let responseContent = faq.answer;
-    
-    // Add regulatory references if available
-    if (faq.regulatoryReference) {
-      responseContent += `\n\n📋 **Reference:** ${faq.regulatoryReference}`;
-    }
-    
-    // Add links if available
-    if (faq.regulatoryLinks && faq.regulatoryLinks.length > 0) {
-      responseContent += "\n\n📄 **Relevant Documents:**";
-      faq.regulatoryLinks.forEach(link => {
-        responseContent += `\n• [${link.title}](${link.url})`;
-      });
-    }
-
-    // Add bot response with slight delay for natural feel
+    // Use setTimeout to ensure tab switch happens first
     setTimeout(() => {
-      const botResponse: Message = {
-        id: `bot-${Date.now()}`,
-        content: responseContent,
-        sender: "bot",
+      // Add user question to chat
+      const userMessage: Message = {
+        id: `user-${Date.now()}`,
+        content: faq.question,
+        sender: "user",
         timestamp: new Date()
       };
 
-      setMessages(prev => [...prev, botResponse]);
-    }, 800);
-
-    // Track analytics
-    setAnalytics(prev => ({
-      ...prev,
-      questionsAsked: prev.questionsAsked + 1,
-      popularQuestions: {
-        ...prev.popularQuestions,
-        [faq.question.toLowerCase()]: (prev.popularQuestions[faq.question.toLowerCase()] || 0) + 1
+      setMessages(prev => [...prev, userMessage]);
+      
+      // Construct comprehensive bot response
+      let responseContent = faq.answer;
+      
+      // Add regulatory references if available
+      if (faq.regulatoryReference) {
+        responseContent += `\n\n📋 **Reference:** ${faq.regulatoryReference}`;
       }
-    }));
+      
+      // Add links if available
+      if (faq.regulatoryLinks && faq.regulatoryLinks.length > 0) {
+        responseContent += "\n\n📄 **Relevant Documents:**";
+        faq.regulatoryLinks.forEach(link => {
+          responseContent += `\n• [${link.title}](${link.url})`;
+        });
+      }
+
+      // Add bot response with slight delay for natural feel
+      setTimeout(() => {
+        const botResponse: Message = {
+          id: `bot-${Date.now()}`,
+          content: responseContent,
+          sender: "bot",
+          timestamp: new Date()
+        };
+
+        setMessages(prev => [...prev, botResponse]);
+      }, 800);
+
+      // Track analytics
+      setAnalytics(prev => ({
+        ...prev,
+        questionsAsked: prev.questionsAsked + 1,
+        popularQuestions: {
+          ...prev.popularQuestions,
+          [faq.question.toLowerCase()]: (prev.popularQuestions[faq.question.toLowerCase()] || 0) + 1
+        }
+      }));
+    }, 100); // Small delay to ensure tab switch completes
   };
 
   // Handle message feedback
