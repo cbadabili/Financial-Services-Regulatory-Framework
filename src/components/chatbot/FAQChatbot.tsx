@@ -433,16 +433,11 @@ export default function FAQChatbot() {
 
   // Format message content with links
   const formatMessageContent = (content: string) => {
-    // Explicit typeof check and assignment to prevent SWC plugin issues
-    let processedContent: string;
-    if (typeof content === 'string') {
-      processedContent = content;
-    } else {
-      processedContent = '';
-    }
+    // Ensure content is always a string
+    const safeContent = String(content || '');
     
     // Replace markdown-style links with actual links using callback function
-    const formattedContent = processedContent.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, linkUrl) => {
+    const formattedContent = safeContent.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, linkUrl) => {
       return `<a href="${linkUrl}" class="text-primary underline hover:text-primary/80" target="_blank">${linkText}</a>`;
     });
     
@@ -517,191 +512,226 @@ export default function FAQChatbot() {
 
           {/* Chat content - only show if not minimized */}
           {!isMinimized && (
-            <>
-              {/* Use shadcn Tabs with clean spacing */}
-              <Tabs defaultValue="chat" className="flex flex-col h-full m-0 p-0">
-                <TabsList className="mx-2 m-0 p-0 grid w-[calc(100%-1rem)] grid-cols-2">
-                  <TabsTrigger value="chat" className="text-sm">Chat</TabsTrigger>
-                  <TabsTrigger value="faqs" className="text-sm">FAQs</TabsTrigger>
-                </TabsList>
-                
-                {/* Chat tab */}
-                <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 p-0 border-0 data-[state=active]:flex">
-                  <ScrollArea className="flex-1 p-3">
-                    <div className="space-y-4">
-                      {messages.map((message) => (
-                        <div 
-                          key={message.id} 
-                          className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                        >
-                          <div className={`flex items-start gap-2 max-w-[90%] ${message.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-                            {message.sender === 'bot' && (
-                              <Avatar className="h-6 w-6 mt-0.5 flex-shrink-0">
-                                <AvatarFallback className="bg-primary text-primary-foreground text-xs">RA</AvatarFallback>
-                              </Avatar>
-                            )}
-                            {message.sender === 'user' && (
-                              <Avatar className="h-6 w-6 mt-0.5 flex-shrink-0">
-                                <AvatarFallback className="bg-secondary text-secondary-foreground">
-                                  <User size={10} />
-                                </AvatarFallback>
-                              </Avatar>
-                            )}
-                            <div className="min-w-0 break-words w-full">
-                              <div 
-                                className={`rounded-lg p-2 text-sm ${
-                                  message.sender === 'user' 
-                                    ? 'bg-primary text-primary-foreground' 
-                                    : 'bg-muted'
-                                }`}
-                              >
-                                {formatMessageContent(message.content)}
-                              </div>
-                              
-                              {/* Timestamp and feedback for bot messages */}
-                              {message.sender === 'bot' && (
-                                <div className="flex items-center mt-1 space-x-2">
-                                  <span className="text-xs text-muted-foreground">
-                                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                  </span>
-                                  <div className="flex items-center space-x-1">
-                                    <Button 
-                                      variant="ghost" 
-                                      size="icon" 
-                                      className="h-4 w-4"
-                                      onClick={() => handleFeedback(message.id, 'positive')}
-                                      disabled={message.feedback !== undefined}
-                                    >
-                                      <ThumbsUp 
-                                        size={10} 
-                                        className={message.feedback === 'positive' ? 'text-success' : ''} 
-                                      />
-                                    </Button>
-                                    <Button 
-                                      variant="ghost" 
-                                      size="icon" 
-                                      className="h-4 w-4"
-                                      onClick={() => handleFeedback(message.id, 'negative')}
-                                      disabled={message.feedback !== undefined}
-                                    >
-                                      <ThumbsDown 
-                                        size={10} 
-                                        className={message.feedback === 'negative' ? 'text-destructive' : ''} 
-                                      />
-                                    </Button>
-                                  </div>
-                                </div>
-                              )}
-                              
-                              {/* Timestamp for user messages */}
-                              {message.sender === 'user' && (
-                                <div className="flex justify-end mt-1">
-                                  <span className="text-xs text-muted-foreground">
-                                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                  </span>
-                                </div>
-                              )}
+            <Tabs defaultValue="chat" className="flex flex-col h-full m-0 p-0">
+              <TabsList className="mx-2 m-0 p-0 grid w-[calc(100%-1rem)] grid-cols-2">
+                <TabsTrigger value="chat" className="text-sm">Chat</TabsTrigger>
+                <TabsTrigger value="faqs" className="text-sm">FAQs</TabsTrigger>
+              </TabsList>
+              
+              {/* Chat tab */}
+              <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 p-0 border-0 data-[state=active]:flex">
+                <ScrollArea className="flex-1 p-3">
+                  <div className="space-y-4">
+                    {messages.map((message) => (
+                      <div 
+                        key={message.id} 
+                        className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div className={`flex items-start gap-2 max-w-[90%] ${message.sender === 'user' ? 'flex-row-reverse' : ''}`}>
+                          {message.sender === 'bot' && (
+                            <Avatar className="h-6 w-6 mt-0.5 flex-shrink-0">
+                              <AvatarFallback className="bg-primary text-primary-foreground text-xs">RA</AvatarFallback>
+                            </Avatar>
+                          )}
+                          {message.sender === 'user' && (
+                            <Avatar className="h-6 w-6 mt-0.5 flex-shrink-0">
+                              <AvatarFallback className="bg-secondary text-secondary-foreground">
+                                <User size={10} />
+                              </AvatarFallback>
+                            </Avatar>
+                          )}
+                          <div className="min-w-0 break-words w-full">
+                            <div 
+                              className={`rounded-lg p-2 text-sm ${
+                                message.sender === 'user' 
+                                  ? 'bg-primary text-primary-foreground' 
+                                  : 'bg-muted'
+                              }`}
+                            >
+                              {formatMessageContent(message.content)}
                             </div>
+                            
+                            {/* Timestamp and feedback for bot messages */}
+                            {message.sender === 'bot' && (
+                              <div className="flex items-center mt-1 space-x-2">
+                                <span className="text-xs text-muted-foreground">
+                                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </span>
+                                <div className="flex items-center space-x-1">
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="h-4 w-4"
+                                    onClick={() => handleFeedback(message.id, 'positive')}
+                                    disabled={message.feedback !== undefined}
+                                  >
+                                    <ThumbsUp 
+                                      size={10} 
+                                      className={message.feedback === 'positive' ? 'text-success' : ''} 
+                                    />
+                                  </Button>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="h-4 w-4"
+                                    onClick={() => handleFeedback(message.id, 'negative')}
+                                    disabled={message.feedback !== undefined}
+                                  >
+                                    <ThumbsDown 
+                                      size={10} 
+                                      className={message.feedback === 'negative' ? 'text-destructive' : ''} 
+                                    />
+                                  </Button>
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Timestamp for user messages */}
+                            {message.sender === 'user' && (
+                              <div className="flex justify-end mt-1">
+                                <span className="text-xs text-muted-foreground">
+                                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
-                      ))}
-                      <div ref={messagesEndRef} />
-                    </div>
-                  </ScrollArea>
-
-                  {/* Quick action buttons */}
-                  <div className="px-3 py-2 border-t border-b flex-shrink-0">
-                    <p className="text-xs text-muted-foreground mb-2">Quick Actions:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {quickActions.map((action) => (
-                        <Button 
-                          key={action.id} 
-                          variant="outline" 
-                          size="sm" 
-                          className="text-xs h-6 px-2"
-                          onClick={() => handleQuickAction(action)}
-                        >
-                          {action.label}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Input area */}
-                  <div className="p-2 flex-shrink-0">
-                    <div className="relative w-full">
-                      <Input
-                        ref={inputRef}
-                        placeholder="Ask about regulations..."
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            handleSendMessage();
-                          }
-                        }}
-                        className="pr-10 h-8 text-sm"
-                      />
-                      <Button 
-                        className="absolute right-0 top-0 h-full px-3" 
-                        variant="ghost"
-                        onClick={handleSendMessage}
-                      >
-                        <Send size={14} />
-                      </Button>
-                    </div>
-                  </div>
-                </TabsContent>
-                
-                {/* FAQs tab - with clean spacing approach */}
-                <TabsContent
-                  value="faqs"
-                  className="m-0 p-0 border-0 flex flex-col flex-1 data-[state=active]:flex overflow-hidden"
-                >
-                  {/* Search and filter section */}
-                  <div className="p-2 flex-shrink-0 border-b">
-                    <p className="text-sm font-medium mb-2">
-                      {activeCategory === "All" ? "FAQs:" : `${activeCategory} FAQs:`}
-                    </p>
-                    <div className="relative mb-2">
-                      <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-                      <Input
-                        placeholder="Search FAQs..."
-                        value={searchQuery}
-                        onChange={(e) => {
-                          setSearchQuery(e.target.value);
-                          searchFAQs(e.target.value);
-                        }}
-                        className="pl-7 h-7 text-sm"
-                      />
-                    </div>
-                    <div className="overflow-x-auto">
-                      <div className="flex space-x-1 pb-1">
-                          {faqCategories.map((category) => (
-                            <Badge 
-                              key={category} 
-                              variant={activeCategory === category ? "default" : "outline"}
-                              className="cursor-pointer text-xs px-2 py-1 whitespace-nowrap"
-                              onClick={() => {
-                                setActiveCategory(category);
-                                setSearchQuery("");
-                                setSuggestedFAQs([]);
-                              }}
-                            >
-                              {category}
-                            </Badge>
-                          ))}
                       </div>
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </div>
+                </ScrollArea>
+
+                {/* Quick action buttons */}
+                <div className="px-3 py-2 border-t border-b flex-shrink-0">
+                  <p className="text-xs text-muted-foreground mb-2">Quick Actions:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {quickActions.map((action) => (
+                      <Button 
+                        key={action.id} 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-xs h-6 px-2"
+                        onClick={() => handleQuickAction(action)}
+                      >
+                        {action.label}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Input area */}
+                <div className="p-2 flex-shrink-0">
+                  <div className="relative w-full">
+                    <Input
+                      ref={inputRef}
+                      placeholder="Ask about regulations..."
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleSendMessage();
+                        }
+                      }}
+                      className="pr-10 h-8 text-sm"
+                    />
+                    <Button 
+                      className="absolute right-0 top-0 h-full px-3" 
+                      variant="ghost"
+                      onClick={handleSendMessage}
+                    >
+                      <Send size={14} />
+                    </Button>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              {/* FAQs tab */}
+              <TabsContent
+                value="faqs"
+                className="m-0 p-0 border-0 flex flex-col flex-1 data-[state=active]:flex overflow-hidden"
+              >
+                {/* Search and filter section */}
+                <div className="p-2 flex-shrink-0 border-b">
+                  <p className="text-sm font-medium mb-2">
+                    {activeCategory === "All" ? "FAQs:" : `${activeCategory} FAQs:`}
+                  </p>
+                  <div className="relative mb-2">
+                    <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                    <Input
+                      placeholder="Search FAQs..."
+                      value={searchQuery}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        searchFAQs(e.target.value);
+                      }}
+                      className="pl-7 h-7 text-sm"
+                    />
+                  </div>
+                  <div className="overflow-x-auto">
+                    <div className="flex space-x-1 pb-1">
+                        {faqCategories.map((category) => (
+                          <Badge 
+                            key={category} 
+                            variant={activeCategory === category ? "default" : "outline"}
+                            className="cursor-pointer text-xs px-2 py-1 whitespace-nowrap"
+                            onClick={() => {
+                              setActiveCategory(category);
+                              setSearchQuery("");
+                              setSuggestedFAQs([]);
+                            }}
+                          >
+                            {category}
+                          </Badge>
+                        ))}
                     </div>
                   </div>
-                  
-                  {/* FAQ content area */}
-                  <ScrollArea className="flex-1 min-h-0">
-                    <div className="p-2 space-y-2">
-                      {/* Search results */}
-                      {searchQuery && suggestedFAQs.length > 0 ? (
-                        <>
-                          {suggestedFAQs.map((faq) => (
+                </div>
+                
+                {/* FAQ content area */}
+                <ScrollArea className="flex-1 min-h-0">
+                  <div className="p-2 space-y-2">
+                    {/* Search results */}
+                    {searchQuery && suggestedFAQs.length > 0 ? (
+                      <>
+                        {suggestedFAQs.map((faq) => (
+                          <Card 
+                            key={faq.id} 
+                            className="cursor-pointer hover:bg-muted/50 transition-colors"
+                            onClick={() => handleSelectFAQ(faq)}
+                          >
+                            <CardContent className="p-2">
+                              <h4
+                                className="text-sm font-medium break-words leading-tight"
+                                style={{
+                                  wordBreak: "break-word",
+                                  overflowWrap: "break-word",
+                                  hyphens: "auto"
+                                }}
+                              >
+                                {faq.question}
+                              </h4>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </>
+                    ) : searchQuery && suggestedFAQs.length === 0 ? (
+                      <div className="text-center py-3">
+                        <HelpCircle className="h-6 w-6 mx-auto text-muted-foreground mb-1" />
+                        <p className="text-sm text-muted-foreground">No matching FAQs found</p>
+                        <Button 
+                          variant="link" 
+                          className="mt-1 text-xs h-6 p-0"
+                          onClick={handleContactSpecialist}
+                        >
+                          Contact a Specialist
+                        </Button>
+                      </div>
+                    ) : (
+                      <>
+                        {/* FAQ listings by category - always shown when not searching */}
+                        {displayedFAQs.length > 0 ? (
+                          displayedFAQs.map((faq) => (
                             <Card 
                               key={faq.id} 
                               className="cursor-pointer hover:bg-muted/50 transition-colors"
@@ -710,7 +740,7 @@ export default function FAQChatbot() {
                               <CardContent className="p-2">
                                 <h4
                                   className="text-sm font-medium break-words leading-tight"
-                                  style={{
+                                  style={{ 
                                     wordBreak: "break-word",
                                     overflowWrap: "break-word",
                                     hyphens: "auto"
@@ -720,104 +750,66 @@ export default function FAQChatbot() {
                                 </h4>
                               </CardContent>
                             </Card>
-                          ))}
-                        </>
-                      ) : searchQuery && suggestedFAQs.length === 0 ? (
-                        <div className="text-center py-3">
-                          <HelpCircle className="h-6 w-6 mx-auto text-muted-foreground mb-1" />
-                          <p className="text-sm text-muted-foreground">No matching FAQs found</p>
-                          <Button 
-                            variant="link" 
-                            className="mt-1 text-xs h-6 p-0"
-                            onClick={handleContactSpecialist}
-                          >
-                            Contact a Specialist
-                          </Button>
-                        </div>
-                      ) : (
-                        <>
-                          {/* FAQ listings by category - always shown when not searching */}
-                          {displayedFAQs.length > 0 ? (
-                            displayedFAQs.map((faq) => (
-                              <Card 
-                                key={faq.id} 
-                                className="cursor-pointer hover:bg-muted/50 transition-colors"
-                                onClick={() => handleSelectFAQ(faq)}
-                              >
-                                <CardContent className="p-2">
-                                  <h4
-                                    className="text-sm font-medium break-words leading-tight"
-                                    style={{ 
-                                      wordBreak: "break-word",
-                                      overflowWrap: "break-word",
-                                      hyphens: "auto"
-                                    }}
-                                  >
-                                    {faq.question}
-                                  </h4>
-                                </CardContent>
-                              </Card>
-                            ))
-                          ) : (
-                            <p className="text-sm text-muted-foreground text-center py-3">
-                              No FAQs available for this category.
-                            </p>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </ScrollArea>
-                  
-                  {/* Contact information – slimmer */}
-                  <div className="p-2 border-t flex-shrink-0 bg-muted/30">
-                    <p className="text-xs font-medium mb-2">Need more help?</p>
-                    <div className="flex space-x-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="text-xs h-7 px-2 flex items-center justify-center flex-1"
-                        onClick={handleContactSpecialist}
-                      >
-                        <Phone className="h-3 w-3 mr-1" />
-                        Call
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="text-xs h-7 px-2 flex items-center justify-center flex-1"
-                        onClick={handleContactSpecialist}
-                      >
-                        <Mail className="h-3 w-3 mr-1" />
-                        Email
-                      </Button>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="text-xs h-7 px-2 flex items-center justify-center flex-1"
-                          >
-                            <Clock className="h-3 w-3 mr-1" />
-                            Hours
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-60 p-3">
-                          <h4 className="text-sm font-medium mb-1">Support Hours</h4>
-                          <div className="text-sm space-y-0.5">
-                            <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
-                            <p>Saturday: 9:00 AM - 1:00 PM</p>
-                            <p>Sunday: Closed</p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              Urgent inquiries: Call +267 555-1234
-                            </p>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
-                    </div>
+                          ))
+                        ) : (
+                          <p className="text-sm text-muted-foreground text-center py-3">
+                            No FAQs available for this category.
+                          </p>
+                        )}
+                      </>
+                    )}
                   </div>
-                </TabsContent>
-              </Tabs>
-            </>
+                </ScrollArea>
+                
+                {/* Contact information */}
+                <div className="p-2 border-t flex-shrink-0 bg-muted/30">
+                  <p className="text-xs font-medium mb-2">Need more help?</p>
+                  <div className="flex space-x-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-7 px-2 flex items-center justify-center flex-1"
+                      onClick={handleContactSpecialist}
+                    >
+                      <Phone className="h-3 w-3 mr-1" />
+                      Call
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-7 px-2 flex items-center justify-center flex-1"
+                      onClick={handleContactSpecialist}
+                    >
+                      <Mail className="h-3 w-3 mr-1" />
+                      Email
+                    </Button>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-xs h-7 px-2 flex items-center justify-center flex-1"
+                        >
+                          <Clock className="h-3 w-3 mr-1" />
+                          Hours
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-60 p-3">
+                        <h4 className="text-sm font-medium mb-1">Support Hours</h4>
+                        <div className="text-sm space-y-0.5">
+                          <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
+                          <p>Saturday: 9:00 AM - 1:00 PM</p>
+                          <p>Sunday: Closed</p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Urgent inquiries: Call +267 555-1234
+                          </p>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
           )}
         </Card>
       )}
