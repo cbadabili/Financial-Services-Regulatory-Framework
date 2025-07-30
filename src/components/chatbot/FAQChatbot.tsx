@@ -520,7 +520,7 @@ export default function FAQChatbot() {
               
               {/* Chat tab */}
               <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 data-[state=active]:flex">
-                <ScrollArea className="flex-1 p-3 min-h-0">
+                <ScrollArea className="flex-1 p-3 max-h-[300px] overflow-y-auto">
                   <div className="space-y-4">
                     {messages.map((message) => (
                       <div 
