@@ -512,14 +512,14 @@ export default function FAQChatbot() {
 
           {/* Chat content - only show if not minimized */}
           {!isMinimized && (
-            <Tabs defaultValue="chat" className="flex flex-col h-full m-0 p-0">
-              <TabsList className="mx-2 m-0 p-0 grid w-[calc(100%-1rem)] grid-cols-2">
+            <Tabs defaultValue="chat" className="flex flex-col h-full">
+              <TabsList className="mx-2 mt-0 mb-0 grid w-[calc(100%-1rem)] grid-cols-2">
                 <TabsTrigger value="chat" className="text-sm">Chat</TabsTrigger>
                 <TabsTrigger value="faqs" className="text-sm">FAQs</TabsTrigger>
               </TabsList>
               
               {/* Chat tab */}
-              <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 p-0 border-0 data-[state=active]:flex">
+              <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden mt-0 data-[state=active]:flex">
                 <ScrollArea className="flex-1 p-3">
                   <div className="space-y-4">
                     {messages.map((message) => (
@@ -649,7 +649,7 @@ export default function FAQChatbot() {
               {/* FAQs tab */}
               <TabsContent
                 value="faqs"
-                className="m-0 p-0 border-0 flex flex-col flex-1 data-[state=active]:flex overflow-hidden"
+                className="mt-0 flex flex-col flex-1 data-[state=active]:flex overflow-hidden"
               >
                 {/* Search and filter section */}
                 <div className="p-2 flex-shrink-0 border-b">
