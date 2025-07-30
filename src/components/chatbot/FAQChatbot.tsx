@@ -520,7 +520,7 @@ export default function FAQChatbot() {
               
               {/* Chat tab */}
               <TabsContent value="chat" className="flex-1 flex flex-col overflow-hidden m-0 data-[state=active]:flex">
-                <ScrollArea className="flex-1 p-3 max-h-0">
+                <ScrollArea className="flex-1 p-3 min-h-0">
                   <div className="space-y-4">
                     {messages.map((message) => (
                       <div 
@@ -602,46 +602,49 @@ export default function FAQChatbot() {
                   </div>
                 </ScrollArea>
 
-                {/* Quick action buttons - moved to bottom */}
-                <div className="px-3 py-2 border-t flex-shrink-0">
-                  <p className="text-xs text-muted-foreground mb-2">Quick Actions:</p>
-                  <div className="flex flex-wrap gap-1 mb-2">
-                    {quickActions.map((action) => (
-                      <Button 
-                        key={action.id} 
-                        variant="outline" 
-                        size="sm" 
-                        className="text-xs h-6 px-2"
-                        onClick={() => handleQuickAction(action)}
-                      >
-                        {action.label}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Input area */}
-                <div className="p-2 flex-shrink-0">
-                  <div className="relative w-full">
-                    <Input
-                      ref={inputRef}
-                      placeholder="Ask about regulations..."
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          handleSendMessage();
-                        }
-                      }}
-                      className="pr-10 h-8 text-sm"
-                    />
-                    <Button 
-                      className="absolute right-0 top-0 h-full px-3" 
-                      variant="ghost"
-                      onClick={handleSendMessage}
-                    >
-                      <Send size={14} />
-                    </Button>
+                <div className="flex-shrink-0">
+                  {/* Quick action buttons */}
+                  <div className="px-3 py-2 border-t bg-muted/30">
+                    <p className="text-xs text-muted-foreground mb-2">Quick Actions:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {quickActions.map((action) => (
+                        <Button 
+                          key={action.id} 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-xs h-6 px-2"
+                          onClick={() => handleQuickAction(action)}
+                        >
+                          {action.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Input field */}
+                  <div className="p-2">
+                    <div className="relative w-full">
+                      <Input
+                        ref={inputRef}
+                        placeholder="Ask about regulations..."
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            handleSendMessage();
+                          }
+                        }}
+                        className="pr-10 h-8 text-sm"
+                      />
+                      <Button 
+                        className="absolute right-0 top-0 h-full px-3" 
+                        variant="ghost"
+                        onClick={handleSendMessage}
+                      >
+                        <Send size={14} />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </TabsContent>
