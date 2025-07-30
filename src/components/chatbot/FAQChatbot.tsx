@@ -602,10 +602,10 @@ export default function FAQChatbot() {
                   </div>
                 </ScrollArea>
 
-                {/* Quick action buttons */}
-                <div className="px-3 py-2 border-t border-b flex-shrink-0">
+                {/* Quick action buttons - moved to bottom */}
+                <div className="px-3 py-2 border-t flex-shrink-0">
                   <p className="text-xs text-muted-foreground mb-2">Quick Actions:</p>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1 mb-2">
                     {quickActions.map((action) => (
                       <Button 
                         key={action.id} 
