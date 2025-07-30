@@ -137,6 +137,7 @@ export default function FAQChatbot() {
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [activeTab, setActiveTab] = useState("chat");
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -340,10 +341,7 @@ export default function FAQChatbot() {
   // Handle FAQ selection
   const handleSelectFAQ = (faq: FAQ) => {
     // Switch to chat tab first
-    const chatTab = document.querySelector('[data-state="inactive"][value="chat"]') as HTMLElement;
-    if (chatTab) {
-      chatTab.click();
-    }
+    setActiveTab("chat");
     
     // Add user question to chat
     const userMessage: Message = {
@@ -510,7 +508,7 @@ export default function FAQChatbot() {
 
           {/* Chat content - only show if not minimized */}
           {!isMinimized && (
-            <Tabs defaultValue="chat" className="flex flex-col flex-1 overflow-hidden">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 overflow-hidden">
               <TabsList className="mx-2 grid w-[calc(100%-1rem)] grid-cols-2 mb-0">
                 <TabsTrigger value="chat" className="text-sm">Chat</TabsTrigger>
                 <TabsTrigger value="faqs" className="text-sm">FAQs</TabsTrigger>
